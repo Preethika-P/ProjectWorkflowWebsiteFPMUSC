@@ -1,0 +1,321 @@
+### Budget Range 1 (Upto $250k)
+
+#### Category: Project Initiation
+*   **Sub-category: Prelim Scoping** (subgroup A)
+    *   User meetings1
+    *   Site walks
+    *   Identify stakeholders
+    *   Identify conditions of satisfaction (COS)
+    *   Identify key performance criteria
+    *   Identify scope assumptions
+    *   Identify scope risks
+    *   Address ADA considerations
+    *   Address equipment sizing
+    *   Assess operational impacts
+    *   Identify abatement requirements
+    *   Reference as-builts (AMEPS)
+*   **Sub-category: Prelim Budgeting** (subgroup A)
+    *   Identify cost model
+    *   Identify unique conditions
+    *   Identify known field conditions
+    *   Account for OCIP
+    *   Account for Board requirements
+    *   Account for BIM requirements
+*   **Sub-category: Prelim Schedule** (subgroup A)
+    *   Prepare template MS schedule with milestones
+    *   Include Board milestones
+    *   Include OSHPD milestones
+    *   Include BIM milestones
+*   **Sub-category: Prepare Feasibility RFP**
+    *   Include deliverables
+    *   Include selection criteria
+    *   Include score card
+*   **Sub-category: Evaluate Feasibility**
+    *   Identify stakeholders
+    *   Evaluate cost
+    *   Evaluate schedule
+    *   Evaluate scope
+    *   Compare with preliminary scoping
+    *   Assess risks
+    *   Assess budget
+    *   Assess schedule alignment
+*   **Sub-category: Determine project delivery method**
+    *   Evaluate DBB (Design-Bid-Build)
+    *   Evaluate DB (Design-Build)
+    *   Evaluate CMAR (Construction Manager at Risk)
+    *   Discuss pros and cons with client
+    *   Discuss pros and cons with contracts team
+    *   Discuss pros and cons with procurement team
+*   **Sub-category: Prepare Design RFP**
+    *   Include deliverables
+    *   Include selection criteria: QA/QC
+    *   Include selection criteria: experience
+    *   Include selection criteria: TVD management
+    *   Include selection criteria: workplan
+    *   Include selection criteria: level of effort
+    *   Include selection criteria: BIM
+    *   Include score card
+*   **Sub-category: Evaluate response /revised schedule and budget to baseline**
+    *   Validate design timelines
+    *   Validate permit timelines
+    *   Validate construction timelines
+    *   Validate scope alignment
+    *   Validate schedule alignment
+    *   Validate risk budgets
+    *   Validate OCIP requirements
+    *   Validate Board requirements
+*   **Sub-category: Prepare Precon MOU**
+    *   Define inclusions
+    *   Define exclusions
+    *   Identify risks
+    *   Include schedule
+    *   Include sketches
+    *   Include budget
+*   **Sub-category: Prepare consultant contracts**
+    *   Prepare checklist
+    *   Define scope inclusions
+    *   List services awarded by phase
+    *   Define payment milestones and deliverables
+    *   Include reimbursables
+    *   Collect Certificate of Insurance (COI)
+    *   Set schedule completion date
+    *   Include rate sheets
+
+#### Category: Design and Permit
+*   **Sub-category: Design Kick Off** (subgroup A)
+    *   Review contract
+    *   Review scope
+    *   Review schedule
+    *   Review field investigation
+    *   Review QA/QC plan
+    *   Review BIM requirements
+*   **Sub-category: Prepare & evaluate ASR**
+    *   Prepare ASR
+    *   Evaluate validity of ASR
+    *   Evaluate fairness of ASR
+*   **Sub-category: Field Investigation** (subgroup A)
+    *   Coordinate field visits
+    *   Reference as-builts
+    *   Reference CADs
+    *   Reference models
+*   **Sub-category: Review design & MEP narrative** (subgroup A)
+    *   Review system descriptions from FMS and stakeholders
+    *   Review material descriptions from FMS and stakeholders
+    *   Review functional descriptions from FMS and stakeholders
+    *   Review redundancies and contingencies
+    *   Assess alignment with feasibility study
+*   **Sub-category: Evaluate against BOD** (subgroup B)
+    *   Evaluate with FMS input against BOD
+    *   Evaluate with stakeholder input against BOD
+*   **Sub-category: Decision and risk matrices** (subgroup B)
+    *   Track decision matrix
+    *   Track risk matrix
+    *   Review decision matrix with client and stakeholders
+    *   Review risk matrix with client and stakeholders
+*   **Sub-category: Sustainablility goals** (subgroup A)
+    *   Track sustainability goals
+    *   Review sustainability goals with client and stakeholders
+*   **Sub-category: Design peer review (FMS and/or outside)** (subgroup B)
+    *   Identify scope for peer review
+    *   Identify SD phase for peer review
+    *   Identify DD phase for peer review
+    *   Identify CD phase for peer review
+    *   Identify Permit phase for peer review
+*   **Sub-category: Constructability review 50% DD set** (subgroup B)
+    *   Review design details
+    *   Review building envelope
+    *   Review structural elements
+    *   Review wall types
+    *   Review door schedule
+    *   Review MEP equipment
+    *   Review single line diagrams
+    *   Review Sequence of Operations (SOO)
+    *   Review spec sections identified
+    *   Review BIM model
+    *   Review deferred approvals
+    *   Identify OFOI (Owner-Furnished, Owner-Installed) items
+    *   Identify OFVI (Owner-Furnished, Vendor-Installed) items
+    *   Identify OFCI (Owner-Furnished, Contractor-Installed) items
+    *   Review low voltage handoffs
+    *   Develop responsibility matrix
+*   **Sub-category: Other consultants** (subgroup C)
+    *   Coordinate with Commissioning (Cx) consultant
+    *   Coordinate with Envelope consultant
+    *   Coordinate with Acoustics consultant
+    *   Coordinate with Hazmat consultant
+    *   Coordinate with Peer Review consultant
+*   **Sub-category: Design Invoices** (subgroup C)
+    *   Track invoices per milestone deliverables
+    *   Verify invoices are on schedule
+    *   Confirm drawings meet QC standards
+    *   Verify design meets target value budget
+*   **Sub-category: Permitting** (subgroup C)
+    *   Track LADBS backcheck status
+    *   Track OSHPD backcheck status
+    *   Validate permit schedule ETA
+
+#### Category: Bid and Award
+*   **Sub-category: Prepare construction bidding documents** (subgroup A)
+    *   Qualify bid list
+    *   Prepare site logistics plan
+    *   Include ICRA requirements
+    *   Enumerate drawings
+    *   Enumerate specifications
+    *   Draft RFP letter
+    *   Identify specific scope and deliverables
+    *   Include cashflow projections
+    *   Include monthly progress reports
+    *   Define subcontractor qualification criteria
+    *   Include project schedule
+    *   Attach OCIP manual
+    *   Include COVID requirements
+    *   Include contractor handbook
+*   **Sub-category: Review and level set bid responses** (subgroup A)
+    *   Verify SOV includes all trades in scope
+    *   Verify alternates are included
+    *   Verify unit costs are provided
+    *   Ensure subcontractors meet RFP criteria
+    *   Confirm all bid RFIs are included
+    *   Review price exclusions
+    *   Review bidder qualifications
+    *   Check attic stock requirements
+    *   Confirm off-hours work requirements
+    *   Confirm working hours requirements
+*   **Sub-category: Review and level set bid schedules** (subgroup A)
+    *   Review detailed schedule with WBS
+    *   Check sequencing with major milestones
+    *   Verify long lead procurement is included
+    *   Verify inspections are scheduled
+    *   Verify testing is scheduled
+    *   Include demolition activities
+    *   Review MEP overhead (OH) schedule
+    *   Review in-wall rough-in schedule
+    *   Include two-sided drywall installation
+    *   Include testing milestones
+    *   Account for rain days
+    *   Schedule equipment delivery
+    *   Schedule crane operations
+    *   Include system shutdowns
+    *   Confirm OFVI coordination
+    *   Confirm OFOI coordination
+    *   Verify substantial completion (SC) date
+    *   Account for holidays
+    *   Confirm off-hours work
+    *   Confirm working hours
+*   **Sub-category: Prepare full funding MOU**
+    *   Define inclusions
+    *   Define exclusions
+    *   Identify risks
+    *   Include project schedule
+    *   Include sketches
+    *   Include budget
+*   **Sub-category: Prepare costruction contracts**
+    *   Prepare contract for contractor
+    *   Prepare contracts for vendors
+    *   Prepare contracts for inspections
+
+#### Category: Construction
+*   **Sub-category: Construction KO** (subgroup A)
+    *   Confirm contact list
+    *   Review safety protocols
+    *   Review site logistics
+    *   Coordinate utility requirements
+    *   Assess operational impacts
+    *   Review construction schedule
+    *   Review GC contract requirements
+    *   Confirm A/E construction administration (CA) services
+    *   Schedule inspections
+    *   Conduct safety orientation
+    *   Schedule trade preconstruction meetings
+    *   Schedule QC preinstallation meetings
+*   **Sub-category: OAC** (subgroup A)
+    *   Prepare OAC meeting agenda
+    *   Review meeting minutes (MM)
+    *   Engage stakeholders
+    *   Track critical path items
+    *   Review TIO (Time Impacted Operations)
+*   **Sub-category: Job walks** (subgroup A)
+    *   Verify demo safe-off procedures
+    *   Review safety measures
+    *   Check COVID compliance
+    *   Verify hot work protocols
+    *   Review dust, odor, and noise control measures
+    *   Discuss open RFIs
+    *   Review schedule alignment
+    *   Confirm trades on site
+    *   Assess staging areas
+*   **Sub-category: Work Orders** (utility)
+    *   Process FA/FS impairments
+    *   Process hot work permits
+    *   Coordinate utility shutdowns
+*   **Sub-category: Pay Apps** (utility)
+    *   Review detailed SOVs
+    *   Collect progress report
+    *   Update RFI log
+    *   Update cashflow report
+    *   Update procurement log
+    *   Update project schedule
+    *   Update submittal log
+    *   Update PCI log
+    *   Update lien logs
+    *   Update QA/QC log
+    *   Review progress redlines and as-builts
+*   **Sub-category: BIM** (utility)
+    *   Develop BIM plan
+    *   Define level of detail
+    *   Define scope of coordination
+    *   Identify BIM facilitator
+    *   Set BIM schedule milestones
+    *   Establish BIM meeting cadence
+*   **Sub-category: Testing and Cx** (subgroup A)
+    *   Conduct preliminary testing
+    *   Perform equipment start-up
+    *   Troubleshoot system issues
+    *   Monitor system trending
+    *   Obtain final sign-offs
+    *   Identify mechanical (M) equipment
+    *   Identify plumbing (P) equipment
+    *   Identify electrical (E) equipment
+
+#### Category: Administrative
+*   **Sub-category: Closout**
+    *   Identify substantial completion (SC) date
+    *   Identify beneficial use date
+    *   Identify beneficial occupancy date
+    *   Collect operations and maintenance (OM) manuals
+    *   Collect warranties and guarantees
+    *   Verify as-builts are complete
+    *   Verify record drawings are complete
+    *   Collect attic stock
+    *   Gather subcontractor contact information
+    *   Confirm all permits are signed off
+*   **Sub-category: Ebuilder workflow**
+    *   Manage RFIs in Ebuilder
+    *   Process invoices in Ebuilder
+    *   Handle budget modifications in Ebuilder
+    *   Track submittals in Ebuilder
+    *   Manage work orders (WO) in Ebuilder
+*   **Sub-category: Ebuilder forecasting**
+    *   Track allowances per MOU and contracts
+    *   Include PM fee in forecast
+    *   Forecast construction risks
+    *   Incorporate design ASRs
+    *   Forecast permitting fees
+    *   Account for JV costs
+*   **Sub-category: Cashflow**
+    *   Develop preliminary cashflow projection
+    *   Develop design phase cashflow
+    *   Develop construction phase cashflow
+    *   Track cashflow across entire project lifecycle
+    *   Prepare internal monthly cashflow report
+*   **Sub-category: Permit tracking**
+    *   Track permit status
+    *   Track permit fees
+*   **Sub-category: ADA tracking**
+    *   Track ADA scope
+    *   Break out ADA-related costs
+*   **Sub-category: Prepare Board Reports**
+    *   Prepare 1-pager for resolution preconstruction
+    *   Prepare 1-pager for resolution full funding
+*   **Sub-category: Comments**
+    *   *No tasks listed*

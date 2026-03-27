@@ -1,0 +1,1504 @@
+{
+  "budgetRange": "Budget Range: Under $5 Million",
+  "categories": [
+    {
+      "id": "project-initiation",
+      "name": "Project Initiation",
+      "subcategories": [
+        {
+          "id": "prelim-scoping",
+          "name": "Prelim Scoping",
+          "tasks": [
+            {
+              "id": "user-meetings1",
+              "name": "User meetings1"
+            },
+            {
+              "id": "site-walks",
+              "name": "Site walks"
+            },
+            {
+              "id": "identify-stakeholders",
+              "name": "Identify stakeholders"
+            },
+            {
+              "id": "identify-conditions-of-satisfaction-cos",
+              "name": "Identify conditions of satisfaction (COS)"
+            },
+            {
+              "id": "identify-key-performance-criteria",
+              "name": "Identify key performance criteria"
+            },
+            {
+              "id": "identify-scope-assumptions",
+              "name": "Identify scope assumptions"
+            },
+            {
+              "id": "identify-scope-risks",
+              "name": "Identify scope risks"
+            },
+            {
+              "id": "address-ada-considerations",
+              "name": "Address ADA considerations"
+            },
+            {
+              "id": "address-equipment-sizing",
+              "name": "Address equipment sizing"
+            },
+            {
+              "id": "assess-operational-impacts",
+              "name": "Assess operational impacts"
+            },
+            {
+              "id": "identify-abatement-requirements",
+              "name": "Identify abatement requirements"
+            },
+            {
+              "id": "reference-as-builts-ameps",
+              "name": "Reference as-builts (AMEPS)"
+            }
+          ],
+          "subgroup": "A",
+          "isUtility": false
+        },
+        {
+          "id": "prelim-budgeting",
+          "name": "Prelim Budgeting",
+          "tasks": [
+            {
+              "id": "identify-cost-model",
+              "name": "Identify cost model"
+            },
+            {
+              "id": "identify-unique-conditions",
+              "name": "Identify unique conditions"
+            },
+            {
+              "id": "identify-known-field-conditions",
+              "name": "Identify known field conditions"
+            },
+            {
+              "id": "account-for-ocip",
+              "name": "Account for OCIP"
+            },
+            {
+              "id": "account-for-board-requirements",
+              "name": "Account for Board requirements"
+            },
+            {
+              "id": "account-for-bim-requirements",
+              "name": "Account for BIM requirements"
+            }
+          ],
+          "subgroup": "A",
+          "isUtility": false
+        },
+        {
+          "id": "prelim-schedule",
+          "name": "Prelim Schedule",
+          "tasks": [
+            {
+              "id": "prepare-template-ms-schedule-with-milestones",
+              "name": "Prepare template MS schedule with milestones"
+            },
+            {
+              "id": "include-board-milestones",
+              "name": "Include Board milestones"
+            },
+            {
+              "id": "include-oshpd-milestones",
+              "name": "Include OSHPD milestones"
+            },
+            {
+              "id": "include-bim-milestones",
+              "name": "Include BIM milestones"
+            }
+          ],
+          "subgroup": "A",
+          "isUtility": false
+        },
+        {
+          "id": "prepare-feasibility-rfp",
+          "name": "Prepare Feasibility RFP",
+          "tasks": [
+            {
+              "id": "include-deliverables",
+              "name": "Include deliverables"
+            },
+            {
+              "id": "include-selection-criteria",
+              "name": "Include selection criteria"
+            },
+            {
+              "id": "include-score-card",
+              "name": "Include score card"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        },
+        {
+          "id": "evaluate-feasibility",
+          "name": "Evaluate Feasibility",
+          "tasks": [
+            {
+              "id": "identify-stakeholders",
+              "name": "Identify stakeholders"
+            },
+            {
+              "id": "evaluate-cost",
+              "name": "Evaluate cost"
+            },
+            {
+              "id": "evaluate-schedule",
+              "name": "Evaluate schedule"
+            },
+            {
+              "id": "evaluate-scope",
+              "name": "Evaluate scope"
+            },
+            {
+              "id": "compare-with-preliminary-scoping",
+              "name": "Compare with preliminary scoping"
+            },
+            {
+              "id": "assess-risks",
+              "name": "Assess risks"
+            },
+            {
+              "id": "assess-budget",
+              "name": "Assess budget"
+            },
+            {
+              "id": "assess-schedule-alignment",
+              "name": "Assess schedule alignment"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        },
+        {
+          "id": "determine-project-delivery-method",
+          "name": "Determine project delivery method",
+          "tasks": [
+            {
+              "id": "evaluate-dbb-design-bid-build",
+              "name": "Evaluate DBB (Design-Bid-Build)"
+            },
+            {
+              "id": "evaluate-db-design-build",
+              "name": "Evaluate DB (Design-Build)"
+            },
+            {
+              "id": "evaluate-cmar-construction-manager-at-risk",
+              "name": "Evaluate CMAR (Construction Manager at Risk)"
+            },
+            {
+              "id": "discuss-pros-and-cons-with-client",
+              "name": "Discuss pros and cons with client"
+            },
+            {
+              "id": "discuss-pros-and-cons-with-contracts-team",
+              "name": "Discuss pros and cons with contracts team"
+            },
+            {
+              "id": "discuss-pros-and-cons-with-procurement-team",
+              "name": "Discuss pros and cons with procurement team"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        },
+        {
+          "id": "prepare-design-rfp",
+          "name": "Prepare Design RFP",
+          "tasks": [
+            {
+              "id": "include-deliverables",
+              "name": "Include deliverables"
+            },
+            {
+              "id": "include-selection-criteria-qaqc",
+              "name": "Include selection criteria: QA/QC"
+            },
+            {
+              "id": "include-selection-criteria-experience",
+              "name": "Include selection criteria: experience"
+            },
+            {
+              "id": "include-selection-criteria-tvd-management",
+              "name": "Include selection criteria: TVD management"
+            },
+            {
+              "id": "include-selection-criteria-workplan",
+              "name": "Include selection criteria: workplan"
+            },
+            {
+              "id": "include-selection-criteria-level-of-effort",
+              "name": "Include selection criteria: level of effort"
+            },
+            {
+              "id": "include-selection-criteria-bim",
+              "name": "Include selection criteria: BIM"
+            },
+            {
+              "id": "include-score-card",
+              "name": "Include score card"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        },
+        {
+          "id": "evaluate-response-revised-schedule-and-budget-to-baseline",
+          "name": "Evaluate response /revised schedule and budget to baseline",
+          "tasks": [
+            {
+              "id": "validate-design-timelines",
+              "name": "Validate design timelines"
+            },
+            {
+              "id": "validate-permit-timelines",
+              "name": "Validate permit timelines"
+            },
+            {
+              "id": "validate-construction-timelines",
+              "name": "Validate construction timelines"
+            },
+            {
+              "id": "validate-scope-alignment",
+              "name": "Validate scope alignment"
+            },
+            {
+              "id": "validate-schedule-alignment",
+              "name": "Validate schedule alignment"
+            },
+            {
+              "id": "validate-risk-budgets",
+              "name": "Validate risk budgets"
+            },
+            {
+              "id": "validate-ocip-requirements",
+              "name": "Validate OCIP requirements"
+            },
+            {
+              "id": "validate-board-requirements",
+              "name": "Validate Board requirements"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        },
+        {
+          "id": "prepare-precon-mou",
+          "name": "Prepare Precon MOU",
+          "tasks": [
+            {
+              "id": "define-inclusions",
+              "name": "Define inclusions"
+            },
+            {
+              "id": "define-exclusions",
+              "name": "Define exclusions"
+            },
+            {
+              "id": "identify-risks",
+              "name": "Identify risks"
+            },
+            {
+              "id": "include-schedule",
+              "name": "Include schedule"
+            },
+            {
+              "id": "include-sketches",
+              "name": "Include sketches"
+            },
+            {
+              "id": "include-budget",
+              "name": "Include budget"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        },
+        {
+          "id": "prepare-consultant-contracts",
+          "name": "Prepare consultant contracts",
+          "tasks": [
+            {
+              "id": "prepare-checklist",
+              "name": "Prepare checklist"
+            },
+            {
+              "id": "define-scope-inclusions",
+              "name": "Define scope inclusions"
+            },
+            {
+              "id": "list-services-awarded-by-phase",
+              "name": "List services awarded by phase"
+            },
+            {
+              "id": "define-payment-milestones-and-deliverables",
+              "name": "Define payment milestones and deliverables"
+            },
+            {
+              "id": "include-reimbursables",
+              "name": "Include reimbursables"
+            },
+            {
+              "id": "collect-certificate-of-insurance-coi",
+              "name": "Collect Certificate of Insurance (COI)"
+            },
+            {
+              "id": "set-schedule-completion-date",
+              "name": "Set schedule completion date"
+            },
+            {
+              "id": "include-rate-sheets",
+              "name": "Include rate sheets"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        }
+      ],
+      "groups": [
+        {
+          "id": "project-initiation-A",
+          "subgroup": "A",
+          "subcategoryIndices": [
+            0,
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "id": "design-and-permit",
+      "name": "Design and Permit",
+      "subcategories": [
+        {
+          "id": "design-kick-off",
+          "name": "Design Kick Off",
+          "tasks": [
+            {
+              "id": "review-contract",
+              "name": "Review contract"
+            },
+            {
+              "id": "review-scope",
+              "name": "Review scope"
+            },
+            {
+              "id": "review-schedule",
+              "name": "Review schedule"
+            },
+            {
+              "id": "review-field-investigation",
+              "name": "Review field investigation"
+            },
+            {
+              "id": "review-qaqc-plan",
+              "name": "Review QA/QC plan"
+            },
+            {
+              "id": "review-bim-requirements",
+              "name": "Review BIM requirements"
+            }
+          ],
+          "subgroup": "A",
+          "isUtility": false
+        },
+        {
+          "id": "prepare-evaluate-asr",
+          "name": "Prepare & evaluate ASR",
+          "tasks": [
+            {
+              "id": "prepare-asr",
+              "name": "Prepare ASR"
+            },
+            {
+              "id": "evaluate-validity-of-asr",
+              "name": "Evaluate validity of ASR"
+            },
+            {
+              "id": "evaluate-fairness-of-asr",
+              "name": "Evaluate fairness of ASR"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        },
+        {
+          "id": "field-investigation",
+          "name": "Field Investigation",
+          "tasks": [
+            {
+              "id": "coordinate-field-visits",
+              "name": "Coordinate field visits"
+            },
+            {
+              "id": "reference-as-builts",
+              "name": "Reference as-builts"
+            },
+            {
+              "id": "reference-cads",
+              "name": "Reference CADs"
+            },
+            {
+              "id": "reference-models",
+              "name": "Reference models"
+            }
+          ],
+          "subgroup": "A",
+          "isUtility": false
+        },
+        {
+          "id": "review-design-mep-narrative",
+          "name": "Review design & MEP narrative",
+          "tasks": [
+            {
+              "id": "review-system-descriptions-from-fms-and-stakeholders",
+              "name": "Review system descriptions from FMS and stakeholders"
+            },
+            {
+              "id": "review-material-descriptions-from-fms-and-stakeholders",
+              "name": "Review material descriptions from FMS and stakeholders"
+            },
+            {
+              "id": "review-functional-descriptions-from-fms-and-stakeholders",
+              "name": "Review functional descriptions from FMS and stakeholders"
+            },
+            {
+              "id": "review-redundancies-and-contingencies",
+              "name": "Review redundancies and contingencies"
+            },
+            {
+              "id": "assess-alignment-with-feasibility-study",
+              "name": "Assess alignment with feasibility study"
+            }
+          ],
+          "subgroup": "A",
+          "isUtility": false
+        },
+        {
+          "id": "evaluate-against-bod",
+          "name": "Evaluate against BOD",
+          "tasks": [
+            {
+              "id": "evaluate-with-fms-input-against-bod",
+              "name": "Evaluate with FMS input against BOD"
+            },
+            {
+              "id": "evaluate-with-stakeholder-input-against-bod",
+              "name": "Evaluate with stakeholder input against BOD"
+            }
+          ],
+          "subgroup": "B",
+          "isUtility": false
+        },
+        {
+          "id": "decision-and-risk-matrices",
+          "name": "Decision and risk matrices",
+          "tasks": [
+            {
+              "id": "track-decision-matrix",
+              "name": "Track decision matrix"
+            },
+            {
+              "id": "track-risk-matrix",
+              "name": "Track risk matrix"
+            },
+            {
+              "id": "review-decision-matrix-with-client-and-stakeholders",
+              "name": "Review decision matrix with client and stakeholders"
+            },
+            {
+              "id": "review-risk-matrix-with-client-and-stakeholders",
+              "name": "Review risk matrix with client and stakeholders"
+            }
+          ],
+          "subgroup": "B",
+          "isUtility": false
+        },
+        {
+          "id": "sustainablility-goals",
+          "name": "Sustainablility goals",
+          "tasks": [
+            {
+              "id": "track-sustainability-goals",
+              "name": "Track sustainability goals"
+            },
+            {
+              "id": "review-sustainability-goals-with-client-and-stakeholders",
+              "name": "Review sustainability goals with client and stakeholders"
+            }
+          ],
+          "subgroup": "A",
+          "isUtility": false
+        },
+        {
+          "id": "design-peer-review-fms-andor-outside",
+          "name": "Design peer review (FMS and/or outside)",
+          "tasks": [
+            {
+              "id": "identify-scope-for-peer-review",
+              "name": "Identify scope for peer review"
+            },
+            {
+              "id": "identify-sd-phase-for-peer-review",
+              "name": "Identify SD phase for peer review"
+            },
+            {
+              "id": "identify-dd-phase-for-peer-review",
+              "name": "Identify DD phase for peer review"
+            },
+            {
+              "id": "identify-cd-phase-for-peer-review",
+              "name": "Identify CD phase for peer review"
+            },
+            {
+              "id": "identify-permit-phase-for-peer-review",
+              "name": "Identify Permit phase for peer review"
+            }
+          ],
+          "subgroup": "B",
+          "isUtility": false
+        },
+        {
+          "id": "constructability-review-50-dd-set",
+          "name": "Constructability review 50% DD set",
+          "tasks": [
+            {
+              "id": "review-design-details",
+              "name": "Review design details"
+            },
+            {
+              "id": "review-building-envelope",
+              "name": "Review building envelope"
+            },
+            {
+              "id": "review-structural-elements",
+              "name": "Review structural elements"
+            },
+            {
+              "id": "review-wall-types",
+              "name": "Review wall types"
+            },
+            {
+              "id": "review-door-schedule",
+              "name": "Review door schedule"
+            },
+            {
+              "id": "review-mep-equipment",
+              "name": "Review MEP equipment"
+            },
+            {
+              "id": "review-single-line-diagrams",
+              "name": "Review single line diagrams"
+            },
+            {
+              "id": "review-sequence-of-operations-soo",
+              "name": "Review Sequence of Operations (SOO)"
+            },
+            {
+              "id": "review-spec-sections-identified",
+              "name": "Review spec sections identified"
+            },
+            {
+              "id": "review-bim-model",
+              "name": "Review BIM model"
+            },
+            {
+              "id": "review-deferred-approvals",
+              "name": "Review deferred approvals"
+            },
+            {
+              "id": "identify-ofoi-owner-furnished-owner-installed-items",
+              "name": "Identify OFOI (Owner-Furnished, Owner-Installed) items"
+            },
+            {
+              "id": "identify-ofvi-owner-furnished-vendor-installed-items",
+              "name": "Identify OFVI (Owner-Furnished, Vendor-Installed) items"
+            },
+            {
+              "id": "identify-ofci-owner-furnished-contractor-installed-items",
+              "name": "Identify OFCI (Owner-Furnished, Contractor-Installed) items"
+            },
+            {
+              "id": "review-low-voltage-handoffs",
+              "name": "Review low voltage handoffs"
+            },
+            {
+              "id": "develop-responsibility-matrix",
+              "name": "Develop responsibility matrix"
+            }
+          ],
+          "subgroup": "B",
+          "isUtility": false
+        },
+        {
+          "id": "other-consultants",
+          "name": "Other consultants",
+          "tasks": [
+            {
+              "id": "coordinate-with-commissioning-cx-consultant",
+              "name": "Coordinate with Commissioning (Cx) consultant"
+            },
+            {
+              "id": "coordinate-with-envelope-consultant",
+              "name": "Coordinate with Envelope consultant"
+            },
+            {
+              "id": "coordinate-with-acoustics-consultant",
+              "name": "Coordinate with Acoustics consultant"
+            },
+            {
+              "id": "coordinate-with-hazmat-consultant",
+              "name": "Coordinate with Hazmat consultant"
+            },
+            {
+              "id": "coordinate-with-peer-review-consultant",
+              "name": "Coordinate with Peer Review consultant"
+            }
+          ],
+          "subgroup": "C",
+          "isUtility": false
+        },
+        {
+          "id": "design-invoices",
+          "name": "Design Invoices",
+          "tasks": [
+            {
+              "id": "track-invoices-per-milestone-deliverables",
+              "name": "Track invoices per milestone deliverables"
+            },
+            {
+              "id": "verify-invoices-are-on-schedule",
+              "name": "Verify invoices are on schedule"
+            },
+            {
+              "id": "confirm-drawings-meet-qc-standards",
+              "name": "Confirm drawings meet QC standards"
+            },
+            {
+              "id": "verify-design-meets-target-value-budget",
+              "name": "Verify design meets target value budget"
+            }
+          ],
+          "subgroup": "C",
+          "isUtility": false
+        },
+        {
+          "id": "permitting",
+          "name": "Permitting",
+          "tasks": [
+            {
+              "id": "track-ladbs-backcheck-status",
+              "name": "Track LADBS backcheck status"
+            },
+            {
+              "id": "track-oshpd-backcheck-status",
+              "name": "Track OSHPD backcheck status"
+            },
+            {
+              "id": "validate-permit-schedule-eta",
+              "name": "Validate permit schedule ETA"
+            }
+          ],
+          "subgroup": "C",
+          "isUtility": false
+        }
+      ],
+      "groups": [
+        {
+          "id": "design-and-permit-A",
+          "subgroup": "A",
+          "subcategoryIndices": [
+            0,
+            2,
+            3,
+            6
+          ]
+        },
+        {
+          "id": "design-and-permit-B",
+          "subgroup": "B",
+          "subcategoryIndices": [
+            4,
+            5,
+            7,
+            8
+          ]
+        },
+        {
+          "id": "design-and-permit-C",
+          "subgroup": "C",
+          "subcategoryIndices": [
+            9,
+            10,
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bid-and-award",
+      "name": "Bid and Award",
+      "subcategories": [
+        {
+          "id": "prepare-construction-bidding-documents",
+          "name": "Prepare construction bidding documents",
+          "tasks": [
+            {
+              "id": "qualify-bid-list",
+              "name": "Qualify bid list"
+            },
+            {
+              "id": "prepare-site-logistics-plan",
+              "name": "Prepare site logistics plan"
+            },
+            {
+              "id": "include-icra-requirements",
+              "name": "Include ICRA requirements"
+            },
+            {
+              "id": "enumerate-drawings",
+              "name": "Enumerate drawings"
+            },
+            {
+              "id": "enumerate-specifications",
+              "name": "Enumerate specifications"
+            },
+            {
+              "id": "draft-rfp-letter",
+              "name": "Draft RFP letter"
+            },
+            {
+              "id": "identify-specific-scope-and-deliverables",
+              "name": "Identify specific scope and deliverables"
+            },
+            {
+              "id": "include-cashflow-projections",
+              "name": "Include cashflow projections"
+            },
+            {
+              "id": "include-monthly-progress-reports",
+              "name": "Include monthly progress reports"
+            },
+            {
+              "id": "define-subcontractor-qualification-criteria",
+              "name": "Define subcontractor qualification criteria"
+            },
+            {
+              "id": "include-project-schedule",
+              "name": "Include project schedule"
+            },
+            {
+              "id": "attach-ocip-manual",
+              "name": "Attach OCIP manual"
+            },
+            {
+              "id": "include-covid-requirements",
+              "name": "Include COVID requirements"
+            },
+            {
+              "id": "include-contractor-handbook",
+              "name": "Include contractor handbook"
+            }
+          ],
+          "subgroup": "A",
+          "isUtility": false
+        },
+        {
+          "id": "review-and-level-set-bid-responses",
+          "name": "Review and level set bid responses",
+          "tasks": [
+            {
+              "id": "verify-sov-includes-all-trades-in-scope",
+              "name": "Verify SOV includes all trades in scope"
+            },
+            {
+              "id": "verify-alternates-are-included",
+              "name": "Verify alternates are included"
+            },
+            {
+              "id": "verify-unit-costs-are-provided",
+              "name": "Verify unit costs are provided"
+            },
+            {
+              "id": "ensure-subcontractors-meet-rfp-criteria",
+              "name": "Ensure subcontractors meet RFP criteria"
+            },
+            {
+              "id": "confirm-all-bid-rfis-are-included",
+              "name": "Confirm all bid RFIs are included"
+            },
+            {
+              "id": "review-price-exclusions",
+              "name": "Review price exclusions"
+            },
+            {
+              "id": "review-bidder-qualifications",
+              "name": "Review bidder qualifications"
+            },
+            {
+              "id": "check-attic-stock-requirements",
+              "name": "Check attic stock requirements"
+            },
+            {
+              "id": "confirm-off-hours-work-requirements",
+              "name": "Confirm off-hours work requirements"
+            },
+            {
+              "id": "confirm-working-hours-requirements",
+              "name": "Confirm working hours requirements"
+            }
+          ],
+          "subgroup": "A",
+          "isUtility": false
+        },
+        {
+          "id": "review-and-level-set-bid-schedules",
+          "name": "Review and level set bid schedules",
+          "tasks": [
+            {
+              "id": "review-detailed-schedule-with-wbs",
+              "name": "Review detailed schedule with WBS"
+            },
+            {
+              "id": "check-sequencing-with-major-milestones",
+              "name": "Check sequencing with major milestones"
+            },
+            {
+              "id": "verify-long-lead-procurement-is-included",
+              "name": "Verify long lead procurement is included"
+            },
+            {
+              "id": "verify-inspections-are-scheduled",
+              "name": "Verify inspections are scheduled"
+            },
+            {
+              "id": "verify-testing-is-scheduled",
+              "name": "Verify testing is scheduled"
+            },
+            {
+              "id": "include-demolition-activities",
+              "name": "Include demolition activities"
+            },
+            {
+              "id": "review-mep-overhead-oh-schedule",
+              "name": "Review MEP overhead (OH) schedule"
+            },
+            {
+              "id": "review-in-wall-rough-in-schedule",
+              "name": "Review in-wall rough-in schedule"
+            },
+            {
+              "id": "include-two-sided-drywall-installation",
+              "name": "Include two-sided drywall installation"
+            },
+            {
+              "id": "include-testing-milestones",
+              "name": "Include testing milestones"
+            },
+            {
+              "id": "account-for-rain-days",
+              "name": "Account for rain days"
+            },
+            {
+              "id": "schedule-equipment-delivery",
+              "name": "Schedule equipment delivery"
+            },
+            {
+              "id": "schedule-crane-operations",
+              "name": "Schedule crane operations"
+            },
+            {
+              "id": "include-system-shutdowns",
+              "name": "Include system shutdowns"
+            },
+            {
+              "id": "confirm-ofvi-coordination",
+              "name": "Confirm OFVI coordination"
+            },
+            {
+              "id": "confirm-ofoi-coordination",
+              "name": "Confirm OFOI coordination"
+            },
+            {
+              "id": "verify-substantial-completion-sc-date",
+              "name": "Verify substantial completion (SC) date"
+            },
+            {
+              "id": "account-for-holidays",
+              "name": "Account for holidays"
+            },
+            {
+              "id": "confirm-off-hours-work",
+              "name": "Confirm off-hours work"
+            },
+            {
+              "id": "confirm-working-hours",
+              "name": "Confirm working hours"
+            }
+          ],
+          "subgroup": "A",
+          "isUtility": false
+        },
+        {
+          "id": "prepare-full-funding-mou",
+          "name": "Prepare full funding MOU",
+          "tasks": [
+            {
+              "id": "define-inclusions",
+              "name": "Define inclusions"
+            },
+            {
+              "id": "define-exclusions",
+              "name": "Define exclusions"
+            },
+            {
+              "id": "identify-risks",
+              "name": "Identify risks"
+            },
+            {
+              "id": "include-project-schedule",
+              "name": "Include project schedule"
+            },
+            {
+              "id": "include-sketches",
+              "name": "Include sketches"
+            },
+            {
+              "id": "include-budget",
+              "name": "Include budget"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        },
+        {
+          "id": "prepare-costruction-contracts",
+          "name": "Prepare costruction contracts",
+          "tasks": [
+            {
+              "id": "prepare-contract-for-contractor",
+              "name": "Prepare contract for contractor"
+            },
+            {
+              "id": "prepare-contracts-for-vendors",
+              "name": "Prepare contracts for vendors"
+            },
+            {
+              "id": "prepare-contracts-for-inspections",
+              "name": "Prepare contracts for inspections"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        }
+      ],
+      "groups": [
+        {
+          "id": "bid-and-award-A",
+          "subgroup": "A",
+          "subcategoryIndices": [
+            0,
+            1,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "id": "construction",
+      "name": "Construction",
+      "subcategories": [
+        {
+          "id": "construction-ko",
+          "name": "Construction KO",
+          "tasks": [
+            {
+              "id": "confirm-contact-list",
+              "name": "Confirm contact list"
+            },
+            {
+              "id": "review-safety-protocols",
+              "name": "Review safety protocols"
+            },
+            {
+              "id": "review-site-logistics",
+              "name": "Review site logistics"
+            },
+            {
+              "id": "coordinate-utility-requirements",
+              "name": "Coordinate utility requirements"
+            },
+            {
+              "id": "assess-operational-impacts",
+              "name": "Assess operational impacts"
+            },
+            {
+              "id": "review-construction-schedule",
+              "name": "Review construction schedule"
+            },
+            {
+              "id": "review-gc-contract-requirements",
+              "name": "Review GC contract requirements"
+            },
+            {
+              "id": "confirm-ae-construction-administration-ca-services",
+              "name": "Confirm A/E construction administration (CA) services"
+            },
+            {
+              "id": "schedule-inspections",
+              "name": "Schedule inspections"
+            },
+            {
+              "id": "conduct-safety-orientation",
+              "name": "Conduct safety orientation"
+            },
+            {
+              "id": "schedule-trade-preconstruction-meetings",
+              "name": "Schedule trade preconstruction meetings"
+            },
+            {
+              "id": "schedule-qc-preinstallation-meetings",
+              "name": "Schedule QC preinstallation meetings"
+            }
+          ],
+          "subgroup": "A",
+          "isUtility": false
+        },
+        {
+          "id": "oac",
+          "name": "OAC",
+          "tasks": [
+            {
+              "id": "prepare-oac-meeting-agenda",
+              "name": "Prepare OAC meeting agenda"
+            },
+            {
+              "id": "review-meeting-minutes-mm",
+              "name": "Review meeting minutes (MM)"
+            },
+            {
+              "id": "engage-stakeholders",
+              "name": "Engage stakeholders"
+            },
+            {
+              "id": "track-critical-path-items",
+              "name": "Track critical path items"
+            },
+            {
+              "id": "review-tio-time-impacted-operations",
+              "name": "Review TIO (Time Impacted Operations)"
+            }
+          ],
+          "subgroup": "A",
+          "isUtility": false
+        },
+        {
+          "id": "job-walks",
+          "name": "Job walks",
+          "tasks": [
+            {
+              "id": "verify-demo-safe-off-procedures",
+              "name": "Verify demo safe-off procedures"
+            },
+            {
+              "id": "review-safety-measures",
+              "name": "Review safety measures"
+            },
+            {
+              "id": "check-covid-compliance",
+              "name": "Check COVID compliance"
+            },
+            {
+              "id": "verify-hot-work-protocols",
+              "name": "Verify hot work protocols"
+            },
+            {
+              "id": "review-dust-odor-and-noise-control-measures",
+              "name": "Review dust, odor, and noise control measures"
+            },
+            {
+              "id": "discuss-open-rfis",
+              "name": "Discuss open RFIs"
+            },
+            {
+              "id": "review-schedule-alignment",
+              "name": "Review schedule alignment"
+            },
+            {
+              "id": "confirm-trades-on-site",
+              "name": "Confirm trades on site"
+            },
+            {
+              "id": "assess-staging-areas",
+              "name": "Assess staging areas"
+            }
+          ],
+          "subgroup": "A",
+          "isUtility": false
+        },
+        {
+          "id": "work-orders",
+          "name": "Work Orders",
+          "tasks": [
+            {
+              "id": "process-fafs-impairments",
+              "name": "Process FA/FS impairments"
+            },
+            {
+              "id": "process-hot-work-permits",
+              "name": "Process hot work permits"
+            },
+            {
+              "id": "coordinate-utility-shutdowns",
+              "name": "Coordinate utility shutdowns"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "pay-apps",
+          "name": "Pay Apps",
+          "tasks": [
+            {
+              "id": "review-detailed-sovs",
+              "name": "Review detailed SOVs"
+            },
+            {
+              "id": "collect-progress-report",
+              "name": "Collect progress report"
+            },
+            {
+              "id": "update-rfi-log",
+              "name": "Update RFI log"
+            },
+            {
+              "id": "update-cashflow-report",
+              "name": "Update cashflow report"
+            },
+            {
+              "id": "update-procurement-log",
+              "name": "Update procurement log"
+            },
+            {
+              "id": "update-project-schedule",
+              "name": "Update project schedule"
+            },
+            {
+              "id": "update-submittal-log",
+              "name": "Update submittal log"
+            },
+            {
+              "id": "update-pci-log",
+              "name": "Update PCI log"
+            },
+            {
+              "id": "update-lien-logs",
+              "name": "Update lien logs"
+            },
+            {
+              "id": "update-qaqc-log",
+              "name": "Update QA/QC log"
+            },
+            {
+              "id": "review-progress-redlines-and-as-builts",
+              "name": "Review progress redlines and as-builts"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "bim",
+          "name": "BIM",
+          "tasks": [
+            {
+              "id": "develop-bim-plan",
+              "name": "Develop BIM plan"
+            },
+            {
+              "id": "define-level-of-detail",
+              "name": "Define level of detail"
+            },
+            {
+              "id": "define-scope-of-coordination",
+              "name": "Define scope of coordination"
+            },
+            {
+              "id": "identify-bim-facilitator",
+              "name": "Identify BIM facilitator"
+            },
+            {
+              "id": "set-bim-schedule-milestones",
+              "name": "Set BIM schedule milestones"
+            },
+            {
+              "id": "establish-bim-meeting-cadence",
+              "name": "Establish BIM meeting cadence"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "testing-and-cx",
+          "name": "Testing and Cx",
+          "tasks": [
+            {
+              "id": "conduct-preliminary-testing",
+              "name": "Conduct preliminary testing"
+            },
+            {
+              "id": "perform-equipment-start-up",
+              "name": "Perform equipment start-up"
+            },
+            {
+              "id": "troubleshoot-system-issues",
+              "name": "Troubleshoot system issues"
+            },
+            {
+              "id": "monitor-system-trending",
+              "name": "Monitor system trending"
+            },
+            {
+              "id": "obtain-final-sign-offs",
+              "name": "Obtain final sign-offs"
+            },
+            {
+              "id": "identify-mechanical-m-equipment",
+              "name": "Identify mechanical (M) equipment"
+            },
+            {
+              "id": "identify-plumbing-p-equipment",
+              "name": "Identify plumbing (P) equipment"
+            },
+            {
+              "id": "identify-electrical-e-equipment",
+              "name": "Identify electrical (E) equipment"
+            }
+          ],
+          "subgroup": "A",
+          "isUtility": false
+        }
+      ],
+      "groups": [
+        {
+          "id": "construction-A",
+          "subgroup": "A",
+          "subcategoryIndices": [
+            0,
+            1,
+            2,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "id": "administrative",
+      "name": "Administrative",
+      "subcategories": [
+        {
+          "id": "closout",
+          "name": "Closout",
+          "tasks": [
+            {
+              "id": "identify-substantial-completion-sc-date",
+              "name": "Identify substantial completion (SC) date"
+            },
+            {
+              "id": "identify-beneficial-use-date",
+              "name": "Identify beneficial use date"
+            },
+            {
+              "id": "identify-beneficial-occupancy-date",
+              "name": "Identify beneficial occupancy date"
+            },
+            {
+              "id": "collect-operations-and-maintenance-om-manuals",
+              "name": "Collect operations and maintenance (OM) manuals"
+            },
+            {
+              "id": "collect-warranties-and-guarantees",
+              "name": "Collect warranties and guarantees"
+            },
+            {
+              "id": "verify-as-builts-are-complete",
+              "name": "Verify as-builts are complete"
+            },
+            {
+              "id": "verify-record-drawings-are-complete",
+              "name": "Verify record drawings are complete"
+            },
+            {
+              "id": "collect-attic-stock",
+              "name": "Collect attic stock"
+            },
+            {
+              "id": "gather-subcontractor-contact-information",
+              "name": "Gather subcontractor contact information"
+            },
+            {
+              "id": "confirm-all-permits-are-signed-off",
+              "name": "Confirm all permits are signed off"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        },
+        {
+          "id": "ebuilder-workflow",
+          "name": "Ebuilder workflow",
+          "tasks": [
+            {
+              "id": "manage-rfis-in-ebuilder",
+              "name": "Manage RFIs in Ebuilder"
+            },
+            {
+              "id": "process-invoices-in-ebuilder",
+              "name": "Process invoices in Ebuilder"
+            },
+            {
+              "id": "handle-budget-modifications-in-ebuilder",
+              "name": "Handle budget modifications in Ebuilder"
+            },
+            {
+              "id": "track-submittals-in-ebuilder",
+              "name": "Track submittals in Ebuilder"
+            },
+            {
+              "id": "manage-work-orders-wo-in-ebuilder",
+              "name": "Manage work orders (WO) in Ebuilder"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        },
+        {
+          "id": "ebuilder-forecasting",
+          "name": "Ebuilder forecasting",
+          "tasks": [
+            {
+              "id": "track-allowances-per-mou-and-contracts",
+              "name": "Track allowances per MOU and contracts"
+            },
+            {
+              "id": "include-pm-fee-in-forecast",
+              "name": "Include PM fee in forecast"
+            },
+            {
+              "id": "forecast-construction-risks",
+              "name": "Forecast construction risks"
+            },
+            {
+              "id": "incorporate-design-asrs",
+              "name": "Incorporate design ASRs"
+            },
+            {
+              "id": "forecast-permitting-fees",
+              "name": "Forecast permitting fees"
+            },
+            {
+              "id": "account-for-jv-costs",
+              "name": "Account for JV costs"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        },
+        {
+          "id": "cashflow",
+          "name": "Cashflow",
+          "tasks": [
+            {
+              "id": "develop-preliminary-cashflow-projection",
+              "name": "Develop preliminary cashflow projection"
+            },
+            {
+              "id": "develop-design-phase-cashflow",
+              "name": "Develop design phase cashflow"
+            },
+            {
+              "id": "develop-construction-phase-cashflow",
+              "name": "Develop construction phase cashflow"
+            },
+            {
+              "id": "track-cashflow-across-entire-project-lifecycle",
+              "name": "Track cashflow across entire project lifecycle"
+            },
+            {
+              "id": "prepare-internal-monthly-cashflow-report",
+              "name": "Prepare internal monthly cashflow report"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        },
+        {
+          "id": "permit-tracking",
+          "name": "Permit tracking",
+          "tasks": [
+            {
+              "id": "track-permit-status",
+              "name": "Track permit status"
+            },
+            {
+              "id": "track-permit-fees",
+              "name": "Track permit fees"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        },
+        {
+          "id": "ada-tracking",
+          "name": "ADA tracking",
+          "tasks": [
+            {
+              "id": "track-ada-scope",
+              "name": "Track ADA scope"
+            },
+            {
+              "id": "break-out-ada-related-costs",
+              "name": "Break out ADA-related costs"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        },
+        {
+          "id": "prepare-board-reports",
+          "name": "Prepare Board Reports",
+          "tasks": [
+            {
+              "id": "prepare-1-pager-for-resolution-preconstruction",
+              "name": "Prepare 1-pager for resolution preconstruction"
+            },
+            {
+              "id": "prepare-1-pager-for-resolution-full-funding",
+              "name": "Prepare 1-pager for resolution full funding"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        },
+        {
+          "id": "comments",
+          "name": "Comments",
+          "tasks": [],
+          "subgroup": null,
+          "isUtility": false
+        }
+      ],
+      "groups": []
+    }
+  ]
+}
