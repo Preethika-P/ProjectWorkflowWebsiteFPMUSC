@@ -8,7 +8,7 @@ import { Toaster } from './components/ui/toaster';
 import { ToastProvider, useToast } from './components/ui/use-toast';
 import { useAppStore } from './store/useAppStore';
 import type { WorkflowData } from './types';
-import { parseScopedCategoryId } from './lib/budgets';
+import { getWorkflowDataForBudget, parseScopedCategoryId } from './lib/budgets';
 
 function AppContent() {
   const [workflowData, setWorkflowData] = useState<WorkflowData | null>(null);
@@ -32,7 +32,8 @@ function AppContent() {
   useEffect(() => {
     if (workflowData && lastVisited.categoryId && !sessionStorage.getItem('resume-shown')) {
       const { budgetKey, categoryId } = parseScopedCategoryId(lastVisited.categoryId);
-      const category = workflowData.categories.find((c) => c.id === categoryId);
+      const budgetWorkflowData = getWorkflowDataForBudget(workflowData, budgetKey);
+      const category = budgetWorkflowData.categories.find((c) => c.id === categoryId);
       if (category) {
         const subcategory = lastVisited.subcategoryId
           ? category.subcategories.find((s) => s.id === lastVisited.subcategoryId)

@@ -83,7 +83,7 @@
             },
             {
               "id": "account-for-board-requirements",
-              "name": "Account for Board requirements"
+              "name": "Account for FCPC and CPC"
             },
             {
               "id": "account-for-bim-requirements",
@@ -99,7 +99,7 @@
           "tasks": [
             {
               "id": "prepare-template-ms-schedule-with-milestones",
-              "name": "Prepare template MS schedule with milestones"
+              "name": "Prepare template schedule with milestones"
             },
             {
               "id": "include-board-milestones",
@@ -112,6 +112,14 @@
             {
               "id": "include-bim-milestones",
               "name": "Include BIM milestones"
+            },
+            {
+              "id": "include-raindays",
+              "name": "Include raindays"
+            },
+            {
+              "id": "sc-milestone",
+              "name": "SC Milestone"
             }
           ],
           "subgroup": "A",
@@ -130,6 +138,10 @@
               "name": "Include selection criteria"
             },
             {
+              "id": "include-detailed-scope-with-sketches-andor-program-information",
+              "name": "Include detailed scope with sketches and/or program information"
+            },
+            {
               "id": "include-score-card",
               "name": "Include score card"
             }
@@ -139,27 +151,15 @@
         },
         {
           "id": "evaluate-feasibility",
-          "name": "Evaluate Feasibility",
+          "name": "Evaluate Feasibility Study",
           "tasks": [
             {
               "id": "identify-stakeholders",
               "name": "Identify stakeholders"
             },
             {
-              "id": "evaluate-cost",
-              "name": "Evaluate cost"
-            },
-            {
-              "id": "evaluate-schedule",
-              "name": "Evaluate schedule"
-            },
-            {
               "id": "evaluate-scope",
-              "name": "Evaluate scope"
-            },
-            {
-              "id": "compare-with-preliminary-scoping",
-              "name": "Compare with preliminary scoping"
+              "name": "Evaluate scope and compare with preliminary scoping"
             },
             {
               "id": "assess-risks",
@@ -179,7 +179,7 @@
         },
         {
           "id": "determine-project-delivery-method",
-          "name": "Determine project delivery method",
+          "name": "Determine Project Delivery Method",
           "tasks": [
             {
               "id": "evaluate-dbb-design-bid-build",
@@ -215,7 +215,11 @@
           "tasks": [
             {
               "id": "include-deliverables",
-              "name": "Include deliverables"
+              "name": "Identify specific deliverables"
+            },
+            {
+              "id": "include-detailed-scope-with-sketches-andor-program-information",
+              "name": "Include detailed scope with sketches and/or program information"
             },
             {
               "id": "include-selection-criteria-qaqc",
@@ -251,7 +255,7 @@
         },
         {
           "id": "evaluate-response-revised-schedule-and-budget-to-baseline",
-          "name": "Evaluate response /revised schedule and budget to baseline",
+          "name": "Evaluate Response /Revised Schedule and Budget to Baseline",
           "tasks": [
             {
               "id": "validate-design-timelines",
@@ -267,7 +271,7 @@
             },
             {
               "id": "validate-scope-alignment",
-              "name": "Validate scope alignment"
+              "name": "Validate scope and basic services alignment"
             },
             {
               "id": "validate-schedule-alignment",
@@ -316,6 +320,10 @@
             {
               "id": "include-budget",
               "name": "Include budget"
+            },
+            {
+              "id": "cpc-or-fcpc-approval",
+              "name": "CPC or FCPC approval"
             }
           ],
           "subgroup": null,
@@ -323,7 +331,7 @@
         },
         {
           "id": "prepare-consultant-contracts",
-          "name": "Prepare consultant contracts",
+          "name": "Prepare Consultant Contracts",
           "tasks": [
             {
               "id": "prepare-checklist",
@@ -351,7 +359,7 @@
             },
             {
               "id": "set-schedule-completion-date",
-              "name": "Set schedule completion date"
+              "name": "Set start and end schedule completion dates"
             },
             {
               "id": "include-rate-sheets",
@@ -360,6 +368,122 @@
           ],
           "subgroup": null,
           "isUtility": false
+        },
+        {
+          "id": "project-initiation-ebuilder-workflow",
+          "name": "Ebuilder Workflow",
+          "tasks": [
+            {
+              "id": "process-invoices-in-ebuilder",
+              "name": "Process invoices in Ebuilder"
+            },
+            {
+              "id": "handle-budget-modifications-in-ebuilder",
+              "name": "Handle budget modifications in Ebuilder"
+            },
+            {
+              "id": "manage-work-orders-wo-in-ebuilder",
+              "name": "Manage work orders (WO) in Ebuilder"
+            },
+            {
+              "id": "contract-requirements-process-crp",
+              "name": "Contract Requirements Process (CRP)"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "project-initiation-ebuilder-forecasting",
+          "name": "Ebuilder Forecasting",
+          "tasks": [
+            {
+              "id": "track-allowances-per-mou-and-contracts",
+              "name": "Track allowances per MOU and contracts"
+            },
+            {
+              "id": "include-pm-fee-in-forecast",
+              "name": "Include PM fee in forecast"
+            },
+            {
+              "id": "forecast-construction-risks",
+              "name": "Forecast construction risks"
+            },
+            {
+              "id": "incorporate-design-asrs",
+              "name": "Incorporate design ASRs"
+            },
+            {
+              "id": "forecast-permitting-fees",
+              "name": "Forecast permitting fees"
+            },
+            {
+              "id": "account-for-jv-costs",
+              "name": "Account for JV costs"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "project-initiation-cashflow",
+          "name": "Cashflow",
+          "tasks": [
+            {
+              "id": "setup-cashflow-module",
+              "name": "Setup cashflow module"
+            },
+            {
+              "id": "prepare-internal-monthly-cashflow-report",
+              "name": "Prepare internal monthly cashflow report"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "project-initiation-permit-tracking",
+          "name": "Permit Tracking",
+          "tasks": [
+            {
+              "id": "track-permit-status",
+              "name": "Track permit status"
+            },
+            {
+              "id": "track-permit-fees",
+              "name": "Track permit fees"
+            },
+            {
+              "id": "defferred-approval-permit-fees",
+              "name": "Defferred approval, permit fees"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "project-initiation-prepare-cpc-and-fcpc-documents",
+          "name": "Prepare CPC & FCPC documents",
+          "tasks": [
+            {
+              "id": "greater-than-or-less-than-500k-cpc-topline",
+              "name": "Greater than or less than 500K CPC topline"
+            },
+            {
+              "id": "greater-than-or-less-than-5m-fcpc-topline-and-resolution",
+              "name": "Greater than or less than 5M FCPC topline and resolution"
+            },
+            {
+              "id": "prepare-1-pager-for-resolution-preconstruction",
+              "name": "Prepare 1-pager for resolution preconstruction"
+            },
+            {
+              "id": "prepare-1-pager-for-resolution-full-funding",
+              "name": "Prepare 1-pager for resolution full funding"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
         }
       ],
       "groups": [
@@ -382,6 +506,14 @@
           "id": "design-kick-off",
           "name": "Design Kick Off",
           "tasks": [
+            {
+              "id": "use-kickoff-agenda",
+              "name": "Use Kickoff Agenda"
+            },
+            {
+              "id": "review-target-budget",
+              "name": "Review target budget"
+            },
             {
               "id": "review-contract",
               "name": "Review contract"
@@ -412,7 +544,7 @@
         },
         {
           "id": "prepare-evaluate-asr",
-          "name": "Prepare & evaluate ASR",
+          "name": "Prepare & Evaluate ASR",
           "tasks": [
             {
               "id": "prepare-asr",
@@ -427,7 +559,7 @@
               "name": "Evaluate fairness of ASR"
             }
           ],
-          "subgroup": null,
+          "subgroup": "C",
           "isUtility": false
         },
         {
@@ -456,7 +588,7 @@
         },
         {
           "id": "review-design-mep-narrative",
-          "name": "Review design & MEP narrative",
+          "name": "Review SD Design & MEP Narrative",
           "tasks": [
             {
               "id": "review-system-descriptions-from-fms-and-stakeholders",
@@ -484,15 +616,15 @@
         },
         {
           "id": "evaluate-against-bod",
-          "name": "Evaluate against BOD",
+          "name": "Evaluate against FDG",
           "tasks": [
             {
               "id": "evaluate-with-fms-input-against-bod",
-              "name": "Evaluate with FMS input against BOD"
+              "name": "Evaluate with FMS input against FDG"
             },
             {
               "id": "evaluate-with-stakeholder-input-against-bod",
-              "name": "Evaluate with stakeholder input against BOD"
+              "name": "Evaluate with stakeholder input against FDG"
             }
           ],
           "subgroup": "B",
@@ -500,15 +632,15 @@
         },
         {
           "id": "decision-and-risk-matrices",
-          "name": "Decision and risk matrices",
+          "name": "Decision and Risk Matrices",
           "tasks": [
             {
               "id": "track-decision-matrix",
-              "name": "Track decision matrix"
+              "name": "Track decision matrix throughout design"
             },
             {
               "id": "track-risk-matrix",
-              "name": "Track risk matrix"
+              "name": "Track risk matrix throughout design"
             },
             {
               "id": "review-decision-matrix-with-client-and-stakeholders",
@@ -524,8 +656,12 @@
         },
         {
           "id": "sustainablility-goals",
-          "name": "Sustainablility goals",
+          "name": "Sustainability Goals",
           "tasks": [
+            {
+              "id": "identify-sustainability-goals-using-sdcg-checklist",
+              "name": "Identify sustainability goals using SDCG checklist"
+            },
             {
               "id": "track-sustainability-goals",
               "name": "Track sustainability goals"
@@ -540,7 +676,7 @@
         },
         {
           "id": "design-peer-review-fms-andor-outside",
-          "name": "Design peer review (FMS and/or outside)",
+          "name": "Design Peer Review (FMS and/or outside)",
           "tasks": [
             {
               "id": "identify-scope-for-peer-review",
@@ -568,7 +704,7 @@
         },
         {
           "id": "constructability-review-50-dd-set",
-          "name": "Constructability review 50% DD set",
+          "name": "Constructability Review 50% DD Set",
           "tasks": [
             {
               "id": "review-design-details",
@@ -632,7 +768,7 @@
             },
             {
               "id": "develop-responsibility-matrix",
-              "name": "Develop responsibility matrix"
+              "name": "Develop subcontractor handoff responsibility matrix"
             }
           ],
           "subgroup": "B",
@@ -640,7 +776,7 @@
         },
         {
           "id": "other-consultants",
-          "name": "Other consultants",
+          "name": "Other Consultants",
           "tasks": [
             {
               "id": "coordinate-with-commissioning-cx-consultant",
@@ -663,7 +799,7 @@
               "name": "Coordinate with Peer Review consultant"
             }
           ],
-          "subgroup": "C",
+          "subgroup": "A",
           "isUtility": false
         },
         {
@@ -709,6 +845,122 @@
           ],
           "subgroup": "C",
           "isUtility": false
+        },
+        {
+          "id": "design-and-permit-ebuilder-workflow",
+          "name": "Ebuilder Workflow",
+          "tasks": [
+            {
+              "id": "process-invoices-in-ebuilder",
+              "name": "Process invoices in Ebuilder"
+            },
+            {
+              "id": "handle-budget-modifications-in-ebuilder",
+              "name": "Handle budget modifications in Ebuilder"
+            },
+            {
+              "id": "manage-work-orders-wo-in-ebuilder",
+              "name": "Manage work orders (WO) in Ebuilder"
+            },
+            {
+              "id": "contract-requirements-process-crp",
+              "name": "Contract Requirements Process (CRP)"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "design-and-permit-ebuilder-forecasting",
+          "name": "Ebuilder Forecasting",
+          "tasks": [
+            {
+              "id": "track-allowances-per-mou-and-contracts",
+              "name": "Track allowances per MOU and contracts"
+            },
+            {
+              "id": "include-pm-fee-in-forecast",
+              "name": "Include PM fee in forecast"
+            },
+            {
+              "id": "forecast-construction-risks",
+              "name": "Forecast construction risks"
+            },
+            {
+              "id": "incorporate-design-asrs",
+              "name": "Incorporate design ASRs"
+            },
+            {
+              "id": "forecast-permitting-fees",
+              "name": "Forecast permitting fees"
+            },
+            {
+              "id": "account-for-jv-costs",
+              "name": "Account for JV costs"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "design-and-permit-cashflow",
+          "name": "Cashflow",
+          "tasks": [
+            {
+              "id": "setup-cashflow-module",
+              "name": "Setup cashflow module"
+            },
+            {
+              "id": "prepare-internal-monthly-cashflow-report",
+              "name": "Prepare internal monthly cashflow report"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "design-and-permit-permit-tracking",
+          "name": "Permit Tracking",
+          "tasks": [
+            {
+              "id": "track-permit-status",
+              "name": "Track permit status"
+            },
+            {
+              "id": "track-permit-fees",
+              "name": "Track permit fees"
+            },
+            {
+              "id": "defferred-approval-permit-fees",
+              "name": "Defferred approval, permit fees"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "design-and-permit-prepare-cpc-and-fcpc-documents",
+          "name": "Prepare CPC & FCPC documents",
+          "tasks": [
+            {
+              "id": "greater-than-or-less-than-500k-cpc-topline",
+              "name": "Greater than or less than 500K CPC topline"
+            },
+            {
+              "id": "greater-than-or-less-than-5m-fcpc-topline-and-resolution",
+              "name": "Greater than or less than 5M FCPC topline and resolution"
+            },
+            {
+              "id": "prepare-1-pager-for-resolution-preconstruction",
+              "name": "Prepare 1-pager for resolution preconstruction"
+            },
+            {
+              "id": "prepare-1-pager-for-resolution-full-funding",
+              "name": "Prepare 1-pager for resolution full funding"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
         }
       ],
       "groups": [
@@ -719,7 +971,8 @@
             0,
             2,
             3,
-            6
+            6,
+            9
           ]
         },
         {
@@ -736,9 +989,9 @@
           "id": "design-and-permit-C",
           "subgroup": "C",
           "subcategoryIndices": [
-            9,
             10,
-            11
+            11,
+            1
           ]
         }
       ]
@@ -749,7 +1002,7 @@
       "subcategories": [
         {
           "id": "prepare-construction-bidding-documents",
-          "name": "Prepare construction bidding documents",
+          "name": "Prepare Construction Bidding Documents",
           "tasks": [
             {
               "id": "qualify-bid-list",
@@ -761,7 +1014,7 @@
             },
             {
               "id": "include-icra-requirements",
-              "name": "Include ICRA requirements"
+              "name": "Include ICRA/desk control requirements"
             },
             {
               "id": "enumerate-drawings",
@@ -773,11 +1026,11 @@
             },
             {
               "id": "draft-rfp-letter",
-              "name": "Draft RFP letter"
+              "name": "Identify Supplemental conditions"
             },
             {
               "id": "identify-specific-scope-and-deliverables",
-              "name": "Identify specific scope and deliverables"
+              "name": "Identify specific scope deliverables such as cashflow projections, progress reports, subcontractor qualification criteria, project schedule, PM and superintendent experience qualifications"
             },
             {
               "id": "include-cashflow-projections",
@@ -800,10 +1053,6 @@
               "name": "Attach OCIP manual"
             },
             {
-              "id": "include-covid-requirements",
-              "name": "Include COVID requirements"
-            },
-            {
               "id": "include-contractor-handbook",
               "name": "Include contractor handbook"
             }
@@ -813,7 +1062,7 @@
         },
         {
           "id": "review-and-level-set-bid-responses",
-          "name": "Review and level set bid responses",
+          "name": "Review and Level Set Bid Responses",
           "tasks": [
             {
               "id": "verify-sov-includes-all-trades-in-scope",
@@ -861,7 +1110,7 @@
         },
         {
           "id": "review-and-level-set-bid-schedules",
-          "name": "Review and level set bid schedules",
+          "name": "Review and Level Set Bid Schedules",
           "tasks": [
             {
               "id": "review-detailed-schedule-with-wbs",
@@ -878,6 +1127,10 @@
             {
               "id": "verify-inspections-are-scheduled",
               "name": "Verify inspections are scheduled"
+            },
+            {
+              "id": "review-sov-for-cost-deltas",
+              "name": "Review SOV for cost deltas"
             },
             {
               "id": "verify-testing-is-scheduled",
@@ -942,6 +1195,10 @@
             {
               "id": "confirm-working-hours",
               "name": "Confirm working hours"
+            },
+            {
+              "id": "bid-clarification-questions",
+              "name": "Bid clarification questions"
             }
           ],
           "subgroup": "A",
@@ -949,7 +1206,7 @@
         },
         {
           "id": "prepare-full-funding-mou",
-          "name": "Prepare full funding MOU",
+          "name": "Prepare Full Funding MOU",
           "tasks": [
             {
               "id": "define-inclusions",
@@ -974,6 +1231,10 @@
             {
               "id": "include-budget",
               "name": "Include budget"
+            },
+            {
+              "id": "include-cpc-or-fcpc-approvals",
+              "name": "Include CPC or FCPC approvals"
             }
           ],
           "subgroup": null,
@@ -981,8 +1242,12 @@
         },
         {
           "id": "prepare-costruction-contracts",
-          "name": "Prepare costruction contracts",
+          "name": "Prepare Construction Contracts",
           "tasks": [
+            {
+              "id": "start-contractor-crp-request",
+              "name": "Start contractor CRP request"
+            },
             {
               "id": "prepare-contract-for-contractor",
               "name": "Prepare contract for contractor"
@@ -994,10 +1259,130 @@
             {
               "id": "prepare-contracts-for-inspections",
               "name": "Prepare contracts for inspections"
+            },
+            {
+              "id": "other-vendor-erp-request",
+              "name": "Other vendor ERP request"
             }
           ],
           "subgroup": null,
           "isUtility": false
+        },
+        {
+          "id": "bid-and-award-ebuilder-workflow",
+          "name": "Ebuilder Workflow",
+          "tasks": [
+            {
+              "id": "process-invoices-in-ebuilder",
+              "name": "Process invoices in Ebuilder"
+            },
+            {
+              "id": "handle-budget-modifications-in-ebuilder",
+              "name": "Handle budget modifications in Ebuilder"
+            },
+            {
+              "id": "manage-work-orders-wo-in-ebuilder",
+              "name": "Manage work orders (WO) in Ebuilder"
+            },
+            {
+              "id": "contract-requirements-process-crp",
+              "name": "Contract Requirements Process (CRP)"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "bid-and-award-ebuilder-forecasting",
+          "name": "Ebuilder Forecasting",
+          "tasks": [
+            {
+              "id": "track-allowances-per-mou-and-contracts",
+              "name": "Track allowances per MOU and contracts"
+            },
+            {
+              "id": "include-pm-fee-in-forecast",
+              "name": "Include PM fee in forecast"
+            },
+            {
+              "id": "forecast-construction-risks",
+              "name": "Forecast construction risks"
+            },
+            {
+              "id": "incorporate-design-asrs",
+              "name": "Incorporate design ASRs"
+            },
+            {
+              "id": "forecast-permitting-fees",
+              "name": "Forecast permitting fees"
+            },
+            {
+              "id": "account-for-jv-costs",
+              "name": "Account for JV costs"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "bid-and-award-cashflow",
+          "name": "Cashflow",
+          "tasks": [
+            {
+              "id": "setup-cashflow-module",
+              "name": "Setup cashflow module"
+            },
+            {
+              "id": "prepare-internal-monthly-cashflow-report",
+              "name": "Prepare internal monthly cashflow report"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "bid-and-award-permit-tracking",
+          "name": "Permit Tracking",
+          "tasks": [
+            {
+              "id": "track-permit-status",
+              "name": "Track permit status"
+            },
+            {
+              "id": "track-permit-fees",
+              "name": "Track permit fees"
+            },
+            {
+              "id": "defferred-approval-permit-fees",
+              "name": "Defferred approval, permit fees"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "bid-and-award-prepare-cpc-and-fcpc-documents",
+          "name": "Prepare CPC & FCPC documents",
+          "tasks": [
+            {
+              "id": "greater-than-or-less-than-500k-cpc-topline",
+              "name": "Greater than or less than 500K CPC topline"
+            },
+            {
+              "id": "greater-than-or-less-than-5m-fcpc-topline-and-resolution",
+              "name": "Greater than or less than 5M FCPC topline and resolution"
+            },
+            {
+              "id": "prepare-1-pager-for-resolution-preconstruction",
+              "name": "Prepare 1-pager for resolution preconstruction"
+            },
+            {
+              "id": "prepare-1-pager-for-resolution-full-funding",
+              "name": "Prepare 1-pager for resolution full funding"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
         }
       ],
       "groups": [
@@ -1018,7 +1403,15 @@
       "subcategories": [
         {
           "id": "construction-ko",
-          "name": "Construction KO",
+          "name": "Construction Kick Off",
+          "documents": [
+            {
+              "id": "construction-kick-off-meeting-agenda",
+              "name": "Construction Kick-Off Meeting Agenda",
+              "url": "/documents/construction-kick-off-meeting-agenda.doc",
+              "description": "Open the agenda document for the construction kick-off meeting."
+            }
+          ],
           "tasks": [
             {
               "id": "confirm-contact-list",
@@ -1075,6 +1468,14 @@
         {
           "id": "oac",
           "name": "OAC",
+          "documents": [
+            {
+              "id": "construction-oac-meeting-agenda",
+              "name": "Construction OAC Meeting Agenda",
+              "url": "/documents/construction-oac-meeting-agenda.doc",
+              "description": "Open the agenda document for the OAC meeting."
+            }
+          ],
           "tasks": [
             {
               "id": "prepare-oac-meeting-agenda",
@@ -1094,7 +1495,7 @@
             },
             {
               "id": "review-tio-time-impacted-operations",
-              "name": "Review TIO (Time Impacted Operations)"
+              "name": "Review Review Testing Inspections and Observations"
             }
           ],
           "subgroup": "A",
@@ -1102,7 +1503,7 @@
         },
         {
           "id": "job-walks",
-          "name": "Job walks",
+          "name": "Job Walks",
           "tasks": [
             {
               "id": "verify-demo-safe-off-procedures",
@@ -1111,10 +1512,6 @@
             {
               "id": "review-safety-measures",
               "name": "Review safety measures"
-            },
-            {
-              "id": "check-covid-compliance",
-              "name": "Check COVID compliance"
             },
             {
               "id": "verify-hot-work-protocols",
@@ -1130,7 +1527,7 @@
             },
             {
               "id": "review-schedule-alignment",
-              "name": "Review schedule alignment"
+              "name": "Review schedule progress"
             },
             {
               "id": "confirm-trades-on-site",
@@ -1249,9 +1646,137 @@
           "isUtility": true
         },
         {
+          "id": "construction-ebuilder-workflow",
+          "name": "Ebuilder Workflow",
+          "tasks": [
+            {
+              "id": "manage-rfis-in-ebuilder",
+              "name": "Manage RFIs in Ebuilder"
+            },
+            {
+              "id": "process-invoices-in-ebuilder",
+              "name": "Process invoices in Ebuilder"
+            },
+            {
+              "id": "handle-budget-modifications-in-ebuilder",
+              "name": "Handle budget modifications in Ebuilder"
+            },
+            {
+              "id": "track-submittals-in-ebuilder",
+              "name": "Track submittals in Ebuilder"
+            },
+            {
+              "id": "manage-work-orders-wo-in-ebuilder",
+              "name": "Manage work orders (WO) in Ebuilder"
+            },
+            {
+              "id": "contract-requirements-process-crp",
+              "name": "Contract Requirements Process (CRP)"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "construction-ebuilder-forecasting",
+          "name": "Ebuilder Forecasting",
+          "tasks": [
+            {
+              "id": "track-allowances-per-mou-and-contracts",
+              "name": "Track allowances per MOU and contracts"
+            },
+            {
+              "id": "include-pm-fee-in-forecast",
+              "name": "Include PM fee in forecast"
+            },
+            {
+              "id": "forecast-construction-risks",
+              "name": "Forecast construction risks"
+            },
+            {
+              "id": "incorporate-design-asrs",
+              "name": "Incorporate design ASRs"
+            },
+            {
+              "id": "forecast-permitting-fees",
+              "name": "Forecast permitting fees"
+            },
+            {
+              "id": "account-for-jv-costs",
+              "name": "Account for JV costs"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "construction-cashflow",
+          "name": "Cashflow",
+          "tasks": [
+            {
+              "id": "setup-cashflow-module",
+              "name": "Setup cashflow module"
+            },
+            {
+              "id": "prepare-internal-monthly-cashflow-report",
+              "name": "Prepare internal monthly cashflow report"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "construction-permit-tracking",
+          "name": "Permit Tracking",
+          "tasks": [
+            {
+              "id": "track-permit-status",
+              "name": "Track permit status"
+            },
+            {
+              "id": "track-permit-fees",
+              "name": "Track permit fees"
+            },
+            {
+              "id": "defferred-approval-permit-fees",
+              "name": "Defferred approval, permit fees"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "construction-prepare-cpc-and-fcpc-documents",
+          "name": "Prepare CPC & FCPC documents",
+          "tasks": [
+            {
+              "id": "greater-than-or-less-than-500k-cpc-topline",
+              "name": "Greater than or less than 500K CPC topline"
+            },
+            {
+              "id": "greater-than-or-less-than-5m-fcpc-topline-and-resolution",
+              "name": "Greater than or less than 5M FCPC topline and resolution"
+            },
+            {
+              "id": "prepare-1-pager-for-resolution-preconstruction",
+              "name": "Prepare 1-pager for resolution preconstruction"
+            },
+            {
+              "id": "prepare-1-pager-for-resolution-full-funding",
+              "name": "Prepare 1-pager for resolution full funding"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
           "id": "testing-and-cx",
           "name": "Testing and Cx",
           "tasks": [
+            {
+              "id": "prefunctional-testing-forms",
+              "name": "Prefunctional Testing Forms"
+            },
             {
               "id": "conduct-preliminary-testing",
               "name": "Conduct preliminary testing"
@@ -1303,12 +1828,12 @@
       ]
     },
     {
-      "id": "administrative",
-      "name": "Administrative",
+      "id": "closeout",
+      "name": "Closeout",
       "subcategories": [
         {
-          "id": "closout",
-          "name": "Closout",
+          "id": "closeout",
+          "name": "Closeout",
           "tasks": [
             {
               "id": "identify-substantial-completion-sc-date",
@@ -1349,19 +1874,19 @@
             {
               "id": "confirm-all-permits-are-signed-off",
               "name": "Confirm all permits are signed off"
+            },
+            {
+              "id": "keys",
+              "name": "Keys"
             }
           ],
           "subgroup": null,
           "isUtility": false
         },
         {
-          "id": "ebuilder-workflow",
-          "name": "Ebuilder workflow",
+          "id": "closeout-ebuilder-workflow",
+          "name": "Ebuilder Workflow",
           "tasks": [
-            {
-              "id": "manage-rfis-in-ebuilder",
-              "name": "Manage RFIs in Ebuilder"
-            },
             {
               "id": "process-invoices-in-ebuilder",
               "name": "Process invoices in Ebuilder"
@@ -1371,20 +1896,20 @@
               "name": "Handle budget modifications in Ebuilder"
             },
             {
-              "id": "track-submittals-in-ebuilder",
-              "name": "Track submittals in Ebuilder"
-            },
-            {
               "id": "manage-work-orders-wo-in-ebuilder",
               "name": "Manage work orders (WO) in Ebuilder"
+            },
+            {
+              "id": "contract-requirements-process-crp",
+              "name": "Contract Requirements Process (CRP)"
             }
           ],
-          "subgroup": null,
-          "isUtility": false
+          "subgroup": "utility",
+          "isUtility": true
         },
         {
-          "id": "ebuilder-forecasting",
-          "name": "Ebuilder forecasting",
+          "id": "closeout-ebuilder-forecasting",
+          "name": "Ebuilder Forecasting",
           "tasks": [
             {
               "id": "track-allowances-per-mou-and-contracts",
@@ -1411,40 +1936,28 @@
               "name": "Account for JV costs"
             }
           ],
-          "subgroup": null,
-          "isUtility": false
+          "subgroup": "utility",
+          "isUtility": true
         },
         {
-          "id": "cashflow",
+          "id": "closeout-cashflow",
           "name": "Cashflow",
           "tasks": [
             {
-              "id": "develop-preliminary-cashflow-projection",
-              "name": "Develop preliminary cashflow projection"
-            },
-            {
-              "id": "develop-design-phase-cashflow",
-              "name": "Develop design phase cashflow"
-            },
-            {
-              "id": "develop-construction-phase-cashflow",
-              "name": "Develop construction phase cashflow"
-            },
-            {
-              "id": "track-cashflow-across-entire-project-lifecycle",
-              "name": "Track cashflow across entire project lifecycle"
+              "id": "setup-cashflow-module",
+              "name": "Setup cashflow module"
             },
             {
               "id": "prepare-internal-monthly-cashflow-report",
               "name": "Prepare internal monthly cashflow report"
             }
           ],
-          "subgroup": null,
-          "isUtility": false
+          "subgroup": "utility",
+          "isUtility": true
         },
         {
-          "id": "permit-tracking",
-          "name": "Permit tracking",
+          "id": "closeout-permit-tracking",
+          "name": "Permit Tracking",
           "tasks": [
             {
               "id": "track-permit-status",
@@ -1453,14 +1966,49 @@
             {
               "id": "track-permit-fees",
               "name": "Track permit fees"
+            },
+            {
+              "id": "defferred-approval-permit-fees",
+              "name": "Defferred approval, permit fees"
             }
           ],
-          "subgroup": null,
-          "isUtility": false
+          "subgroup": "utility",
+          "isUtility": true
         },
         {
+          "id": "closeout-prepare-cpc-and-fcpc-documents",
+          "name": "Prepare CPC & FCPC documents",
+          "tasks": [
+            {
+              "id": "greater-than-or-less-than-500k-cpc-topline",
+              "name": "Greater than or less than 500K CPC topline"
+            },
+            {
+              "id": "greater-than-or-less-than-5m-fcpc-topline-and-resolution",
+              "name": "Greater than or less than 5M FCPC topline and resolution"
+            },
+            {
+              "id": "prepare-1-pager-for-resolution-preconstruction",
+              "name": "Prepare 1-pager for resolution preconstruction"
+            },
+            {
+              "id": "prepare-1-pager-for-resolution-full-funding",
+              "name": "Prepare 1-pager for resolution full funding"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        }
+      ],
+      "groups": []
+    },
+    {
+      "id": "post-closeout",
+      "name": "Post-Closeout",
+      "subcategories": [
+        {
           "id": "ada-tracking",
-          "name": "ADA tracking",
+          "name": "ADA Tracking",
           "tasks": [
             {
               "id": "track-ada-scope",
@@ -1475,9 +2023,37 @@
           "isUtility": false
         },
         {
-          "id": "prepare-board-reports",
-          "name": "Prepare Board Reports",
+          "id": "post-closeout-permit-tracking",
+          "name": "Permit Tracking",
           "tasks": [
+            {
+              "id": "track-permit-status",
+              "name": "Track permit status"
+            },
+            {
+              "id": "track-permit-fees",
+              "name": "Track permit fees"
+            },
+            {
+              "id": "defferred-approval-permit-fees",
+              "name": "Defferred approval, permit fees"
+            }
+          ],
+          "subgroup": "utility",
+          "isUtility": true
+        },
+        {
+          "id": "post-closeout-prepare-cpc-and-fcpc-documents",
+          "name": "Prepare CPC & FCPC documents",
+          "tasks": [
+            {
+              "id": "greater-than-or-less-than-500k-cpc-topline",
+              "name": "Greater than or less than 500K CPC topline"
+            },
+            {
+              "id": "greater-than-or-less-than-5m-fcpc-topline-and-resolution",
+              "name": "Greater than or less than 5M FCPC topline and resolution"
+            },
             {
               "id": "prepare-1-pager-for-resolution-preconstruction",
               "name": "Prepare 1-pager for resolution preconstruction"
@@ -1487,15 +2063,8 @@
               "name": "Prepare 1-pager for resolution full funding"
             }
           ],
-          "subgroup": null,
-          "isUtility": false
-        },
-        {
-          "id": "comments",
-          "name": "Comments",
-          "tasks": [],
-          "subgroup": null,
-          "isUtility": false
+          "subgroup": "utility",
+          "isUtility": true
         }
       ],
       "groups": []

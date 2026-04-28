@@ -3,7 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { FlowChart, FlowNode, FlowLine } from '@/components/FlowChart';
 import { useAppStore } from '@/store/useAppStore';
 import type { WorkflowData } from '@/types';
-import { getBudgetConfig, makeScopedCategoryId } from '@/lib/budgets';
+import { getBudgetConfig, getWorkflowDataForBudget, makeScopedCategoryId } from '@/lib/budgets';
 
 interface WorkflowPageProps {
   workflowData: WorkflowData;
@@ -14,13 +14,31 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
   const { budgetKey } = useParams<{ budgetKey: string }>();
   const { getCategoryProgress } = useAppStore();
   const budget = getBudgetConfig(budgetKey);
+  const budgetWorkflowData = getWorkflowDataForBudget(workflowData, budget.key);
 
   const getTotalTasks = (categoryId: string): number => {
-    const category = workflowData.categories.find((c) => c.id === categoryId);
+    const category = budgetWorkflowData.categories.find((c) => c.id === categoryId);
     if (!category) return 0;
     return category.subcategories.reduce((total, sub) => {
       return total + sub.tasks.length;
     }, 0);
+  };
+
+  const handleCategoryClick = (categoryId: string) => {
+    const category = budgetWorkflowData.categories.find((c) => c.id === categoryId);
+    if (!category) return;
+
+    const visibleSubcategories = category.subcategories.filter((sub) => !sub.isUtility);
+    const hasGroups = category.groups.length > 0;
+
+    if (!hasGroups && visibleSubcategories.length === 1) {
+      navigate(
+        `/budget/${budget.key}/category/${category.id}/subcategory/${visibleSubcategories[0].id}`
+      );
+      return;
+    }
+
+    navigate(`/budget/${budget.key}/category/${category.id}`);
   };
 
   return (
@@ -82,14 +100,14 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
         <div className="bg-gradient-to-br from-slate-50 to-white rounded-xl border-2 border-slate-200 p-4 shadow-lg overflow-hidden">
           <div className="overflow-x-auto -mx-4 px-0 scroll-smooth">
             <FlowChart>
-            {workflowData.categories.map((category, index) => {
+            {budgetWorkflowData.categories.map((category, index) => {
               const totalTasks = getTotalTasks(category.id);
               const progress = getCategoryProgress(makeScopedCategoryId(budget.key, category.id), totalTasks);
               const completedTasks = Math.round((progress / 100) * totalTasks);
 
               return (
                 <div key={category.id} className="flex items-center">
-                  <FlowNode onClick={() => navigate(`/budget/${budget.key}/category/${category.id}`)}>
+                  <FlowNode onClick={() => handleCategoryClick(category.id)}>
                     <Card className="w-64 border-2 border-primary transition-all duration-200 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:border-primary-dark hover:bg-[linear-gradient(180deg,rgba(153,27,27,0.05),rgba(153,27,27,0.02))] hover:shadow-none hover:ring-0 active:translate-y-0 active:scale-100 cursor-pointer group relative">
                       <CardContent className="p-6 pb-7 pt-8">
                         {/* Node Number */}

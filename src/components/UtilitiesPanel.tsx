@@ -38,7 +38,7 @@ export function UtilitiesPanel({ category, scopedCategoryId }: UtilitiesPanelPro
               <AccordionItem key={subcategory.id} value={subcategory.id} className="border-none">
                 <AccordionTrigger className="py-3 hover:no-underline">
                   <div className="flex items-center justify-between w-full pr-4">
-                    <span className="font-semibold text-sm text-slate-900">
+                    <span className="max-w-[220px] text-left font-semibold text-sm leading-snug text-slate-900">
                       {subcategory.name}
                     </span>
                     <span className="text-xs text-slate-500">

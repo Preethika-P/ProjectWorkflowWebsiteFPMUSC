@@ -9,7 +9,7 @@ import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 import type { WorkflowData } from '@/types';
 import { cn } from '@/lib/utils';
-import { getBudgetConfig, makeScopedCategoryId } from '@/lib/budgets';
+import { getBudgetConfig, getWorkflowDataForBudget, makeScopedCategoryId } from '@/lib/budgets';
 
 interface CategoryPageProps {
   workflowData: WorkflowData;
@@ -27,15 +27,16 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
     progress,
   } = useAppStore();
 
-  const category = workflowData.categories.find((c) => c.id === categoryId);
+  const budget = getBudgetConfig(budgetKey);
+  const budgetWorkflowData = getWorkflowDataForBudget(workflowData, budget.key);
+  const category = budgetWorkflowData.categories.find((c) => c.id === categoryId);
 
   if (!category) {
     return <div>Category not found</div>;
   }
 
-  const budget = getBudgetConfig(budgetKey);
   const scopedCategoryId = makeScopedCategoryId(budget.key, category.id);
-  const categoryNumber = workflowData.categories.findIndex((c) => c.id === category.id) + 1;
+  const categoryNumber = budgetWorkflowData.categories.findIndex((c) => c.id === category.id) + 1;
 
   const categoryExpandedGroups = new Set(expandedGroups[scopedCategoryId] || []);
 
@@ -62,6 +63,35 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
       }
     });
     markAllTasksComplete(scopedCategoryId, subcategory.id, taskIds);
+  };
+
+  const getGroupDisplayName = (group: { subgroup: string }) => {
+    if (
+      (category.id === 'construction' || category.id === 'project-initiation') &&
+      group.subgroup === 'A'
+    ) {
+      return 'Initial Scoping';
+    }
+
+    if (category.id === 'bid-and-award' && group.subgroup === 'A') {
+      return 'Construction Procurement';
+    }
+
+    if (category.id === 'design-and-permit') {
+      if (group.subgroup === 'A') {
+        return 'Initiation & Schematic Design';
+      }
+
+      if (group.subgroup === 'B') {
+        return 'DD & CD';
+      }
+
+      if (group.subgroup === 'C') {
+        return 'Design Team Management';
+      }
+    }
+
+    return `Group ${group.subgroup}`;
   };
 
   const flowItems: Array<{
@@ -152,7 +182,7 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
 
                                 <div className="mt-2 text-center">
                                   <h3 className="font-semibold text-sm text-slate-900 mb-2 line-clamp-2 group-hover:text-primary">
-                                    Group {group.subgroup}
+                                    {getGroupDisplayName(group)}
                                   </h3>
                                   <p className="text-xs text-slate-500 mb-3">
                                     {groupSubcategories.length} items
@@ -267,6 +297,14 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
 
                 return (
                   <div key={`expanded-${group.id}`} className="mt-4 pt-4 border-t-2 border-slate-200">
+                    <div className="mb-3 flex items-center gap-3 px-4">
+                      <div className="inline-flex h-8 min-w-8 items-center justify-center rounded-full bg-primary px-2 text-sm font-bold text-white shadow-sm">
+                        {group.subgroup}
+                      </div>
+                      <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-semibold text-primary">
+                        {getGroupDisplayName(group)}
+                      </div>
+                    </div>
                     <div className="overflow-x-auto -mx-4 px-0 scroll-smooth">
                       <FlowChart className="pt-8 pb-4">
                         {groupSubcategories.map(

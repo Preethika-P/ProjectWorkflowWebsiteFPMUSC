@@ -2,12 +2,13 @@ import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Checklist } from '@/components/Checklist';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { ReferenceDocumentsPanel } from '@/components/ReferenceDocumentsPanel';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 import { useToast } from '@/components/ui/use-toast';
 import type { WorkflowData } from '@/types';
-import { getBudgetConfig, makeScopedCategoryId } from '@/lib/budgets';
+import { getBudgetConfig, getWorkflowDataForBudget, makeScopedCategoryId } from '@/lib/budgets';
 
 interface SubcategoryPageProps {
   workflowData: WorkflowData;
@@ -23,8 +24,9 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
   const { setLastVisited, getSubcategoryProgress } = useAppStore();
   const { toast } = useToast();
   const budget = getBudgetConfig(budgetKey);
+  const budgetWorkflowData = getWorkflowDataForBudget(workflowData, budget.key);
 
-  const category = workflowData.categories.find((c) => c.id === categoryId);
+  const category = budgetWorkflowData.categories.find((c) => c.id === categoryId);
   const subcategory = category?.subcategories.find(
     (s) => s.id === subcategoryId
   );
@@ -93,7 +95,7 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       {/* Header */}
       <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-10 shadow-sm print:hidden">
-        <div className="mx-auto max-w-5xl px-6 py-6">
+        <div className="mx-auto max-w-7xl px-6 py-6">
           <div className="mb-4">
             <Breadcrumbs
               items={[
@@ -120,8 +122,15 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
       </header>
 
       {/* Main Content */}
-      <main className="mx-auto max-w-5xl px-6 py-8 print:p-0">
-        <Checklist categoryId={scopedCategoryId} subcategory={subcategory} />
+      <main className="mx-auto max-w-7xl px-6 py-8 print:p-0">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+          <Checklist categoryId={scopedCategoryId} subcategory={subcategory} />
+          {subcategory.documents && subcategory.documents.length > 0 ? (
+            <aside className="print:hidden">
+              <ReferenceDocumentsPanel documents={subcategory.documents} />
+            </aside>
+          ) : null}
+        </div>
       </main>
     </div>
   );

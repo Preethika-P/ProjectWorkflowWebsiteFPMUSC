@@ -3,10 +3,18 @@ export interface Task {
   name: string;
 }
 
+export interface ReferenceDocument {
+  id: string;
+  name: string;
+  url: string;
+  description?: string;
+}
+
 export interface Subcategory {
   id: string;
   name: string;
   tasks: Task[];
+  documents?: ReferenceDocument[];
   subgroup?: string | null;
   isUtility: boolean;
 }
@@ -28,4 +36,3 @@ export interface WorkflowData {
   budgetRange: string;
   categories: Category[];
 }
-

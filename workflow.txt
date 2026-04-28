@@ -19,27 +19,27 @@
     *   Identify unique conditions
     *   Identify known field conditions
     *   Account for OCIP
-    *   Account for Board requirements
+    *   Account for FCPC and CPC
     *   Account for BIM requirements
 *   **Sub-category: Prelim Schedule** (subgroup A)
-    *   Prepare template MS schedule with milestones
+    *   Prepare template schedule with milestones
     *   Include Board milestones
     *   Include OSHPD milestones
     *   Include BIM milestones
+    *   Include raindays
+    *   SC Milestone
 *   **Sub-category: Prepare Feasibility RFP**
     *   Include deliverables
     *   Include selection criteria
+    *   Include detailed scope with sketches and/or program information
     *   Include score card
-*   **Sub-category: Evaluate Feasibility**
+*   **Sub-category: Evaluate Feasibility Study**
     *   Identify stakeholders
-    *   Evaluate cost
-    *   Evaluate schedule
-    *   Evaluate scope
-    *   Compare with preliminary scoping
+    *   Evaluate scope and compare with preliminary scoping
     *   Assess risks
     *   Assess budget
     *   Assess schedule alignment
-*   **Sub-category: Determine project delivery method**
+*   **Sub-category: Determine Project Delivery Method**
     *   Evaluate DBB (Design-Bid-Build)
     *   Evaluate DB (Design-Build)
     *   Evaluate CMAR (Construction Manager at Risk)
@@ -47,7 +47,8 @@
     *   Discuss pros and cons with contracts team
     *   Discuss pros and cons with procurement team
 *   **Sub-category: Prepare Design RFP**
-    *   Include deliverables
+    *   Identify specific deliverables
+    *   Include detailed scope with sketches and/or program information
     *   Include selection criteria: QA/QC
     *   Include selection criteria: experience
     *   Include selection criteria: TVD management
@@ -55,11 +56,11 @@
     *   Include selection criteria: level of effort
     *   Include selection criteria: BIM
     *   Include score card
-*   **Sub-category: Evaluate response /revised schedule and budget to baseline**
+*   **Sub-category: Evaluate Response /Revised Schedule and Budget to Baseline**
     *   Validate design timelines
     *   Validate permit timelines
     *   Validate construction timelines
-    *   Validate scope alignment
+    *   Validate scope and basic services alignment
     *   Validate schedule alignment
     *   Validate risk budgets
     *   Validate OCIP requirements
@@ -71,57 +72,87 @@
     *   Include schedule
     *   Include sketches
     *   Include budget
-*   **Sub-category: Prepare consultant contracts**
+    *   CPC or FCPC approval
+*   **Sub-category: Prepare Consultant Contracts**
     *   Prepare checklist
     *   Define scope inclusions
     *   List services awarded by phase
     *   Define payment milestones and deliverables
     *   Include reimbursables
     *   Collect Certificate of Insurance (COI)
-    *   Set schedule completion date
+    *   Set start and end schedule completion dates
     *   Include rate sheets
+*   **Sub-category: Ebuilder Workflow** (utility)
+    *   Process invoices in Ebuilder
+    *   Handle budget modifications in Ebuilder
+    *   Manage work orders (WO) in Ebuilder
+    *   Contract Requirements Process (CRP)
+*   **Sub-category: Ebuilder Forecasting** (utility)
+    *   Track allowances per MOU and contracts
+    *   Include PM fee in forecast
+    *   Forecast construction risks
+    *   Incorporate design ASRs
+    *   Forecast permitting fees
+    *   Account for JV costs
+*   **Sub-category: Cashflow** (utility)
+    *   Setup cashflow module
+    *   Prepare internal monthly cashflow report
+*   **Sub-category: Permit Tracking** (utility)
+    *   Track permit status
+    *   Track permit fees
+    *   Defferred approval, permit fees
+*   **Sub-category: Prepare CPC & FCPC documents** (utility)
+    *   Greater than or less than 500K CPC topline
+    *   Greater than or less than 5M FCPC topline and resolution
+    *   Prepare 1-pager for resolution preconstruction
+    *   Prepare 1-pager for resolution full funding
 
 #### Category: Design and Permit
 *   **Sub-category: Design Kick Off** (subgroup A)
+    *   Use Kickoff Agenda
+    *   Review target budget
     *   Review contract
     *   Review scope
     *   Review schedule
     *   Review field investigation
     *   Review QA/QC plan
     *   Review BIM requirements
-*   **Sub-category: Prepare & evaluate ASR**
-    *   Prepare ASR
-    *   Evaluate validity of ASR
-    *   Evaluate fairness of ASR
 *   **Sub-category: Field Investigation** (subgroup A)
     *   Coordinate field visits
     *   Reference as-builts
     *   Reference CADs
     *   Reference models
-*   **Sub-category: Review design & MEP narrative** (subgroup A)
+*   **Sub-category: Review SD Design & MEP Narrative** (subgroup A)
     *   Review system descriptions from FMS and stakeholders
     *   Review material descriptions from FMS and stakeholders
     *   Review functional descriptions from FMS and stakeholders
     *   Review redundancies and contingencies
     *   Assess alignment with feasibility study
-*   **Sub-category: Evaluate against BOD** (subgroup B)
-    *   Evaluate with FMS input against BOD
-    *   Evaluate with stakeholder input against BOD
-*   **Sub-category: Decision and risk matrices** (subgroup B)
-    *   Track decision matrix
-    *   Track risk matrix
+*   **Sub-category: Evaluate against FDG** (subgroup B)
+    *   Evaluate with FMS input against FDG
+    *   Evaluate with stakeholder input against FDG
+*   **Sub-category: Decision and Risk Matrices** (subgroup B)
+    *   Track decision matrix throughout design
+    *   Track risk matrix throughout design
     *   Review decision matrix with client and stakeholders
     *   Review risk matrix with client and stakeholders
-*   **Sub-category: Sustainablility goals** (subgroup A)
+*   **Sub-category: Sustainability Goals** (subgroup A)
+    *   Identify sustainability goals using SDCG checklist
     *   Track sustainability goals
     *   Review sustainability goals with client and stakeholders
-*   **Sub-category: Design peer review (FMS and/or outside)** (subgroup B)
+*   **Sub-category: Other Consultants** (subgroup A)
+    *   Coordinate with Commissioning (Cx) consultant
+    *   Coordinate with Envelope consultant
+    *   Coordinate with Acoustics consultant
+    *   Coordinate with Hazmat consultant
+    *   Coordinate with Peer Review consultant
+*   **Sub-category: Design Peer Review (FMS and/or outside)** (subgroup B)
     *   Identify scope for peer review
     *   Identify SD phase for peer review
     *   Identify DD phase for peer review
     *   Identify CD phase for peer review
     *   Identify Permit phase for peer review
-*   **Sub-category: Constructability review 50% DD set** (subgroup B)
+*   **Sub-category: Constructability Review 50% DD Set** (subgroup B)
     *   Review design details
     *   Review building envelope
     *   Review structural elements
@@ -137,13 +168,7 @@
     *   Identify OFVI (Owner-Furnished, Vendor-Installed) items
     *   Identify OFCI (Owner-Furnished, Contractor-Installed) items
     *   Review low voltage handoffs
-    *   Develop responsibility matrix
-*   **Sub-category: Other consultants** (subgroup C)
-    *   Coordinate with Commissioning (Cx) consultant
-    *   Coordinate with Envelope consultant
-    *   Coordinate with Acoustics consultant
-    *   Coordinate with Hazmat consultant
-    *   Coordinate with Peer Review consultant
+    *   Develop subcontractor handoff responsibility matrix
 *   **Sub-category: Design Invoices** (subgroup C)
     *   Track invoices per milestone deliverables
     *   Verify invoices are on schedule
@@ -153,24 +178,51 @@
     *   Track LADBS backcheck status
     *   Track OSHPD backcheck status
     *   Validate permit schedule ETA
+*   **Sub-category: Prepare & Evaluate ASR** (subgroup C)
+    *   Prepare ASR
+    *   Evaluate validity of ASR
+    *   Evaluate fairness of ASR
+*   **Sub-category: Ebuilder Workflow** (utility)
+    *   Process invoices in Ebuilder
+    *   Handle budget modifications in Ebuilder
+    *   Manage work orders (WO) in Ebuilder
+    *   Contract Requirements Process (CRP)
+*   **Sub-category: Ebuilder Forecasting** (utility)
+    *   Track allowances per MOU and contracts
+    *   Include PM fee in forecast
+    *   Forecast construction risks
+    *   Incorporate design ASRs
+    *   Forecast permitting fees
+    *   Account for JV costs
+*   **Sub-category: Cashflow** (utility)
+    *   Setup cashflow module
+    *   Prepare internal monthly cashflow report
+*   **Sub-category: Permit Tracking** (utility)
+    *   Track permit status
+    *   Track permit fees
+    *   Defferred approval, permit fees
+*   **Sub-category: Prepare CPC & FCPC documents** (utility)
+    *   Greater than or less than 500K CPC topline
+    *   Greater than or less than 5M FCPC topline and resolution
+    *   Prepare 1-pager for resolution preconstruction
+    *   Prepare 1-pager for resolution full funding
 
 #### Category: Bid and Award
-*   **Sub-category: Prepare construction bidding documents** (subgroup A)
+*   **Sub-category: Prepare Construction Bidding Documents** (subgroup A)
     *   Qualify bid list
     *   Prepare site logistics plan
-    *   Include ICRA requirements
+    *   Include ICRA/desk control requirements
     *   Enumerate drawings
     *   Enumerate specifications
-    *   Draft RFP letter
-    *   Identify specific scope and deliverables
+    *   Identify Supplemental conditions
+    *   Identify specific scope deliverables such as cashflow projections, progress reports, subcontractor qualification criteria, project schedule, PM and superintendent experience qualifications
     *   Include cashflow projections
     *   Include monthly progress reports
     *   Define subcontractor qualification criteria
     *   Include project schedule
     *   Attach OCIP manual
-    *   Include COVID requirements
     *   Include contractor handbook
-*   **Sub-category: Review and level set bid responses** (subgroup A)
+*   **Sub-category: Review and Level Set Bid Responses** (subgroup A)
     *   Verify SOV includes all trades in scope
     *   Verify alternates are included
     *   Verify unit costs are provided
@@ -181,11 +233,12 @@
     *   Check attic stock requirements
     *   Confirm off-hours work requirements
     *   Confirm working hours requirements
-*   **Sub-category: Review and level set bid schedules** (subgroup A)
+*   **Sub-category: Review and Level Set Bid Schedules** (subgroup A)
     *   Review detailed schedule with WBS
     *   Check sequencing with major milestones
     *   Verify long lead procurement is included
     *   Verify inspections are scheduled
+    *   Review SOV for cost deltas
     *   Verify testing is scheduled
     *   Include demolition activities
     *   Review MEP overhead (OH) schedule
@@ -202,20 +255,49 @@
     *   Account for holidays
     *   Confirm off-hours work
     *   Confirm working hours
-*   **Sub-category: Prepare full funding MOU**
+    *   Bid clarification questions
+*   **Sub-category: Prepare Full Funding MOU**
     *   Define inclusions
     *   Define exclusions
     *   Identify risks
     *   Include project schedule
     *   Include sketches
     *   Include budget
-*   **Sub-category: Prepare costruction contracts**
+    *   Include CPC or FCPC approvals
+*   **Sub-category: Prepare Construction Contracts**
+    *   Start contractor CRP request
     *   Prepare contract for contractor
     *   Prepare contracts for vendors
     *   Prepare contracts for inspections
+    *   Other vendor ERP request
+*   **Sub-category: Ebuilder Workflow** (utility)
+    *   Process invoices in Ebuilder
+    *   Handle budget modifications in Ebuilder
+    *   Manage work orders (WO) in Ebuilder
+    *   Contract Requirements Process (CRP)
+*   **Sub-category: Ebuilder Forecasting** (utility)
+    *   Track allowances per MOU and contracts
+    *   Include PM fee in forecast
+    *   Forecast construction risks
+    *   Incorporate design ASRs
+    *   Forecast permitting fees
+    *   Account for JV costs
+*   **Sub-category: Cashflow** (utility)
+    *   Setup cashflow module
+    *   Prepare internal monthly cashflow report
+*   **Sub-category: Permit Tracking** (utility)
+    *   Track permit status
+    *   Track permit fees
+    *   Defferred approval, permit fees
+*   **Sub-category: Prepare CPC & FCPC documents** (utility)
+    *   Greater than or less than 500K CPC topline
+    *   Greater than or less than 5M FCPC topline and resolution
+    *   Prepare 1-pager for resolution preconstruction
+    *   Prepare 1-pager for resolution full funding
 
 #### Category: Construction
-*   **Sub-category: Construction KO** (subgroup A)
+*   **Sub-category: Construction Kick Off** (subgroup A)
+    *   Document: Construction Kick-Off Meeting Agenda (/documents/construction-kick-off-meeting-agenda.doc)
     *   Confirm contact list
     *   Review safety protocols
     *   Review site logistics
@@ -229,19 +311,19 @@
     *   Schedule trade preconstruction meetings
     *   Schedule QC preinstallation meetings
 *   **Sub-category: OAC** (subgroup A)
+    *   Document: Construction OAC Meeting Agenda (/documents/construction-oac-meeting-agenda.doc)
     *   Prepare OAC meeting agenda
     *   Review meeting minutes (MM)
     *   Engage stakeholders
     *   Track critical path items
-    *   Review TIO (Time Impacted Operations)
-*   **Sub-category: Job walks** (subgroup A)
+    *   Review Review Testing Inspections and Observations
+*   **Sub-category: Job Walks** (subgroup A)
     *   Verify demo safe-off procedures
     *   Review safety measures
-    *   Check COVID compliance
     *   Verify hot work protocols
     *   Review dust, odor, and noise control measures
     *   Discuss open RFIs
-    *   Review schedule alignment
+    *   Review schedule progress
     *   Confirm trades on site
     *   Assess staging areas
 *   **Sub-category: Work Orders** (utility)
@@ -267,7 +349,34 @@
     *   Identify BIM facilitator
     *   Set BIM schedule milestones
     *   Establish BIM meeting cadence
+*   **Sub-category: Ebuilder Workflow** (utility)
+    *   Manage RFIs in Ebuilder
+    *   Process invoices in Ebuilder
+    *   Handle budget modifications in Ebuilder
+    *   Track submittals in Ebuilder
+    *   Manage work orders (WO) in Ebuilder
+    *   Contract Requirements Process (CRP)
+*   **Sub-category: Ebuilder Forecasting** (utility)
+    *   Track allowances per MOU and contracts
+    *   Include PM fee in forecast
+    *   Forecast construction risks
+    *   Incorporate design ASRs
+    *   Forecast permitting fees
+    *   Account for JV costs
+*   **Sub-category: Cashflow** (utility)
+    *   Setup cashflow module
+    *   Prepare internal monthly cashflow report
+*   **Sub-category: Permit Tracking** (utility)
+    *   Track permit status
+    *   Track permit fees
+    *   Defferred approval, permit fees
+*   **Sub-category: Prepare CPC & FCPC documents** (utility)
+    *   Greater than or less than 500K CPC topline
+    *   Greater than or less than 5M FCPC topline and resolution
+    *   Prepare 1-pager for resolution preconstruction
+    *   Prepare 1-pager for resolution full funding
 *   **Sub-category: Testing and Cx** (subgroup A)
+    *   Prefunctional Testing Forms
     *   Conduct preliminary testing
     *   Perform equipment start-up
     *   Troubleshoot system issues
@@ -277,45 +386,54 @@
     *   Identify plumbing (P) equipment
     *   Identify electrical (E) equipment
 
-#### Category: Administrative
-*   **Sub-category: Closout**
+#### Category: Closeout
+*   **Sub-category: Closeout**
     *   Identify substantial completion (SC) date
     *   Identify beneficial use date
     *   Identify beneficial occupancy date
     *   Collect operations and maintenance (OM) manuals
+    *   Keys
     *   Collect warranties and guarantees
     *   Verify as-builts are complete
     *   Verify record drawings are complete
     *   Collect attic stock
     *   Gather subcontractor contact information
     *   Confirm all permits are signed off
-*   **Sub-category: Ebuilder workflow**
-    *   Manage RFIs in Ebuilder
+*   **Sub-category: Ebuilder Workflow** (utility)
     *   Process invoices in Ebuilder
     *   Handle budget modifications in Ebuilder
-    *   Track submittals in Ebuilder
     *   Manage work orders (WO) in Ebuilder
-*   **Sub-category: Ebuilder forecasting**
+    *   Contract Requirements Process (CRP)
+*   **Sub-category: Ebuilder Forecasting** (utility)
     *   Track allowances per MOU and contracts
     *   Include PM fee in forecast
     *   Forecast construction risks
     *   Incorporate design ASRs
     *   Forecast permitting fees
     *   Account for JV costs
-*   **Sub-category: Cashflow**
-    *   Develop preliminary cashflow projection
-    *   Develop design phase cashflow
-    *   Develop construction phase cashflow
-    *   Track cashflow across entire project lifecycle
+*   **Sub-category: Cashflow** (utility)
+    *   Setup cashflow module
     *   Prepare internal monthly cashflow report
-*   **Sub-category: Permit tracking**
+*   **Sub-category: Permit Tracking** (utility)
     *   Track permit status
     *   Track permit fees
-*   **Sub-category: ADA tracking**
-    *   Track ADA scope
-    *   Break out ADA-related costs
-*   **Sub-category: Prepare Board Reports**
+    *   Defferred approval, permit fees
+*   **Sub-category: Prepare CPC & FCPC documents** (utility)
+    *   Greater than or less than 500K CPC topline
+    *   Greater than or less than 5M FCPC topline and resolution
     *   Prepare 1-pager for resolution preconstruction
     *   Prepare 1-pager for resolution full funding
-*   **Sub-category: Comments**
-    *   *No tasks listed*
+
+#### Category: Post-Closeout
+*   **Sub-category: ADA Tracking**
+    *   Track ADA scope
+    *   Break out ADA-related costs
+*   **Sub-category: Permit Tracking** (utility)
+    *   Track permit status
+    *   Track permit fees
+    *   Defferred approval, permit fees
+*   **Sub-category: Prepare CPC & FCPC documents** (utility)
+    *   Greater than or less than 500K CPC topline
+    *   Greater than or less than 5M FCPC topline and resolution
+    *   Prepare 1-pager for resolution preconstruction
+    *   Prepare 1-pager for resolution full funding
