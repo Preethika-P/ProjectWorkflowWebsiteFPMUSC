@@ -12,16 +12,24 @@ interface WorkflowPageProps {
 export function WorkflowPage({ workflowData }: WorkflowPageProps) {
   const navigate = useNavigate();
   const { budgetKey } = useParams<{ budgetKey: string }>();
-  const { getCategoryProgress } = useAppStore();
+  const { getCategoryProgress, progress: storedProgress } = useAppStore();
   const budget = getBudgetConfig(budgetKey);
   const budgetWorkflowData = getWorkflowDataForBudget(workflowData, budget.key);
 
-  const getTotalTasks = (categoryId: string): number => {
-    const category = budgetWorkflowData.categories.find((c) => c.id === categoryId);
-    if (!category) return 0;
-    return category.subcategories.reduce((total, sub) => {
-      return total + sub.tasks.length;
-    }, 0);
+  const getCategoryTaskCounts = (scopedCategoryId: string, category: WorkflowData['categories'][0]) => {
+    const categoryProgress = storedProgress[scopedCategoryId] || {};
+    let completedTasks = 0;
+    let totalTasks = 0;
+
+    category.subcategories.forEach((subcategory) => {
+      const subcategoryProgress = categoryProgress[subcategory.id] || {};
+      totalTasks += subcategory.tasks.length;
+      completedTasks += subcategory.tasks.filter(
+        (task) => subcategoryProgress[task.id] === true
+      ).length;
+    });
+
+    return { completedTasks, totalTasks };
   };
 
   const handleCategoryClick = (categoryId: string) => {
@@ -29,9 +37,10 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
     if (!category) return;
 
     const visibleSubcategories = category.subcategories.filter((sub) => !sub.isUtility);
+    const utilitySubcategories = category.subcategories.filter((sub) => sub.isUtility);
     const hasGroups = category.groups.length > 0;
 
-    if (!hasGroups && visibleSubcategories.length === 1) {
+    if (!hasGroups && visibleSubcategories.length === 1 && utilitySubcategories.length === 0) {
       navigate(
         `/budget/${budget.key}/category/${category.id}/subcategory/${visibleSubcategories[0].id}`
       );
@@ -101,9 +110,12 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
           <div className="overflow-x-auto -mx-4 px-0 scroll-smooth">
             <FlowChart>
             {budgetWorkflowData.categories.map((category, index) => {
-              const totalTasks = getTotalTasks(category.id);
-              const progress = getCategoryProgress(makeScopedCategoryId(budget.key, category.id), totalTasks);
-              const completedTasks = Math.round((progress / 100) * totalTasks);
+              const scopedCategoryId = makeScopedCategoryId(budget.key, category.id);
+              const { completedTasks, totalTasks } = getCategoryTaskCounts(scopedCategoryId, category);
+              const progress = getCategoryProgress(
+                scopedCategoryId,
+                category.subcategories
+              );
 
               return (
                 <div key={category.id} className="flex items-center">
@@ -121,7 +133,8 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
                             {category.name}
                           </h3>
                           <p className="text-xs text-slate-500 mb-4">
-                            {category.subcategories.filter(s => !s.isUtility).length} subcategories
+                            {category.subcategories.length}{' '}
+                            {category.subcategories.length === 1 ? 'subcategory' : 'subcategories'}
                           </p>
 
                           {/* Progress */}
@@ -145,7 +158,7 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
                     </Card>
                   </FlowNode>
 
-                  {index < workflowData.categories.length - 1 && (
+                  {index < budgetWorkflowData.categories.length - 1 && (
                     <FlowLine />
                   )}
                 </div>

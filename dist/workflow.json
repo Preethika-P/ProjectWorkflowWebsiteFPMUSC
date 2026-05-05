@@ -126,58 +126,6 @@
           "isUtility": false
         },
         {
-          "id": "prepare-feasibility-rfp",
-          "name": "Prepare Feasibility RFP",
-          "tasks": [
-            {
-              "id": "include-deliverables",
-              "name": "Include deliverables"
-            },
-            {
-              "id": "include-selection-criteria",
-              "name": "Include selection criteria"
-            },
-            {
-              "id": "include-detailed-scope-with-sketches-andor-program-information",
-              "name": "Include detailed scope with sketches and/or program information"
-            },
-            {
-              "id": "include-score-card",
-              "name": "Include score card"
-            }
-          ],
-          "subgroup": null,
-          "isUtility": false
-        },
-        {
-          "id": "evaluate-feasibility",
-          "name": "Evaluate Feasibility Study",
-          "tasks": [
-            {
-              "id": "identify-stakeholders",
-              "name": "Identify stakeholders"
-            },
-            {
-              "id": "evaluate-scope",
-              "name": "Evaluate scope and compare with preliminary scoping"
-            },
-            {
-              "id": "assess-risks",
-              "name": "Assess risks"
-            },
-            {
-              "id": "assess-budget",
-              "name": "Assess budget"
-            },
-            {
-              "id": "assess-schedule-alignment",
-              "name": "Assess schedule alignment"
-            }
-          ],
-          "subgroup": null,
-          "isUtility": false
-        },
-        {
           "id": "determine-project-delivery-method",
           "name": "Determine Project Delivery Method",
           "tasks": [
@@ -255,7 +203,7 @@
         },
         {
           "id": "evaluate-response-revised-schedule-and-budget-to-baseline",
-          "name": "Evaluate Response /Revised Schedule and Budget to Baseline",
+          "name": "Evaluate Response / Revised Schedule and Budget to Baseline",
           "tasks": [
             {
               "id": "validate-design-timelines",
@@ -499,6 +447,65 @@
       ]
     },
     {
+      "id": "feasibility",
+      "name": "Feasibility",
+      "subcategories": [
+        {
+          "id": "prepare-feasibility-rfp",
+          "name": "Prepare Feasibility RFP",
+          "tasks": [
+            {
+              "id": "include-deliverables",
+              "name": "Include deliverables"
+            },
+            {
+              "id": "include-selection-criteria",
+              "name": "Include selection criteria"
+            },
+            {
+              "id": "include-detailed-scope-with-sketches-andor-program-information",
+              "name": "Include detailed scope with sketches and/or program information"
+            },
+            {
+              "id": "include-score-card",
+              "name": "Include score card"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        },
+        {
+          "id": "evaluate-feasibility",
+          "name": "Evaluate Feasibility Study",
+          "tasks": [
+            {
+              "id": "identify-stakeholders",
+              "name": "Identify stakeholders"
+            },
+            {
+              "id": "evaluate-scope",
+              "name": "Evaluate scope and compare with preliminary scoping"
+            },
+            {
+              "id": "assess-risks",
+              "name": "Assess risks"
+            },
+            {
+              "id": "assess-budget",
+              "name": "Assess budget"
+            },
+            {
+              "id": "assess-schedule-alignment",
+              "name": "Assess schedule alignment"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        }
+      ],
+      "groups": []
+    },
+    {
       "id": "design-and-permit",
       "name": "Design and Permit",
       "subcategories": [
@@ -540,7 +547,14 @@
             }
           ],
           "subgroup": "A",
-          "isUtility": false
+          "isUtility": false,
+          "documents": [
+            {
+              "id": "design-and-permit-reference-document",
+              "name": "Master Architect's Agreement",
+              "url": "/documents/design-and-permit-reference-document.pdf"
+            }
+          ]
         },
         {
           "id": "prepare-evaluate-asr",
@@ -584,7 +598,14 @@
             }
           ],
           "subgroup": "A",
-          "isUtility": false
+          "isUtility": false,
+          "documents": [
+            {
+              "id": "design-and-permit-reference-document",
+              "name": "Master Architect's Agreement",
+              "url": "/documents/design-and-permit-reference-document.pdf"
+            }
+          ]
         },
         {
           "id": "review-design-mep-narrative",
@@ -612,7 +633,14 @@
             }
           ],
           "subgroup": "A",
-          "isUtility": false
+          "isUtility": false,
+          "documents": [
+            {
+              "id": "design-and-permit-reference-document",
+              "name": "Master Architect's Agreement",
+              "url": "/documents/design-and-permit-reference-document.pdf"
+            }
+          ]
         },
         {
           "id": "evaluate-against-bod",
@@ -628,7 +656,14 @@
             }
           ],
           "subgroup": "B",
-          "isUtility": false
+          "isUtility": false,
+          "documents": [
+            {
+              "id": "design-and-permit-reference-document",
+              "name": "Master Architect's Agreement",
+              "url": "/documents/design-and-permit-reference-document.pdf"
+            }
+          ]
         },
         {
           "id": "decision-and-risk-matrices",
@@ -652,7 +687,14 @@
             }
           ],
           "subgroup": "B",
-          "isUtility": false
+          "isUtility": false,
+          "documents": [
+            {
+              "id": "design-and-permit-reference-document",
+              "name": "Master Architect's Agreement",
+              "url": "/documents/design-and-permit-reference-document.pdf"
+            }
+          ]
         },
         {
           "id": "sustainablility-goals",
@@ -672,7 +714,14 @@
             }
           ],
           "subgroup": "A",
-          "isUtility": false
+          "isUtility": false,
+          "documents": [
+            {
+              "id": "design-and-permit-reference-document",
+              "name": "Master Architect's Agreement",
+              "url": "/documents/design-and-permit-reference-document.pdf"
+            }
+          ]
         },
         {
           "id": "design-peer-review-fms-andor-outside",
@@ -700,7 +749,14 @@
             }
           ],
           "subgroup": "B",
-          "isUtility": false
+          "isUtility": false,
+          "documents": [
+            {
+              "id": "design-and-permit-reference-document",
+              "name": "Master Architect's Agreement",
+              "url": "/documents/design-and-permit-reference-document.pdf"
+            }
+          ]
         },
         {
           "id": "constructability-review-50-dd-set",
@@ -772,7 +828,14 @@
             }
           ],
           "subgroup": "B",
-          "isUtility": false
+          "isUtility": false,
+          "documents": [
+            {
+              "id": "design-and-permit-reference-document",
+              "name": "Master Architect's Agreement",
+              "url": "/documents/design-and-permit-reference-document.pdf"
+            }
+          ]
         },
         {
           "id": "other-consultants",
@@ -800,7 +863,14 @@
             }
           ],
           "subgroup": "A",
-          "isUtility": false
+          "isUtility": false,
+          "documents": [
+            {
+              "id": "design-and-permit-reference-document",
+              "name": "Master Architect's Agreement",
+              "url": "/documents/design-and-permit-reference-document.pdf"
+            }
+          ]
         },
         {
           "id": "design-invoices",
@@ -993,6 +1063,13 @@
             11,
             1
           ]
+        }
+      ],
+      "documents": [
+        {
+          "id": "design-and-permit-reference-document",
+          "name": "Master Architect's Agreement",
+          "url": "/documents/design-and-permit-reference-document.pdf"
         }
       ]
     },
@@ -1262,7 +1339,7 @@
             },
             {
               "id": "other-vendor-erp-request",
-              "name": "Other vendor ERP request"
+              "name": "Other vendor CRP request"
             }
           ],
           "subgroup": null,
@@ -1466,6 +1543,38 @@
           "isUtility": false
         },
         {
+          "id": "long-lead-procurement",
+          "name": "Long Lead Procurement",
+          "tasks": [
+            {
+              "id": "identify-long-lead-equipment-and-materials",
+              "name": "Identify long-lead equipment and materials"
+            },
+            {
+              "id": "confirm-procurement-responsibilities",
+              "name": "Confirm procurement responsibilities"
+            },
+            {
+              "id": "review-submittal-and-approval-timelines",
+              "name": "Review submittal and approval timelines"
+            },
+            {
+              "id": "track-fabrication-and-delivery-dates",
+              "name": "Track fabrication and delivery dates"
+            },
+            {
+              "id": "coordinate-storage-and-site-delivery-requirements",
+              "name": "Coordinate storage and site delivery requirements"
+            },
+            {
+              "id": "identify-schedule-risks-and-mitigation-actions",
+              "name": "Identify schedule risks and mitigation actions"
+            }
+          ],
+          "subgroup": "A",
+          "isUtility": false
+        },
+        {
           "id": "oac",
           "name": "OAC",
           "documents": [
@@ -1498,7 +1607,7 @@
               "name": "Review Review Testing Inspections and Observations"
             }
           ],
-          "subgroup": "A",
+          "subgroup": "B",
           "isUtility": false
         },
         {
@@ -1538,7 +1647,7 @@
               "name": "Assess staging areas"
             }
           ],
-          "subgroup": "A",
+          "subgroup": "B",
           "isUtility": false
         },
         {
@@ -1770,8 +1879,36 @@
           "isUtility": true
         },
         {
-          "id": "testing-and-cx",
-          "name": "Testing and Cx",
+          "id": "testing",
+          "name": "Testing",
+          "tasks": [
+            {
+              "id": "identify-testing-requirements-and-responsible-parties",
+              "name": "Identify testing requirements and responsible parties"
+            },
+            {
+              "id": "confirm-testing-schedule-and-milestones",
+              "name": "Confirm testing schedule and milestones"
+            },
+            {
+              "id": "coordinate-required-inspections-and-witnesses",
+              "name": "Coordinate required inspections and witnesses"
+            },
+            {
+              "id": "track-test-reports-and-deficiencies",
+              "name": "Track test reports and deficiencies"
+            },
+            {
+              "id": "verify-retesting-and-closeout-of-failed-tests",
+              "name": "Verify retesting and closeout of failed tests"
+            }
+          ],
+          "subgroup": null,
+          "isUtility": false
+        },
+        {
+          "id": "cx",
+          "name": "Cx",
           "tasks": [
             {
               "id": "prefunctional-testing-forms",
@@ -1810,7 +1947,7 @@
               "name": "Identify electrical (E) equipment"
             }
           ],
-          "subgroup": "A",
+          "subgroup": null,
           "isUtility": false
         }
       ],
@@ -1820,9 +1957,15 @@
           "subgroup": "A",
           "subcategoryIndices": [
             0,
-            1,
+            1
+          ]
+        },
+        {
+          "id": "construction-B",
+          "subgroup": "B",
+          "subcategoryIndices": [
             2,
-            6
+            3
           ]
         }
       ]
@@ -1881,7 +2024,14 @@
             }
           ],
           "subgroup": null,
-          "isUtility": false
+          "isUtility": false,
+          "documents": [
+            {
+              "id": "closeout-checklist-with-refs-updated",
+              "name": "Closeout Checklist",
+              "url": "/documents/closeout-checklist-with-refs-updated.xlsx"
+            }
+          ]
         },
         {
           "id": "closeout-ebuilder-workflow",

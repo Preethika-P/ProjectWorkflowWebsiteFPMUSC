@@ -28,17 +28,6 @@
     *   Include BIM milestones
     *   Include raindays
     *   SC Milestone
-*   **Sub-category: Prepare Feasibility RFP**
-    *   Include deliverables
-    *   Include selection criteria
-    *   Include detailed scope with sketches and/or program information
-    *   Include score card
-*   **Sub-category: Evaluate Feasibility Study**
-    *   Identify stakeholders
-    *   Evaluate scope and compare with preliminary scoping
-    *   Assess risks
-    *   Assess budget
-    *   Assess schedule alignment
 *   **Sub-category: Determine Project Delivery Method**
     *   Evaluate DBB (Design-Bid-Build)
     *   Evaluate DB (Design-Build)
@@ -56,7 +45,7 @@
     *   Include selection criteria: level of effort
     *   Include selection criteria: BIM
     *   Include score card
-*   **Sub-category: Evaluate Response /Revised Schedule and Budget to Baseline**
+*   **Sub-category: Evaluate Response / Revised Schedule and Budget to Baseline**
     *   Validate design timelines
     *   Validate permit timelines
     *   Validate construction timelines
@@ -106,6 +95,19 @@
     *   Greater than or less than 5M FCPC topline and resolution
     *   Prepare 1-pager for resolution preconstruction
     *   Prepare 1-pager for resolution full funding
+
+#### Category: Feasibility
+*   **Sub-category: Prepare Feasibility RFP**
+    *   Include deliverables
+    *   Include selection criteria
+    *   Include detailed scope with sketches and/or program information
+    *   Include score card
+*   **Sub-category: Evaluate Feasibility Study**
+    *   Identify stakeholders
+    *   Evaluate scope and compare with preliminary scoping
+    *   Assess risks
+    *   Assess budget
+    *   Assess schedule alignment
 
 #### Category: Design and Permit
 *   **Sub-category: Design Kick Off** (subgroup A)
@@ -269,7 +271,7 @@
     *   Prepare contract for contractor
     *   Prepare contracts for vendors
     *   Prepare contracts for inspections
-    *   Other vendor ERP request
+    *   Other vendor CRP request
 *   **Sub-category: Ebuilder Workflow** (utility)
     *   Process invoices in Ebuilder
     *   Handle budget modifications in Ebuilder
@@ -310,14 +312,21 @@
     *   Conduct safety orientation
     *   Schedule trade preconstruction meetings
     *   Schedule QC preinstallation meetings
-*   **Sub-category: OAC** (subgroup A)
+*   **Sub-category: Long Lead Procurement** (subgroup A)
+    *   Identify long-lead equipment and materials
+    *   Confirm procurement responsibilities
+    *   Review submittal and approval timelines
+    *   Track fabrication and delivery dates
+    *   Coordinate storage and site delivery requirements
+    *   Identify schedule risks and mitigation actions
+*   **Sub-category: OAC** (subgroup B)
     *   Document: Construction OAC Meeting Agenda (/documents/construction-oac-meeting-agenda.doc)
     *   Prepare OAC meeting agenda
     *   Review meeting minutes (MM)
     *   Engage stakeholders
     *   Track critical path items
     *   Review Review Testing Inspections and Observations
-*   **Sub-category: Job Walks** (subgroup A)
+*   **Sub-category: Job Walks** (subgroup B)
     *   Verify demo safe-off procedures
     *   Review safety measures
     *   Verify hot work protocols
@@ -375,7 +384,13 @@
     *   Greater than or less than 5M FCPC topline and resolution
     *   Prepare 1-pager for resolution preconstruction
     *   Prepare 1-pager for resolution full funding
-*   **Sub-category: Testing and Cx** (subgroup A)
+*   **Sub-category: Testing**
+    *   Identify testing requirements and responsible parties
+    *   Confirm testing schedule and milestones
+    *   Coordinate required inspections and witnesses
+    *   Track test reports and deficiencies
+    *   Verify retesting and closeout of failed tests
+*   **Sub-category: Cx**
     *   Prefunctional Testing Forms
     *   Conduct preliminary testing
     *   Perform equipment start-up

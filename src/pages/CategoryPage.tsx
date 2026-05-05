@@ -1,15 +1,23 @@
 import React from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { ReferenceDocumentsPanel } from '@/components/ReferenceDocumentsPanel';
 import { UtilitiesPanel } from '@/components/UtilitiesPanel';
 import { FlowChart, FlowNode, FlowLine } from '@/components/FlowChart';
-import { ChevronDown, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ChevronDown, ChevronRight } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 import type { WorkflowData } from '@/types';
 import { cn } from '@/lib/utils';
 import { getBudgetConfig, getWorkflowDataForBudget, makeScopedCategoryId } from '@/lib/budgets';
+import {
+  DisplayGroup,
+  getDisplayGroups,
+  getGroupDisplayName,
+  getGroupedSubcategoryDisplayName,
+} from '@/lib/workflowDisplay';
 
 interface CategoryPageProps {
   workflowData: WorkflowData;
@@ -37,18 +45,27 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
 
   const scopedCategoryId = makeScopedCategoryId(budget.key, category.id);
   const categoryNumber = budgetWorkflowData.categories.findIndex((c) => c.id === category.id) + 1;
+  const previousCategory = categoryNumber > 1
+    ? budgetWorkflowData.categories[categoryNumber - 2]
+    : undefined;
+  const nextCategory = categoryNumber < budgetWorkflowData.categories.length
+    ? budgetWorkflowData.categories[categoryNumber]
+    : undefined;
+  const utilitySubcategories = category.subcategories.filter((s) => s.isUtility);
+  const hasSidebar = utilitySubcategories.length > 0 || Boolean(category.documents?.length);
 
   const categoryExpandedGroups = new Set(expandedGroups[scopedCategoryId] || []);
 
-  const groupsByOrder = [...category.groups].sort((a, b) => a.subgroup.localeCompare(b.subgroup));
+  const groupsByOrder: DisplayGroup[] = getDisplayGroups(category);
 
   const regularSubcategories = category.subcategories.filter((sub, index) => {
     const inGroup = category.groups.some((g) => g.subcategoryIndices.includes(index));
     return !sub.isUtility && !inGroup;
   });
 
-  const handleSubcategoryClick = (subcategoryId: string) => {
-    navigate(`/budget/${budget.key}/category/${category.id}/subcategory/${subcategoryId}`);
+  const handleSubcategoryClick = (subcategoryId: string, groupId?: string) => {
+    const groupSearch = groupId ? `?group=${encodeURIComponent(groupId)}` : '';
+    navigate(`/budget/${budget.key}/category/${category.id}/subcategory/${subcategoryId}${groupSearch}`);
   };
 
   const handleGroupClick = (groupId: string) => {
@@ -65,33 +82,9 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
     markAllTasksComplete(scopedCategoryId, subcategory.id, taskIds);
   };
 
-  const getGroupDisplayName = (group: { subgroup: string }) => {
-    if (
-      (category.id === 'construction' || category.id === 'project-initiation') &&
-      group.subgroup === 'A'
-    ) {
-      return 'Initial Scoping';
-    }
-
-    if (category.id === 'bid-and-award' && group.subgroup === 'A') {
-      return 'Construction Procurement';
-    }
-
-    if (category.id === 'design-and-permit') {
-      if (group.subgroup === 'A') {
-        return 'Initiation & Schematic Design';
-      }
-
-      if (group.subgroup === 'B') {
-        return 'DD & CD';
-      }
-
-      if (group.subgroup === 'C') {
-        return 'Design Team Management';
-      }
-    }
-
-    return `Group ${group.subgroup}`;
+  const getSubcategoryCompletedTasks = (subcategory: typeof category.subcategories[0]) => {
+    const subcategoryProgress = progress[scopedCategoryId]?.[subcategory.id] || {};
+    return subcategory.tasks.filter((task) => subcategoryProgress[task.id] === true).length;
   };
 
   const flowItems: Array<{
@@ -129,7 +122,7 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
               ]}
             />
           </div>
-          <div className="flex items-start justify-between gap-6">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
             <div className="flex items-center gap-4">
               <div className="text-3xl font-semibold text-primary">
                 {categoryNumber}.
@@ -139,12 +132,45 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
               </h1>
             </div>
 
-            <Link
-              to={`/budget/${budget.key}/workflow`}
-              className="mt-1 inline-flex flex-shrink-0 items-center rounded-md border border-primary px-3 py-1.5 text-base text-primary transition-colors hover:bg-primary/5"
-            >
-              ← Back
-            </Link>
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+              <Button
+                variant="outline"
+                disabled={!previousCategory}
+                onClick={() =>
+                  previousCategory && navigate(`/budget/${budget.key}/category/${previousCategory.id}`)
+                }
+                className="flex min-w-[9.5rem] items-center gap-2 border-primary text-primary hover:bg-primary/5 disabled:border-slate-200 disabled:text-slate-400"
+                title={previousCategory ? `Previous section: ${previousCategory.name}` : 'No previous section'}
+              >
+                <ArrowLeft className="h-4 w-4" />
+                <span className="text-left">
+                  Previous Section
+                  {previousCategory ? (
+                    <span className="block max-w-44 truncate text-xs font-normal text-slate-500">
+                      {previousCategory.name}
+                    </span>
+                  ) : null}
+                </span>
+              </Button>
+              <Button
+                disabled={!nextCategory}
+                onClick={() =>
+                  nextCategory && navigate(`/budget/${budget.key}/category/${nextCategory.id}`)
+                }
+                className="flex min-w-[9.5rem] items-center gap-2 disabled:bg-slate-200 disabled:text-slate-500"
+                title={nextCategory ? `Next section: ${nextCategory.name}` : 'No next section'}
+              >
+                <span className="text-left">
+                  Next Section
+                  {nextCategory ? (
+                    <span className="block max-w-44 truncate text-xs font-normal opacity-85">
+                      {nextCategory.name}
+                    </span>
+                  ) : null}
+                </span>
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -154,7 +180,7 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
           <div
             className={cn(
               'lg:col-span-3',
-              category.subcategories.filter((s) => s.isUtility).length === 0 && 'lg:col-span-4'
+              !hasSidebar && 'lg:col-span-4'
             )}
           >
             <div className="bg-gradient-to-br from-slate-50 to-white rounded-xl border-2 border-slate-200 p-4 shadow-lg overflow-hidden">
@@ -177,12 +203,12 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
                             >
                               <CardContent className="p-5 pb-6 pt-7">
                                 <div className="absolute -top-2 -left-2 h-8 w-8 rounded-full bg-primary text-white font-bold flex items-center justify-center shadow-md border-2 border-white text-sm z-10">
-                                  {group.subgroup}
+                                  {group.badgeLabel || group.subgroup}
                                 </div>
 
                                 <div className="mt-2 text-center">
                                   <h3 className="font-semibold text-sm text-slate-900 mb-2 line-clamp-2 group-hover:text-primary">
-                                    {getGroupDisplayName(group)}
+                                    {getGroupDisplayName(category.id, group)}
                                   </h3>
                                   <p className="text-xs text-slate-500 mb-3">
                                     {groupSubcategories.length} items
@@ -205,10 +231,12 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
                     }
 
                     const subcategory = item.data;
-                    const subcategoryProgress = getSubcategoryProgress(scopedCategoryId, subcategory.id);
-                    const completedTasks = Math.round(
-                      (subcategoryProgress / 100) * subcategory.tasks.length
+                    const subcategoryProgress = getSubcategoryProgress(
+                      scopedCategoryId,
+                      subcategory.id,
+                      subcategory.tasks.map((task: typeof subcategory.tasks[0]) => task.id)
                     );
+                    const completedTasks = getSubcategoryCompletedTasks(subcategory);
 
                     return (
                       <div key={item.id} className="flex items-center">
@@ -299,20 +327,22 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
                   <div key={`expanded-${group.id}`} className="mt-4 pt-4 border-t-2 border-slate-200">
                     <div className="mb-3 flex items-center gap-3 px-4">
                       <div className="inline-flex h-8 min-w-8 items-center justify-center rounded-full bg-primary px-2 text-sm font-bold text-white shadow-sm">
-                        {group.subgroup}
+                        {group.badgeLabel || group.subgroup}
                       </div>
                       <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-semibold text-primary">
-                        {getGroupDisplayName(group)}
+                        {getGroupDisplayName(category.id, group)}
                       </div>
                     </div>
                     <div className="overflow-x-auto -mx-4 px-0 scroll-smooth">
                       <FlowChart className="pt-8 pb-4">
                         {groupSubcategories.map(
                           (subcategory: typeof category.subcategories[0], subIndex: number) => {
-                            const subcategoryProgress = getSubcategoryProgress(scopedCategoryId, subcategory.id);
-                            const completedTasks = Math.round(
-                              (subcategoryProgress / 100) * subcategory.tasks.length
+                            const subcategoryProgress = getSubcategoryProgress(
+                              scopedCategoryId,
+                              subcategory.id,
+                              subcategory.tasks.map((task) => task.id)
                             );
+                            const completedTasks = getSubcategoryCompletedTasks(subcategory);
 
                             return (
                               <div key={subcategory.id} className="flex items-center">
@@ -331,14 +361,14 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
                                         !target.closest('label') &&
                                         !target.closest('input')
                                       ) {
-                                        handleSubcategoryClick(subcategory.id);
+                                        handleSubcategoryClick(subcategory.id, group.id);
                                       }
                                     }}
                                   >
                                     <CardContent className="p-3 pb-4 pt-4">
                                       <div className="text-center">
                                         <h4 className="font-semibold text-xs text-slate-900 mb-2 line-clamp-2 group-hover:text-primary min-h-[2rem] flex items-center justify-center">
-                                          {subcategory.name}
+                                          {getGroupedSubcategoryDisplayName(category.id, group, subcategory)}
                                         </h4>
                                         <div className="space-y-1.5">
                                           <div className="flex justify-between items-center text-xs text-slate-600">
@@ -358,7 +388,7 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
                                           <div className="flex items-center justify-center pt-2">
                                             <span className="group/markall inline-flex">
                                               <Checkbox
-                                                id={`expanded-subcategory-mark-all-${category.id}-${subcategory.id}`}
+                                                id={`expanded-subcategory-mark-all-${category.id}-${group.id}-${subcategory.id}`}
                                                 checked={subcategoryProgress === 100}
                                                 onClick={(e) => {
                                                   e.preventDefault();
@@ -377,7 +407,7 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
                                               />
                                             </span>
                                             <label
-                                              htmlFor={`expanded-subcategory-mark-all-${category.id}-${subcategory.id}`}
+                                              htmlFor={`expanded-subcategory-mark-all-${category.id}-${group.id}-${subcategory.id}`}
                                               className="ml-2 cursor-pointer text-xs text-slate-600 transition-colors hover:text-primary group-hover/markall:text-primary"
                                               onClick={(e) => {
                                                 e.preventDefault();
@@ -407,9 +437,14 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
             </div>
           </div>
 
-          {category.subcategories.filter((s) => s.isUtility).length > 0 && (
-            <div className="lg:col-span-1">
-              <UtilitiesPanel category={category} scopedCategoryId={scopedCategoryId} />
+          {hasSidebar && (
+            <div className="space-y-6 self-start lg:sticky lg:top-24 lg:col-span-1">
+              {category.documents && category.documents.length > 0 ? (
+                <ReferenceDocumentsPanel documents={category.documents} sticky={false} />
+              ) : null}
+              {utilitySubcategories.length > 0 ? (
+                <UtilitiesPanel category={category} scopedCategoryId={scopedCategoryId} sticky={false} />
+              ) : null}
             </div>
           )}
         </div>

@@ -21,7 +21,7 @@ interface ChecklistProps {
 }
 
 export function Checklist({ categoryId, subcategory }: ChecklistProps) {
-  const { toggleTask, setTaskComplete, markAllTasksComplete, setNote, getTaskProgress, notes, progress } = useAppStore();
+  const { toggleTask, setTaskComplete, markAllTasksComplete, setNote, notes, progress } = useAppStore();
   
   // Initialize tasks in store if not present
   useEffect(() => {

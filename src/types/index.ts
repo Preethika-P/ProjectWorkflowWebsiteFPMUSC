@@ -28,6 +28,7 @@ export interface Group {
 export interface Category {
   id: string;
   name: string;
+  documents?: ReferenceDocument[];
   subcategories: Subcategory[];
   groups: Group[];
 }

@@ -1,17 +1,30 @@
 import { useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { Checklist } from '@/components/Checklist';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { ReferenceDocumentsPanel } from '@/components/ReferenceDocumentsPanel';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 import { useToast } from '@/components/ui/use-toast';
 import type { WorkflowData } from '@/types';
 import { getBudgetConfig, getWorkflowDataForBudget, makeScopedCategoryId } from '@/lib/budgets';
+import {
+  getDisplayGroups,
+  getGroupDisplayName,
+  getGroupedSubcategoryDisplayName,
+} from '@/lib/workflowDisplay';
 
 interface SubcategoryPageProps {
   workflowData: WorkflowData;
+}
+
+interface TaskPageNavItem {
+  id: string;
+  groupId?: string;
+  groupName?: string;
+  label: string;
+  path: string;
 }
 
 export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
@@ -20,6 +33,7 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
     categoryId: string;
     subcategoryId: string;
   }>();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { setLastVisited, getSubcategoryProgress } = useAppStore();
   const { toast } = useToast();
@@ -31,6 +45,61 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
     (s) => s.id === subcategoryId
   );
   const scopedCategoryId = category ? makeScopedCategoryId(budget.key, category.id) : '';
+  const subcategoryIndex = category && subcategory
+    ? category.subcategories.findIndex((sub) => sub.id === subcategory.id)
+    : -1;
+  const requestedGroupId = searchParams.get('group');
+  const parentGroup = category && subcategoryIndex >= 0
+    ? getDisplayGroups(category).find(
+        (group) =>
+          group.subcategoryIndices.includes(subcategoryIndex) &&
+          (!requestedGroupId || group.id === requestedGroupId)
+      ) ||
+      getDisplayGroups(category).find((group) =>
+        group.subcategoryIndices.includes(subcategoryIndex)
+      )
+    : undefined;
+  const subcategoryDisplayName = category && subcategory
+    ? getGroupedSubcategoryDisplayName(category.id, parentGroup, subcategory)
+    : subcategory?.name || '';
+  const taskPageNavItems: TaskPageNavItem[] = category
+    ? [
+        ...getDisplayGroups(category).flatMap((group) =>
+          group.subcategoryIndices
+            .map((index) => category.subcategories[index])
+            .filter((sub) => sub && !sub.isUtility)
+            .map((sub) => ({
+              id: sub.id,
+              groupId: group.id,
+              groupName: getGroupDisplayName(category.id, group),
+              label: getGroupedSubcategoryDisplayName(category.id, group, sub),
+              path: `/budget/${budget.key}/category/${category.id}/subcategory/${sub.id}?group=${encodeURIComponent(group.id)}`,
+            }))
+        ),
+        ...category.subcategories
+          .filter((sub, index) => {
+            const isGrouped = category.groups.some((group) =>
+              group.subcategoryIndices.includes(index)
+            );
+            return !sub.isUtility && !isGrouped;
+          })
+          .map((sub) => ({
+            id: sub.id,
+            label: sub.name,
+            path: `/budget/${budget.key}/category/${category.id}/subcategory/${sub.id}`,
+          })),
+      ]
+    : [];
+  const currentNavIndex = taskPageNavItems.findIndex(
+    (item) =>
+      item.id === subcategoryId &&
+      (requestedGroupId ? item.groupId === requestedGroupId : item.groupId === parentGroup?.id)
+  );
+  const previousTaskPage = currentNavIndex > 0 ? taskPageNavItems[currentNavIndex - 1] : undefined;
+  const nextTaskPage =
+    currentNavIndex >= 0 && currentNavIndex < taskPageNavItems.length - 1
+      ? taskPageNavItems[currentNavIndex + 1]
+      : undefined;
 
   useEffect(() => {
     if (category && subcategoryId) {
@@ -40,11 +109,15 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
 
   useEffect(() => {
     if (scopedCategoryId && subcategoryId && subcategory) {
-      const progress = getSubcategoryProgress(scopedCategoryId, subcategoryId);
+      const progress = getSubcategoryProgress(
+        scopedCategoryId,
+        subcategoryId,
+        subcategory.tasks.map((task) => task.id)
+      );
       if (progress === 100) {
         toast({
           title: 'All tasks complete!',
-          description: `You've completed all tasks in ${subcategory.name}`,
+          description: `You've completed all tasks in ${subcategoryDisplayName}`,
           variant: 'success',
         });
       }
@@ -101,22 +174,65 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
               items={[
                 { label: `Budget: ${budget.shortLabel}`, path: `/budget/${budget.key}/workflow` },
                 { label: category.name, path: `/budget/${budget.key}/category/${category.id}` },
-                { label: subcategory.name },
+                ...(parentGroup
+                  ? [
+                      {
+                        label: getGroupDisplayName(category.id, parentGroup),
+                        path: `/budget/${budget.key}/category/${category.id}`,
+                      },
+                    ]
+                  : []),
+                { label: subcategoryDisplayName },
               ]}
             />
           </div>
-          <div className="flex items-center justify-between">
-            <h1 className="font-serif text-3xl font-bold text-primary">
-              {subcategory.name}
-            </h1>
-            <Button
-              variant="outline"
-              onClick={() => navigate(`/budget/${budget.key}/category/${category.id}`)}
-              className="flex items-center gap-2 border-primary text-primary hover:bg-primary/5"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back
-            </Button>
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <h1 className="font-serif text-3xl font-bold text-primary">
+                {subcategoryDisplayName}
+              </h1>
+              {parentGroup ? (
+                <p className="mt-1 text-sm font-medium text-slate-500">
+                  {getGroupDisplayName(category.id, parentGroup)}
+                </p>
+              ) : null}
+            </div>
+
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center print:hidden">
+              <Button
+                variant="outline"
+                disabled={!previousTaskPage}
+                onClick={() => previousTaskPage && navigate(previousTaskPage.path)}
+                className="flex min-w-[8.5rem] items-center gap-2 border-primary text-primary hover:bg-primary/5 disabled:border-slate-200 disabled:text-slate-400"
+                title={previousTaskPage ? `Previous: ${previousTaskPage.label}` : 'No previous task page'}
+              >
+                <ArrowLeft className="h-4 w-4" />
+                <span className="text-left">
+                  Previous
+                  {previousTaskPage ? (
+                    <span className="block max-w-44 truncate text-xs font-normal text-slate-500">
+                      {previousTaskPage.label}
+                    </span>
+                  ) : null}
+                </span>
+              </Button>
+              <Button
+                disabled={!nextTaskPage}
+                onClick={() => nextTaskPage && navigate(nextTaskPage.path)}
+                className="flex min-w-[8.5rem] items-center gap-2 disabled:bg-slate-200 disabled:text-slate-500"
+                title={nextTaskPage ? `Next: ${nextTaskPage.label}` : 'No next task page'}
+              >
+                <span className="text-left">
+                  Next
+                  {nextTaskPage ? (
+                    <span className="block max-w-44 truncate text-xs font-normal opacity-85">
+                      {nextTaskPage.label}
+                    </span>
+                  ) : null}
+                </span>
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -124,7 +240,10 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-6 py-8 print:p-0">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
-          <Checklist categoryId={scopedCategoryId} subcategory={subcategory} />
+          <Checklist
+            categoryId={scopedCategoryId}
+            subcategory={{ ...subcategory, name: subcategoryDisplayName }}
+          />
           {subcategory.documents && subcategory.documents.length > 0 ? (
             <aside className="print:hidden">
               <ReferenceDocumentsPanel documents={subcategory.documents} />

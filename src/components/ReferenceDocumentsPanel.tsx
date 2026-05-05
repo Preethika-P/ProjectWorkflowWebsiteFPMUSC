@@ -4,15 +4,16 @@ import type { ReferenceDocument } from '@/types';
 
 interface ReferenceDocumentsPanelProps {
   documents: ReferenceDocument[];
+  sticky?: boolean;
 }
 
-export function ReferenceDocumentsPanel({ documents }: ReferenceDocumentsPanelProps) {
+export function ReferenceDocumentsPanel({ documents, sticky = true }: ReferenceDocumentsPanelProps) {
   if (documents.length === 0) {
     return null;
   }
 
   return (
-    <Card className="sticky top-24 border-2 border-accent/30 bg-gradient-to-br from-accent/5 to-white shadow-lg">
+    <Card className={sticky ? 'sticky top-24 border-2 border-accent/30 bg-gradient-to-br from-accent/5 to-white shadow-lg' : 'border-2 border-accent/30 bg-gradient-to-br from-accent/5 to-white shadow-lg'}>
       <CardHeader>
         <CardTitle className="font-serif text-xl font-bold text-slate-900">
           Reference Documents
@@ -38,9 +39,11 @@ export function ReferenceDocumentsPanel({ documents }: ReferenceDocumentsPanelPr
                   </p>
                   <ExternalLink className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary" />
                 </div>
-                <p className="mt-1 text-sm leading-relaxed text-slate-600">
-                  {document.description || 'Click to open this document in a new tab.'}
-                </p>
+                {document.description ? (
+                  <p className="mt-1 text-sm leading-relaxed text-slate-600">
+                    {document.description}
+                  </p>
+                ) : null}
                 <div className="mt-3 inline-flex items-center gap-2 rounded-md border-2 border-primary px-3 py-1.5 text-sm font-medium text-primary transition-colors group-hover:bg-primary/10">
                   <span>Open Doc</span>
                   <ExternalLink className="h-4 w-4" />

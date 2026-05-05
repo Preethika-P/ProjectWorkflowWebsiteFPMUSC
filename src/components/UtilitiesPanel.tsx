@@ -8,9 +8,10 @@ import type { Category } from '@/types';
 interface UtilitiesPanelProps {
   category: Category;
   scopedCategoryId: string;
+  sticky?: boolean;
 }
 
-export function UtilitiesPanel({ category, scopedCategoryId }: UtilitiesPanelProps) {
+export function UtilitiesPanel({ category, scopedCategoryId, sticky = true }: UtilitiesPanelProps) {
   const { toggleTask, progress, setTaskComplete } = useAppStore();
   
   const utilitySubcategories = category.subcategories.filter((sub) => sub.isUtility);
@@ -20,7 +21,7 @@ export function UtilitiesPanel({ category, scopedCategoryId }: UtilitiesPanelPro
   }
 
   return (
-    <Card className="sticky top-24 border-2 border-accent/30 bg-gradient-to-br from-accent/5 to-white shadow-lg">
+    <Card className={sticky ? 'sticky top-24 border-2 border-accent/30 bg-gradient-to-br from-accent/5 to-white shadow-lg' : 'border-2 border-accent/30 bg-gradient-to-br from-accent/5 to-white shadow-lg'}>
       <CardHeader>
         <CardTitle className="font-serif text-xl font-bold text-slate-900">
           Utilities
@@ -30,7 +31,9 @@ export function UtilitiesPanel({ category, scopedCategoryId }: UtilitiesPanelPro
         <Accordion type="multiple" className="w-full">
           {utilitySubcategories.map((subcategory) => {
             const subcategoryProgress = progress[scopedCategoryId]?.[subcategory.id] || {};
-            const completed = Object.values(subcategoryProgress).filter(Boolean).length;
+            const completed = subcategory.tasks.filter(
+              (task) => subcategoryProgress[task.id] === true
+            ).length;
             const total = subcategory.tasks.length;
             const progressPercent = total > 0 ? (completed / total) * 100 : 0;
 

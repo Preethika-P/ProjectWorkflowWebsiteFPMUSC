@@ -24,9 +24,12 @@ interface AppState {
   toggleGroup: (categoryId: string, groupId: string) => void;
   setNote: (categoryId: string, subcategoryId: string, note: string) => void;
   setLastVisited: (categoryId?: string, subcategoryId?: string) => void;
-  getTaskProgress: (categoryId: string, subcategoryId: string) => { completed: number; total: number };
-  getSubcategoryProgress: (categoryId: string, subcategoryId: string) => number;
-  getCategoryProgress: (categoryId: string, totalTasks: number) => number;
+  getTaskProgress: (categoryId: string, subcategoryId: string, taskIds?: string[]) => { completed: number; total: number };
+  getSubcategoryProgress: (categoryId: string, subcategoryId: string, taskIds?: string[]) => number;
+  getCategoryProgress: (
+    categoryId: string,
+    subcategories: Array<{ id: string; tasks: Array<{ id: string }> }>
+  ) => number;
 }
 
 export const useAppStore = create<AppState>()(
@@ -118,29 +121,48 @@ export const useAppStore = create<AppState>()(
       },
       
       setLastVisited: (categoryId, subcategoryId) => {
-        set({ lastVisited: { categoryId, subcategoryId } });
+        set((state) => {
+          if (
+            state.lastVisited.categoryId === categoryId &&
+            state.lastVisited.subcategoryId === subcategoryId
+          ) {
+            return state;
+          }
+
+          return { lastVisited: { categoryId, subcategoryId } };
+        });
       },
       
-      getTaskProgress: (categoryId, subcategoryId) => {
+      getTaskProgress: (categoryId, subcategoryId, taskIds) => {
         const state = get();
         const tasks = state.progress[categoryId]?.[subcategoryId] || {};
+        if (taskIds) {
+          const completed = taskIds.filter((taskId) => tasks[taskId] === true).length;
+          return { completed, total: taskIds.length };
+        }
+
         const completed = Object.values(tasks).filter(Boolean).length;
         const total = Object.keys(tasks).length;
         return { completed, total };
       },
       
-      getSubcategoryProgress: (categoryId, subcategoryId) => {
-        const { completed, total } = get().getTaskProgress(categoryId, subcategoryId);
+      getSubcategoryProgress: (categoryId, subcategoryId, taskIds) => {
+        const { completed, total } = get().getTaskProgress(categoryId, subcategoryId, taskIds);
         return total > 0 ? (completed / total) * 100 : 0;
       },
       
-      getCategoryProgress: (categoryId, totalTasks) => {
+      getCategoryProgress: (categoryId, subcategories) => {
         const state = get();
         const categoryProgress = state.progress[categoryId] || {};
         let totalCompleted = 0;
+        let totalTasks = 0;
         
-        Object.values(categoryProgress).forEach((subcategoryProgress) => {
-          totalCompleted += Object.values(subcategoryProgress).filter(Boolean).length;
+        subcategories.forEach((subcategory) => {
+          const subcategoryProgress = categoryProgress[subcategory.id] || {};
+          totalTasks += subcategory.tasks.length;
+          totalCompleted += subcategory.tasks.filter(
+            (task) => subcategoryProgress[task.id] === true
+          ).length;
         });
         
         return totalTasks > 0 ? (totalCompleted / totalTasks) * 100 : 0;
@@ -152,4 +174,3 @@ export const useAppStore = create<AppState>()(
     }
   )
 );
-
