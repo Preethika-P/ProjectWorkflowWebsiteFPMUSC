@@ -26,7 +26,7 @@ export function ConfirmDialog({
           <p className="text-sm leading-relaxed text-slate-700">{message}</p>
           <p className="flex items-center gap-2 text-xs italic leading-relaxed text-slate-500">
             <AlertTriangle className="h-3.5 w-3.5 flex-shrink-0 text-primary" />
-            <span>This action cannot be undone.</span>
+            <span>This action cannot be reverted.</span>
           </p>
         </div>
         <div className="flex justify-end gap-3 border-t border-slate-100 px-6 py-4">
