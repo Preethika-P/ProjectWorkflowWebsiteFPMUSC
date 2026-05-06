@@ -170,7 +170,7 @@ export const useAppStore = create<AppState>()(
     }),
     {
       name: 'usc-workflow-session',
-      storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );
