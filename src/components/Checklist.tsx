@@ -12,6 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
+import { useClickOutside } from '@/lib/useClickOutside';
 import { CheckCircle2, Check, Filter, X } from 'lucide-react';
 import type { Subcategory } from '@/types';
 
@@ -28,6 +29,7 @@ export function Checklist({ categoryId, subcategory, onAllTasksComplete }: Check
   const { toggleTask, setTaskComplete, markAllTasksComplete, setNote, notes, progress } = useAppStore();
   const [taskFilter, setTaskFilter] = useState<'all' | 'completed' | 'incomplete'>('all');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const filterRef = useClickOutside<HTMLDivElement>(() => setIsFilterOpen(false), isFilterOpen);
   
   // Initialize tasks in store if not present
   useEffect(() => {
@@ -159,7 +161,7 @@ export function Checklist({ categoryId, subcategory, onAllTasksComplete }: Check
                 <AccordionTrigger className="flex-1 py-0 text-left text-lg font-semibold text-slate-900 hover:no-underline">
                   Tasks ({completed}/{total})
                 </AccordionTrigger>
-                <div className="relative flex flex-wrap items-center gap-2">
+                <div ref={filterRef} className="relative flex flex-wrap items-center gap-2">
                   {filterLabel ? (
                     <div className="inline-flex items-center gap-2 rounded-md border border-primary/30 bg-white px-3 py-1.5 text-xs font-semibold text-primary">
                       <span>Filter: {filterLabel}</span>

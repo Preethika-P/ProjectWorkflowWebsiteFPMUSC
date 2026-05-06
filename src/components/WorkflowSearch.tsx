@@ -65,6 +65,42 @@ function makeSearchableText(...parts: Array<string | undefined>) {
   return normalizeSearchText(parts.filter(Boolean).join(' '));
 }
 
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function HighlightedText({ text, query }: { text: string; query: string }) {
+  const terms = query
+    .trim()
+    .split(/\s+/)
+    .map((term) => term.trim())
+    .filter(Boolean);
+
+  if (terms.length === 0) return <>{text}</>;
+
+  const matcher = new RegExp(`(${terms.map(escapeRegExp).join('|')})`, 'gi');
+  const lowerTerms = new Set(terms.map((term) => term.toLowerCase()));
+
+  return (
+    <>
+      {text.split(matcher).filter(Boolean).map((part, index) => {
+        const isMatch = lowerTerms.has(part.toLowerCase());
+
+        return isMatch ? (
+          <mark
+            key={`${part}-${index}`}
+            className="rounded bg-accent/30 px-0.5 font-semibold text-primary"
+          >
+            {part}
+          </mark>
+        ) : (
+          <span key={`${part}-${index}`}>{part}</span>
+        );
+      })}
+    </>
+  );
+}
+
 function groupContext(category: Category, group: DisplayGroup) {
   const badge = group.badgeLabel || group.subgroup;
   return `${category.name} > ${badge}. ${getGroupDisplayName(category.id, group)}`;
@@ -329,7 +365,11 @@ export function WorkflowSearch({
   return (
     <div
       ref={containerRef}
-      className={cn('relative w-full max-w-xl print:hidden', className)}
+      className={cn(
+        'relative w-full max-w-xl print:hidden',
+        shouldShowResults && 'z-[120]',
+        className
+      )}
       onBlur={(event) => {
         if (!containerRef.current?.contains(event.relatedTarget as Node | null)) {
           setIsFocused(false);
@@ -361,7 +401,7 @@ export function WorkflowSearch({
       </div>
 
       {shouldShowResults ? (
-        <div className="absolute left-0 right-0 top-full z-50 mt-2 max-h-[28rem] overflow-y-auto rounded-xl border border-primary/15 bg-white p-2 shadow-xl">
+        <div className="absolute left-0 right-0 top-full z-[130] mt-2 max-h-[28rem] overflow-y-auto rounded-xl border border-primary/15 bg-white p-2 shadow-2xl">
           {visibleResults.length > 0 ? (
             <div className="space-y-1">
               {visibleResults.map((result) => {
@@ -381,7 +421,7 @@ export function WorkflowSearch({
                     <span className="min-w-0 flex-1">
                       <span className="flex items-center gap-2">
                         <span className="truncate text-sm font-semibold text-slate-900">
-                          {result.label}
+                          <HighlightedText text={result.label} query={query} />
                         </span>
                         <span
                           className={cn(
@@ -393,7 +433,7 @@ export function WorkflowSearch({
                         </span>
                       </span>
                       <span className="mt-1 block truncate text-xs text-slate-500">
-                        {result.context}
+                        <HighlightedText text={result.context} query={query} />
                       </span>
                     </span>
                   </button>

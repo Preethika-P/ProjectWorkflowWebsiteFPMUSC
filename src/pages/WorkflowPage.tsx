@@ -9,6 +9,7 @@ import type { WorkflowData } from '@/types';
 import { getBudgetConfig, getWorkflowDataForBudget, makeScopedCategoryId } from '@/lib/budgets';
 import { saveWorkflowAsPdf } from '@/lib/exportWorkflow';
 import { getDisplayGroups, getProgressSubcategoryId } from '@/lib/workflowDisplay';
+import { useClickOutside } from '@/lib/useClickOutside';
 import { Check, ExternalLink, Filter, Home, X } from 'lucide-react';
 
 interface WorkflowPageProps {
@@ -22,6 +23,10 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
   const { budgetKey } = useParams<{ budgetKey: string }>();
   const [roadmapFilter, setRoadmapFilter] = useState<RoadmapFilter>('all');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const roadmapFilterRef = useClickOutside<HTMLDivElement>(
+    () => setIsFilterOpen(false),
+    isFilterOpen
+  );
   const { progress: storedProgress, notes } = useAppStore();
   const budget = getBudgetConfig(budgetKey);
   const budgetWorkflowData = getWorkflowDataForBudget(workflowData, budget.key);
@@ -148,7 +153,7 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 overflow-x-hidden">
       {/* Header */}
-      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-10 shadow-sm">
+      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
         <div className="bg-primary">
           <div className="mx-auto flex max-w-7xl items-center justify-end px-6 py-1">
             <img
@@ -193,7 +198,7 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
                 budgetKey={budget.key}
                 className="lg:max-w-md"
               />
-              <div className="relative">
+              <div ref={roadmapFilterRef} className="relative">
                 <Button
                   type="button"
                   variant="outline"
@@ -217,7 +222,7 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
       <main className="mx-auto max-w-7xl px-6 py-10 overflow-x-hidden">
         <div className="mb-6 text-center">
           <h2 className="font-serif text-3xl font-bold text-slate-900 mb-2">
-            PROJECT PHASES
+            Project Phases
           </h2>
           <p className="mx-auto max-w-2xl text-slate-600">
             Select a phase to review its subcategories, track progress and manage tasks.

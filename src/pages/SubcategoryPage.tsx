@@ -204,7 +204,7 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       {/* Header */}
-      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-10 shadow-sm print:hidden">
+      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm print:hidden">
         <div className="mx-auto max-w-7xl px-6 py-6">
           <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <Breadcrumbs

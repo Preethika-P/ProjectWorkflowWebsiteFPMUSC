@@ -6,6 +6,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
+import { useClickOutside } from '@/lib/useClickOutside';
 import { Check, Filter, Wrench, X } from 'lucide-react';
 import type { Category } from '@/types';
 
@@ -35,6 +36,14 @@ export function UtilitiesPanel({
   const [utilityFilters, setUtilityFilters] = useState<Record<string, TaskFilter>>({});
   const [openUtilityFilterId, setOpenUtilityFilterId] = useState<string | undefined>();
   const [pendingOverallAction, setPendingOverallAction] = useState<'markAll' | 'reset' | undefined>();
+  const overallFilterRef = useClickOutside<HTMLDivElement>(
+    () => setIsOverallFilterOpen(false),
+    isOverallFilterOpen
+  );
+  const utilityFilterRef = useClickOutside<HTMLDivElement>(
+    () => setOpenUtilityFilterId(undefined),
+    Boolean(openUtilityFilterId)
+  );
   
   const utilitySubcategories = category.subcategories.filter((sub) => sub.isUtility);
 
@@ -85,6 +94,14 @@ export function UtilitiesPanel({
     0
   );
   const overallFilterLabel = getFilterLabel(overallFilter);
+  const visibleUtilitySubcategories = utilitySubcategories.filter((subcategory) => {
+    const activeFilter = utilityFilters[subcategory.id] ?? (
+      overallFilter !== 'all' ? overallFilter : sectionFilter
+    );
+
+    return activeFilter === 'all' || getFilteredTasks(subcategory, activeFilter).length > 0;
+  });
+  const activePanelFilterLabel = getFilterLabel(overallFilter !== 'all' ? overallFilter : sectionFilter);
 
   if (utilitySubcategories.length === 0) {
     return null;
@@ -93,11 +110,12 @@ export function UtilitiesPanel({
   const renderFilterMenu = (
     activeFilter: TaskFilter,
     onSelect: (filter: TaskFilter) => void,
-    alignClass = 'right-0'
+    alignClass = 'right-0',
+    allLabel = 'All utilities'
   ) => (
     <div className={cn('absolute top-full z-40 mt-2 w-48 rounded-xl border border-slate-200 bg-white p-2 shadow-xl', alignClass)}>
       {[
-        { value: 'all' as const, label: 'All tasks' },
+        { value: 'all' as const, label: allLabel },
         { value: 'completed' as const, label: 'Completed only' },
         { value: 'incomplete' as const, label: 'Incomplete only' },
       ].map((option) => (
@@ -149,7 +167,7 @@ export function UtilitiesPanel({
           >
             Reset
           </Button>
-          <div className="relative min-w-0">
+          <div ref={overallFilterRef} className="relative min-w-0">
             <Button
               type="button"
               variant="outline"
@@ -169,8 +187,9 @@ export function UtilitiesPanel({
             {isOverallFilterOpen
               ? renderFilterMenu(overallFilter, (filter) => {
                   setOverallFilter(filter);
+                  setUtilityFilters({});
                   setIsOverallFilterOpen(false);
-                })
+                }, 'right-0', 'All utilities')
               : null}
           </div>
         </div>
@@ -192,16 +211,17 @@ export function UtilitiesPanel({
           </div>
         ) : null}
         <Accordion type="multiple" className="w-full">
-          {utilitySubcategories.map((subcategory) => {
+          {visibleUtilitySubcategories.length > 0 ? visibleUtilitySubcategories.map((subcategory) => {
             const subcategoryProgress = progress[scopedCategoryId]?.[subcategory.id] || {};
             const completed = subcategory.tasks.filter(
               (task) => subcategoryProgress[task.id] === true
             ).length;
             const total = subcategory.tasks.length;
-            const activeFilter = utilityFilters[subcategory.id] || (overallFilter !== 'all' ? overallFilter : sectionFilter);
+            const activeFilter = utilityFilters[subcategory.id] ?? (overallFilter !== 'all' ? overallFilter : sectionFilter);
             const activeFilterLabel = getFilterLabel(activeFilter);
             const filteredTasks = getFilteredTasks(subcategory, activeFilter);
-            const hasUtilityOverride = Boolean(utilityFilters[subcategory.id]);
+            const hasUtilityOverride = utilityFilters[subcategory.id] !== undefined;
+            const displayedFilterLabel = activeFilterLabel || (hasUtilityOverride && activeFilter === 'all' ? 'All utilities' : undefined);
             const isUsingSectionFilter = !hasUtilityOverride && overallFilter === 'all' && sectionFilter !== 'all';
 
             return (
@@ -239,7 +259,10 @@ export function UtilitiesPanel({
                       >
                         Reset
                       </Button>
-                      <div className="relative min-w-0">
+                      <div
+                        ref={openUtilityFilterId === subcategory.id ? utilityFilterRef : undefined}
+                        className="relative min-w-0"
+                      >
                         <Button
                           type="button"
                           variant="outline"
@@ -252,7 +275,7 @@ export function UtilitiesPanel({
                           className={cn(
                             utilityButtonClass,
                             'w-auto whitespace-nowrap px-3',
-                            activeFilterLabel && 'ring-2 ring-primary/15'
+                            displayedFilterLabel && 'ring-2 ring-primary/15'
                           )}
                           aria-label={`Filter ${subcategory.name} tasks`}
                           title={`Filter ${subcategory.name} tasks`}
@@ -266,11 +289,7 @@ export function UtilitiesPanel({
                               (filter) => {
                                 setUtilityFilters((filters) => {
                                   const nextFilters = { ...filters };
-                                  if (filter === 'all') {
-                                    delete nextFilters[subcategory.id];
-                                  } else {
-                                    nextFilters[subcategory.id] = filter;
-                                  }
+                                  nextFilters[subcategory.id] = filter;
                                   return nextFilters;
                                 });
                                 setOpenUtilityFilterId(undefined);
@@ -280,14 +299,14 @@ export function UtilitiesPanel({
                           : null}
                       </div>
                     </div>
-                    {activeFilterLabel ? (
+                    {displayedFilterLabel ? (
                       <div className="mb-2 inline-flex items-center gap-2 rounded-md border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs font-semibold text-primary">
                         <span>
                           {hasUtilityOverride
                             ? 'Utility filter'
                             : isUsingSectionFilter
                               ? 'Using section filter'
-                              : 'Using all utilities filter'}: {activeFilterLabel}
+                              : 'Using all utilities filter'}: {displayedFilterLabel}
                         </span>
                         <span className="text-primary/80">
                           {filteredTasks.length}/{total}
@@ -350,8 +369,8 @@ export function UtilitiesPanel({
                       );
                     }) : (
                       <div className="py-5 text-center text-xs italic text-slate-500">
-                        {activeFilterLabel
-                          ? `No ${activeFilterLabel.toLowerCase()} utility tasks match this filter.`
+                        {displayedFilterLabel
+                          ? `No ${displayedFilterLabel.toLowerCase()} utility tasks match this filter.`
                           : 'No utility tasks listed'}
                       </div>
                     )}
@@ -359,7 +378,13 @@ export function UtilitiesPanel({
                 </AccordionContent>
               </AccordionItem>
             );
-          })}
+          }) : (
+            <div className="py-6 text-center text-xs italic text-slate-500">
+              {activePanelFilterLabel
+                ? `No ${activePanelFilterLabel.toLowerCase()} utility tasks match this filter.`
+                : 'No utility tasks listed'}
+            </div>
+          )}
         </Accordion>
       </CardContent>
       {pendingOverallAction ? (

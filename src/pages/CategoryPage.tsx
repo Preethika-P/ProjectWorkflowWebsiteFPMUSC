@@ -23,6 +23,7 @@ import { useAppStore } from '@/store/useAppStore';
 import type { WorkflowData } from '@/types';
 import { shouldIgnoreArrowNavigation } from '@/lib/keyboard';
 import { cn } from '@/lib/utils';
+import { useClickOutside } from '@/lib/useClickOutside';
 import { getBudgetConfig, getWorkflowDataForBudget, makeScopedCategoryId } from '@/lib/budgets';
 import { saveCategoryAsPdf } from '@/lib/exportWorkflow';
 import {
@@ -48,6 +49,10 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
   const navigate = useNavigate();
   const [sectionFilter, setSectionFilter] = useState<SectionFilter>('all');
   const [isSectionFilterOpen, setIsSectionFilterOpen] = useState(false);
+  const sectionFilterRef = useClickOutside<HTMLDivElement>(
+    () => setIsSectionFilterOpen(false),
+    isSectionFilterOpen
+  );
   const [pendingSectionAction, setPendingSectionAction] = useState<'markAll' | 'reset' | undefined>();
   const {
     expandedGroups,
@@ -289,7 +294,7 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 overflow-x-hidden">
-      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-10 shadow-sm">
+      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
         <div className="bg-primary">
           <div className="mx-auto flex max-w-7xl items-center justify-end px-6 py-1">
             <img
@@ -343,7 +348,7 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
                 >
                   Reset
                 </Button>
-                <div className="relative">
+                <div ref={sectionFilterRef} className="relative">
                   <Button
                     type="button"
                     variant="outline"
