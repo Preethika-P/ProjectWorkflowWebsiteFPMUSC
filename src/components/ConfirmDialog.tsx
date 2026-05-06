@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { AlertTriangle } from 'lucide-react';
 
 interface ConfirmDialogProps {
   title: string;
@@ -21,8 +22,12 @@ export function ConfirmDialog({
         <div className="border-b border-primary/10 bg-gradient-to-br from-primary/5 to-white px-6 py-4">
           <h2 className="font-serif text-xl font-bold text-primary">{title}</h2>
         </div>
-        <div className="px-6 py-5">
+        <div className="space-y-3 px-6 py-5">
           <p className="text-sm leading-relaxed text-slate-700">{message}</p>
+          <p className="flex items-center gap-2 text-xs italic leading-relaxed text-slate-500">
+            <AlertTriangle className="h-3.5 w-3.5 flex-shrink-0 text-primary" />
+            <span>This action cannot be undone.</span>
+          </p>
         </div>
         <div className="flex justify-end gap-3 border-t border-slate-100 px-6 py-4">
           <Button

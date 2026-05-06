@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { FlowChart, FlowNode, FlowLine } from '@/components/FlowChart';
 import { WorkflowSearch } from '@/components/WorkflowSearch';
 import { useAppStore } from '@/store/useAppStore';
@@ -17,17 +18,19 @@ interface WorkflowPageProps {
 }
 
 type RoadmapFilter = 'all' | 'completed' | 'incomplete';
+type OverallAction = 'markAll' | 'reset';
 
 export function WorkflowPage({ workflowData }: WorkflowPageProps) {
   const navigate = useNavigate();
   const { budgetKey } = useParams<{ budgetKey: string }>();
   const [roadmapFilter, setRoadmapFilter] = useState<RoadmapFilter>('all');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [pendingOverallAction, setPendingOverallAction] = useState<OverallAction | undefined>();
   const roadmapFilterRef = useClickOutside<HTMLDivElement>(
     () => setIsFilterOpen(false),
     isFilterOpen
   );
-  const { progress: storedProgress, notes } = useAppStore();
+  const { progress: storedProgress, notes, setTaskComplete } = useAppStore();
   const budget = getBudgetConfig(budgetKey);
   const budgetWorkflowData = getWorkflowDataForBudget(workflowData, budget.key);
   const exportOptions = {
@@ -106,6 +109,34 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
     : roadmapFilter === 'incomplete'
       ? 'Incomplete only'
       : undefined;
+
+  const setAllWorkflowTasksComplete = (complete: boolean) => {
+    budgetWorkflowData.categories.forEach((category) => {
+      const scopedCategoryId = makeScopedCategoryId(budget.key, category.id);
+      const groupedIndices = new Set<number>();
+
+      getDisplayGroups(category).forEach((group) => {
+        group.subcategoryIndices.forEach((index) => {
+          const subcategory = category.subcategories[index];
+          if (!subcategory || subcategory.isUtility) return;
+
+          groupedIndices.add(index);
+          const progressSubcategoryId = getProgressSubcategoryId(category.id, group, subcategory);
+          subcategory.tasks.forEach((task) => {
+            setTaskComplete(scopedCategoryId, progressSubcategoryId, task.id, complete);
+          });
+        });
+      });
+
+      category.subcategories.forEach((subcategory, index) => {
+        if (groupedIndices.has(index)) return;
+
+        subcategory.tasks.forEach((task) => {
+          setTaskComplete(scopedCategoryId, subcategory.id, task.id, complete);
+        });
+      });
+    });
+  };
 
   const handleCategoryClick = (categoryId: string) => {
     const category = budgetWorkflowData.categories.find((c) => c.id === categoryId);
@@ -249,17 +280,39 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
               style={{ width: `${overallProgress}%` }}
             />
           </div>
-          <div className="mt-2 flex justify-end print:hidden">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => saveWorkflowAsPdf(exportOptions)}
-              className="h-8 rounded-md border-2 border-primary bg-white px-2.5 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary/10"
-              title="Save full project roadmap as PDF"
-            >
-              <span>Save as PDF</span>
-              <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
-            </Button>
+          <div className="mt-2 flex flex-col gap-2 print:hidden sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-wrap items-center gap-1.5">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setPendingOverallAction('markAll')}
+                className="h-8 rounded-full border-primary/30 bg-white px-3 text-[10px] font-semibold text-primary shadow-sm hover:border-primary/40 hover:bg-primary/5"
+                title="Mark all phases done"
+              >
+                Mark all done
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setPendingOverallAction('reset')}
+                className="h-8 rounded-full border-primary/30 bg-white px-3 text-[10px] font-semibold text-primary shadow-sm hover:border-primary/40 hover:bg-primary/5"
+                title="Reset all phases"
+              >
+                Reset all
+              </Button>
+            </div>
+            <div className="flex justify-end">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => saveWorkflowAsPdf(exportOptions)}
+                className="h-8 rounded-md border-2 border-primary bg-white px-2.5 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary/10"
+                title="Save full project roadmap as PDF"
+              >
+                <span>Save as PDF</span>
+                <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -345,6 +398,22 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
           </div>
         </div>
       </main>
+      {pendingOverallAction ? (
+        <ConfirmDialog
+          title={pendingOverallAction === 'markAll' ? 'Mark All Phases Done?' : 'Reset All Phases?'}
+          message={
+            pendingOverallAction === 'markAll'
+              ? 'Are you sure you want to mark all phases done?'
+              : 'Are you sure you want to reset all phases?'
+          }
+          confirmLabel={pendingOverallAction === 'markAll' ? 'Mark all done' : 'Reset all'}
+          onCancel={() => setPendingOverallAction(undefined)}
+          onConfirm={() => {
+            setAllWorkflowTasksComplete(pendingOverallAction === 'markAll');
+            setPendingOverallAction(undefined);
+          }}
+        />
+      ) : null}
     </div>
   );
 }
