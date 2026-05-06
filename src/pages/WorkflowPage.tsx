@@ -217,14 +217,14 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
       <main className="mx-auto max-w-7xl px-6 py-10 overflow-x-hidden">
         <div className="mb-6 text-center">
           <h2 className="font-serif text-3xl font-bold text-slate-900 mb-2">
-            Project Phases
+            PROJECT PHASES
           </h2>
           <p className="mx-auto max-w-2xl text-slate-600">
             Select a phase to review its subcategories, track progress and manage tasks.
           </p>
         </div>
 
-        <div className="mb-4 rounded-lg border border-primary/20 bg-gradient-to-br from-white to-primary/5 px-4 py-2 shadow-sm">
+        <div className="mb-4 rounded-lg border border-primary/20 bg-gradient-to-br from-white to-primary/5 px-4 py-3 shadow-sm">
           <div className="mb-1.5 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h3 className="text-sm font-bold text-primary">
@@ -234,22 +234,8 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
                 {overallTaskCounts.completedTasks} of {overallTaskCounts.totalTasks} tasks completed
               </p>
             </div>
-            <div className="flex flex-col gap-2 sm:items-end">
-              <div className="text-xl font-bold text-primary">
-                {Math.round(overallProgress)}%
-              </div>
-              <div className="flex flex-wrap items-center gap-1.5 print:hidden sm:justify-end">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => saveWorkflowAsPdf(exportOptions)}
-                  className="h-8 rounded-md border-2 border-primary bg-white px-2.5 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary/10"
-                  title="Save full project roadmap as PDF"
-                >
-                  <span>Save as PDF</span>
-                  <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
-                </Button>
-              </div>
+            <div className="text-xl font-bold text-primary">
+              {Math.round(overallProgress)}%
             </div>
           </div>
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-200">
@@ -257,6 +243,18 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
               className="h-full bg-gradient-to-r from-primary to-primary-dark transition-all duration-500"
               style={{ width: `${overallProgress}%` }}
             />
+          </div>
+          <div className="mt-2 flex justify-end print:hidden">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => saveWorkflowAsPdf(exportOptions)}
+              className="h-8 rounded-md border-2 border-primary bg-white px-2.5 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary/10"
+              title="Save full project roadmap as PDF"
+            >
+              <span>Save as PDF</span>
+              <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
+            </Button>
           </div>
         </div>
 
