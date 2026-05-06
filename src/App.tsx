@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { BudgetSelectionPage } from './pages/BudgetSelectionPage';
 import { WorkflowPage } from './pages/WorkflowPage';
 import { CategoryPage } from './pages/CategoryPage';
@@ -7,6 +7,19 @@ import { SubcategoryPage } from './pages/SubcategoryPage';
 import { Toaster } from './components/ui/toaster';
 import { ToastProvider } from './components/ui/use-toast';
 import type { WorkflowData } from './types';
+
+function InitialHomeRedirect() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location.pathname !== '/') {
+      navigate('/', { replace: true });
+    }
+  }, []);
+
+  return null;
+}
 
 function AppContent() {
   const [workflowData, setWorkflowData] = useState<WorkflowData | null>(null);
@@ -51,6 +64,7 @@ function AppContent() {
 
   return (
     <BrowserRouter>
+      <InitialHomeRedirect />
       <Routes>
         <Route path="/" element={<BudgetSelectionPage workflowData={workflowData} />} />
         <Route path="/workflow" element={<Navigate to="/budget/under-5m/workflow" replace />} />
