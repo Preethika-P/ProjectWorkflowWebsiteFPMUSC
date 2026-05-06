@@ -11,7 +11,7 @@
           "tasks": [
             {
               "id": "user-meetings1",
-              "name": "User meetings1"
+              "name": "User meetings"
             },
             {
               "id": "site-walks",
@@ -403,7 +403,7 @@
             },
             {
               "id": "defferred-approval-permit-fees",
-              "name": "Defferred approval, permit fees"
+              "name": "Deferred approval, permit fees"
             }
           ],
           "subgroup": "utility",
@@ -1002,7 +1002,7 @@
             },
             {
               "id": "defferred-approval-permit-fees",
-              "name": "Defferred approval, permit fees"
+              "name": "Deferred approval, permit fees"
             }
           ],
           "subgroup": "utility",
@@ -1431,7 +1431,7 @@
             },
             {
               "id": "defferred-approval-permit-fees",
-              "name": "Defferred approval, permit fees"
+              "name": "Deferred approval, permit fees"
             }
           ],
           "subgroup": "utility",
@@ -1848,7 +1848,7 @@
             },
             {
               "id": "defferred-approval-permit-fees",
-              "name": "Defferred approval, permit fees"
+              "name": "Deferred approval, permit fees"
             }
           ],
           "subgroup": "utility",
@@ -2119,7 +2119,7 @@
             },
             {
               "id": "defferred-approval-permit-fees",
-              "name": "Defferred approval, permit fees"
+              "name": "Deferred approval, permit fees"
             }
           ],
           "subgroup": "utility",
@@ -2186,7 +2186,7 @@
             },
             {
               "id": "defferred-approval-permit-fees",
-              "name": "Defferred approval, permit fees"
+              "name": "Deferred approval, permit fees"
             }
           ],
           "subgroup": "utility",

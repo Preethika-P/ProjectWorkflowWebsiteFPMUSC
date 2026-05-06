@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from 'react';
+import { useMemo, useEffect, useState } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -12,16 +12,22 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, Check, Filter, X } from 'lucide-react';
 import type { Subcategory } from '@/types';
 
 interface ChecklistProps {
   categoryId: string;
   subcategory: Subcategory;
+  onAllTasksComplete?: (options?: { force?: boolean }) => void;
 }
 
-export function Checklist({ categoryId, subcategory }: ChecklistProps) {
+const taskActionButtonClass =
+  'rounded-md border-primary/30 bg-white px-4 text-xs font-semibold text-primary shadow-sm hover:border-primary/40 hover:bg-primary/5';
+
+export function Checklist({ categoryId, subcategory, onAllTasksComplete }: ChecklistProps) {
   const { toggleTask, setTaskComplete, markAllTasksComplete, setNote, notes, progress } = useAppStore();
+  const [taskFilter, setTaskFilter] = useState<'all' | 'completed' | 'incomplete'>('all');
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   
   // Initialize tasks in store if not present
   useEffect(() => {
@@ -56,6 +62,24 @@ export function Checklist({ categoryId, subcategory }: ChecklistProps) {
   
   const progressPercent = total > 0 ? (completed / total) * 100 : 0;
   const note = notes[categoryId]?.[subcategory.id] || '';
+  const filteredTasks = useMemo(() => {
+    const storeProgress = progress[categoryId]?.[subcategory.id] || {};
+
+    if (taskFilter === 'completed') {
+      return subcategory.tasks.filter((task) => storeProgress[task.id] === true);
+    }
+
+    if (taskFilter === 'incomplete') {
+      return subcategory.tasks.filter((task) => storeProgress[task.id] !== true);
+    }
+
+    return subcategory.tasks;
+  }, [categoryId, progress, subcategory.id, subcategory.tasks, taskFilter]);
+  const filterLabel = taskFilter === 'completed'
+    ? 'Completed only'
+    : taskFilter === 'incomplete'
+      ? 'Incomplete only'
+      : undefined;
 
   const handleMarkAll = () => {
     const taskIds = subcategory.tasks.map(task => task.id);
@@ -69,6 +93,8 @@ export function Checklist({ categoryId, subcategory }: ChecklistProps) {
         setTaskComplete(categoryId, subcategory.id, taskId, true);
       });
     }
+
+    onAllTasksComplete?.({ force: true });
   };
 
   const handleReset = () => {
@@ -104,10 +130,20 @@ export function Checklist({ categoryId, subcategory }: ChecklistProps) {
           </div>
           <Progress value={progressPercent} className="h-3 mb-2" />
           <div className="flex items-center justify-between mt-4">
-            <Button onClick={handleMarkAll} variant="outline" size="sm">
-              Mark All Done
+            <Button
+              onClick={handleMarkAll}
+              variant="outline"
+              size="sm"
+              className={taskActionButtonClass}
+            >
+              Mark all done
             </Button>
-            <Button onClick={handleReset} variant="outline" size="sm">
+            <Button
+              onClick={handleReset}
+              variant="outline"
+              size="sm"
+              className={taskActionButtonClass}
+            >
               Reset
             </Button>
           </div>
@@ -119,13 +155,76 @@ export function Checklist({ categoryId, subcategory }: ChecklistProps) {
         <CardContent className="p-6">
           <Accordion type="single" collapsible className="w-full" defaultValue="tasks">
             <AccordionItem value="tasks" className="border-none">
-              <AccordionTrigger className="font-semibold text-lg text-slate-900 hover:no-underline py-4">
-                Tasks ({completed}/{total})
-              </AccordionTrigger>
+              <div className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
+                <AccordionTrigger className="flex-1 py-0 text-left text-lg font-semibold text-slate-900 hover:no-underline">
+                  Tasks ({completed}/{total})
+                </AccordionTrigger>
+                <div className="relative flex flex-wrap items-center gap-2">
+                  {filterLabel ? (
+                    <div className="inline-flex items-center gap-2 rounded-md border border-primary/30 bg-white px-3 py-1.5 text-xs font-semibold text-primary">
+                      <span>Filter: {filterLabel}</span>
+                      <span className="text-primary/80">
+                        {filteredTasks.length}/{total}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setTaskFilter('all')}
+                        className="inline-flex h-5 w-5 items-center justify-center rounded-md transition-colors hover:bg-primary/5"
+                        aria-label="Clear task filter"
+                        title="Clear task filter"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                  ) : null}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setIsFilterOpen((open) => !open)}
+                    className={cn(
+                      taskActionButtonClass,
+                      filterLabel && 'ring-2 ring-primary/10'
+                    )}
+                    aria-label="Filter tasks"
+                    title="Filter tasks"
+                  >
+                    <Filter className="mr-1.5 h-3.5 w-3.5" />
+                    Filter
+                  </Button>
+                  {isFilterOpen ? (
+                    <div className="absolute right-0 top-full z-40 mt-2 w-48 rounded-xl border border-slate-200 bg-white p-2 shadow-xl">
+                      {[
+                        { value: 'all' as const, label: 'All tasks' },
+                        { value: 'completed' as const, label: 'Completed only' },
+                        { value: 'incomplete' as const, label: 'Incomplete only' },
+                      ].map((option) => (
+                        <button
+                          key={option.value}
+                          type="button"
+                          onClick={() => {
+                            setTaskFilter(option.value);
+                            setIsFilterOpen(false);
+                          }}
+                          className={cn(
+                            'flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition-colors hover:bg-primary/5',
+                            taskFilter === option.value
+                              ? 'font-semibold text-primary'
+                              : 'text-slate-700'
+                          )}
+                        >
+                          <span>{option.label}</span>
+                          {taskFilter === option.value ? <Check className="h-4 w-4" /> : null}
+                        </button>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+              </div>
               <AccordionContent>
                 <div className="space-y-3 pt-2">
-                  {subcategory.tasks.length > 0 ? (
-                    subcategory.tasks.map((task) => {
+                  {filteredTasks.length > 0 ? (
+                    filteredTasks.map((task) => {
                       const isChecked = progress[categoryId]?.[subcategory.id]?.[task.id] || false;
                       return (
                         <div
@@ -175,7 +274,9 @@ export function Checklist({ categoryId, subcategory }: ChecklistProps) {
                     })
                   ) : (
                     <div className="text-sm text-slate-500 italic py-8 text-center">
-                      No tasks listed
+                      {filterLabel
+                        ? `No ${filterLabel.toLowerCase()} tasks match this filter.`
+                        : 'No tasks listed'}
                     </div>
                   )}
                 </div>

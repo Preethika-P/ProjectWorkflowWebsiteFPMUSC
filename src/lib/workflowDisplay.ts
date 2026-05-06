@@ -38,11 +38,11 @@ export function getGroupDisplayName(
 
   if (categoryId === 'construction') {
     if (group.subgroup === 'A') {
-      return 'Premobilisation';
+      return 'Premobilization';
     }
 
     if (group.subgroup === 'B') {
-      return 'Construction Mobilisation';
+      return 'Construction Mobilization';
     }
   }
 
@@ -77,4 +77,19 @@ export function getGroupedSubcategoryDisplayName(
   }
 
   return subcategory.name;
+}
+
+export function getProgressSubcategoryId(
+  categoryId: string,
+  group: Pick<DisplayGroup, 'displayName'> | undefined,
+  subcategory: { id: string }
+) {
+  if (
+    categoryId === 'design-and-permit' &&
+    (group?.displayName === 'DD' || group?.displayName === 'CD')
+  ) {
+    return `${subcategory.id}__${group.displayName.toLowerCase()}`;
+  }
+
+  return subcategory.id;
 }

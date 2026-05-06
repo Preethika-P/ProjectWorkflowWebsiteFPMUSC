@@ -1,18 +1,21 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { Checklist } from '@/components/Checklist';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { ReferenceDocumentsPanel } from '@/components/ReferenceDocumentsPanel';
+import { WorkflowSearch } from '@/components/WorkflowSearch';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 import { useToast } from '@/components/ui/use-toast';
 import type { WorkflowData } from '@/types';
 import { getBudgetConfig, getWorkflowDataForBudget, makeScopedCategoryId } from '@/lib/budgets';
+import { shouldIgnoreArrowNavigation } from '@/lib/keyboard';
 import {
   getDisplayGroups,
   getGroupDisplayName,
   getGroupedSubcategoryDisplayName,
+  getProgressSubcategoryId,
 } from '@/lib/workflowDisplay';
 
 interface SubcategoryPageProps {
@@ -37,6 +40,7 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
   const navigate = useNavigate();
   const { setLastVisited, getSubcategoryProgress } = useAppStore();
   const { toast } = useToast();
+  const completionToastShownRef = useRef<Record<string, boolean>>({});
   const budget = getBudgetConfig(budgetKey);
   const budgetWorkflowData = getWorkflowDataForBudget(workflowData, budget.key);
 
@@ -62,6 +66,9 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
   const subcategoryDisplayName = category && subcategory
     ? getGroupedSubcategoryDisplayName(category.id, parentGroup, subcategory)
     : subcategory?.name || '';
+  const progressSubcategoryId = category && subcategory
+    ? getProgressSubcategoryId(category.id, parentGroup, subcategory)
+    : subcategoryId || '';
   const taskPageNavItems: TaskPageNavItem[] = category
     ? [
         ...getDisplayGroups(category).flatMap((group) =>
@@ -100,29 +107,59 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
     currentNavIndex >= 0 && currentNavIndex < taskPageNavItems.length - 1
       ? taskPageNavItems[currentNavIndex + 1]
       : undefined;
+  const completionToastKey = `${scopedCategoryId}::${progressSubcategoryId}`;
+  const showCompletionToastOnce = (options?: { force?: boolean }) => {
+    if (!options?.force && completionToastShownRef.current[completionToastKey] === true) return;
+
+    completionToastShownRef.current[completionToastKey] = true;
+    toast({
+      title: 'All tasks complete!',
+      description: `You've completed all tasks in ${subcategoryDisplayName}`,
+      variant: 'success',
+    });
+  };
 
   useEffect(() => {
     if (category && subcategoryId) {
-      setLastVisited(scopedCategoryId, subcategoryId);
+      setLastVisited(scopedCategoryId, progressSubcategoryId);
     }
-  }, [category, scopedCategoryId, subcategoryId, setLastVisited]);
+  }, [category, progressSubcategoryId, scopedCategoryId, subcategoryId, setLastVisited]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (shouldIgnoreArrowNavigation(event)) return;
+
+      if (event.key === 'ArrowLeft' && previousTaskPage) {
+        event.preventDefault();
+        navigate(previousTaskPage.path);
+      }
+
+      if (event.key === 'ArrowRight' && nextTaskPage) {
+        event.preventDefault();
+        navigate(nextTaskPage.path);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [navigate, nextTaskPage, previousTaskPage]);
 
   useEffect(() => {
     if (scopedCategoryId && subcategoryId && subcategory) {
       const progress = getSubcategoryProgress(
         scopedCategoryId,
-        subcategoryId,
+        progressSubcategoryId,
         subcategory.tasks.map((task) => task.id)
       );
       if (progress === 100) {
-        toast({
-          title: 'All tasks complete!',
-          description: `You've completed all tasks in ${subcategoryDisplayName}`,
-          variant: 'success',
-        });
+        showCompletionToastOnce();
+      }
+
+      if (progress < 100) {
+        completionToastShownRef.current[completionToastKey] = false;
       }
     }
-  }, [scopedCategoryId, subcategoryId, getSubcategoryProgress, toast, subcategory]);
+  }, [scopedCategoryId, progressSubcategoryId, subcategoryId, getSubcategoryProgress, subcategory, completionToastKey, showCompletionToastOnce]);
 
   if (!category) {
     return (
@@ -169,7 +206,7 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
       {/* Header */}
       <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-10 shadow-sm print:hidden">
         <div className="mx-auto max-w-7xl px-6 py-6">
-          <div className="mb-4">
+          <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <Breadcrumbs
               items={[
                 { label: `Budget: ${budget.shortLabel}`, path: `/budget/${budget.key}/workflow` },
@@ -185,6 +222,12 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
                 { label: subcategoryDisplayName },
               ]}
             />
+            <WorkflowSearch
+              workflowData={budgetWorkflowData}
+              budgetKey={budget.key}
+              currentCategoryId={category.id}
+              className="max-w-none lg:w-[28rem]"
+            />
           </div>
           <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
             <div>
@@ -198,40 +241,43 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
               ) : null}
             </div>
 
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center print:hidden">
-              <Button
-                variant="outline"
-                disabled={!previousTaskPage}
-                onClick={() => previousTaskPage && navigate(previousTaskPage.path)}
-                className="flex min-w-[8.5rem] items-center gap-2 border-primary text-primary hover:bg-primary/5 disabled:border-slate-200 disabled:text-slate-400"
-                title={previousTaskPage ? `Previous: ${previousTaskPage.label}` : 'No previous task page'}
-              >
-                <ArrowLeft className="h-4 w-4" />
-                <span className="text-left">
-                  Previous
-                  {previousTaskPage ? (
-                    <span className="block max-w-44 truncate text-xs font-normal text-slate-500">
-                      {previousTaskPage.label}
-                    </span>
-                  ) : null}
-                </span>
-              </Button>
-              <Button
-                disabled={!nextTaskPage}
-                onClick={() => nextTaskPage && navigate(nextTaskPage.path)}
-                className="flex min-w-[8.5rem] items-center gap-2 disabled:bg-slate-200 disabled:text-slate-500"
-                title={nextTaskPage ? `Next: ${nextTaskPage.label}` : 'No next task page'}
-              >
-                <span className="text-left">
-                  Next
-                  {nextTaskPage ? (
-                    <span className="block max-w-44 truncate text-xs font-normal opacity-85">
-                      {nextTaskPage.label}
-                    </span>
-                  ) : null}
-                </span>
-                <ArrowRight className="h-4 w-4" />
-              </Button>
+            <div className="flex flex-col gap-3 print:hidden lg:items-end">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <Button
+                  variant="outline"
+                  disabled={!previousTaskPage}
+                  onClick={() => previousTaskPage && navigate(previousTaskPage.path)}
+                  className="flex h-auto min-w-[10rem] items-center gap-3 rounded-full border-primary/20 bg-primary/5 px-5 py-3 text-primary shadow-sm transition-colors hover:bg-primary/10 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-400 disabled:shadow-none"
+                  title={previousTaskPage ? `Previous: ${previousTaskPage.label}` : 'No previous task page'}
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  <span className="text-left">
+                    Previous
+                    {previousTaskPage ? (
+                      <span className="block max-w-44 truncate text-xs font-normal text-slate-500">
+                        {previousTaskPage.label}
+                      </span>
+                    ) : null}
+                  </span>
+                </Button>
+                <Button
+                  variant="outline"
+                  disabled={!nextTaskPage}
+                  onClick={() => nextTaskPage && navigate(nextTaskPage.path)}
+                  className="flex h-auto min-w-[10rem] items-center gap-3 rounded-full border-primary/20 bg-primary/5 px-5 py-3 text-primary shadow-sm transition-colors hover:bg-primary/10 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-400 disabled:shadow-none"
+                  title={nextTaskPage ? `Next: ${nextTaskPage.label}` : 'No next task page'}
+                >
+                  <span className="text-left">
+                    Next
+                    {nextTaskPage ? (
+                      <span className="block max-w-44 truncate text-xs font-normal text-slate-500">
+                        {nextTaskPage.label}
+                      </span>
+                    ) : null}
+                  </span>
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -242,7 +288,8 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
           <Checklist
             categoryId={scopedCategoryId}
-            subcategory={{ ...subcategory, name: subcategoryDisplayName }}
+            subcategory={{ ...subcategory, id: progressSubcategoryId, name: subcategoryDisplayName }}
+            onAllTasksComplete={showCompletionToastOnce}
           />
           {subcategory.documents && subcategory.documents.length > 0 ? (
             <aside className="print:hidden">

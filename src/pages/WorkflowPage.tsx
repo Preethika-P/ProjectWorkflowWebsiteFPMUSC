@@ -1,27 +1,63 @@
+import { useState } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { FlowChart, FlowNode, FlowLine } from '@/components/FlowChart';
+import { WorkflowSearch } from '@/components/WorkflowSearch';
 import { useAppStore } from '@/store/useAppStore';
 import type { WorkflowData } from '@/types';
 import { getBudgetConfig, getWorkflowDataForBudget, makeScopedCategoryId } from '@/lib/budgets';
+import { saveWorkflowAsPdf } from '@/lib/exportWorkflow';
+import { getDisplayGroups, getProgressSubcategoryId } from '@/lib/workflowDisplay';
+import { Check, ExternalLink, Filter, Home, X } from 'lucide-react';
 
 interface WorkflowPageProps {
   workflowData: WorkflowData;
 }
 
+type RoadmapFilter = 'all' | 'completed' | 'incomplete';
+
 export function WorkflowPage({ workflowData }: WorkflowPageProps) {
   const navigate = useNavigate();
   const { budgetKey } = useParams<{ budgetKey: string }>();
-  const { getCategoryProgress, progress: storedProgress } = useAppStore();
+  const [roadmapFilter, setRoadmapFilter] = useState<RoadmapFilter>('all');
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const { progress: storedProgress, notes } = useAppStore();
   const budget = getBudgetConfig(budgetKey);
   const budgetWorkflowData = getWorkflowDataForBudget(workflowData, budget.key);
+  const exportOptions = {
+    workflowData: budgetWorkflowData,
+    budgetKey: budget.key,
+    budgetLabel: budget.label,
+    progress: storedProgress,
+    notes,
+  };
 
   const getCategoryTaskCounts = (scopedCategoryId: string, category: WorkflowData['categories'][0]) => {
     const categoryProgress = storedProgress[scopedCategoryId] || {};
     let completedTasks = 0;
     let totalTasks = 0;
 
-    category.subcategories.forEach((subcategory) => {
+    const groupedIndices = new Set<number>();
+
+    getDisplayGroups(category).forEach((group) => {
+      group.subcategoryIndices.forEach((index) => {
+        const subcategory = category.subcategories[index];
+        if (!subcategory || subcategory.isUtility) return;
+
+        groupedIndices.add(index);
+        const progressSubcategoryId = getProgressSubcategoryId(category.id, group, subcategory);
+        const subcategoryProgress = categoryProgress[progressSubcategoryId] || {};
+        totalTasks += subcategory.tasks.length;
+        completedTasks += subcategory.tasks.filter(
+          (task) => subcategoryProgress[task.id] === true
+        ).length;
+      });
+    });
+
+    category.subcategories.forEach((subcategory, index) => {
+      if (groupedIndices.has(index)) return;
+
       const subcategoryProgress = categoryProgress[subcategory.id] || {};
       totalTasks += subcategory.tasks.length;
       completedTasks += subcategory.tasks.filter(
@@ -31,6 +67,40 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
 
     return { completedTasks, totalTasks };
   };
+
+  const overallTaskCounts = budgetWorkflowData.categories.reduce(
+    (counts, category) => {
+      const scopedCategoryId = makeScopedCategoryId(budget.key, category.id);
+      const categoryCounts = getCategoryTaskCounts(scopedCategoryId, category);
+
+      return {
+        completedTasks: counts.completedTasks + categoryCounts.completedTasks,
+        totalTasks: counts.totalTasks + categoryCounts.totalTasks,
+      };
+    },
+    { completedTasks: 0, totalTasks: 0 }
+  );
+  const overallProgress = overallTaskCounts.totalTasks > 0
+    ? (overallTaskCounts.completedTasks / overallTaskCounts.totalTasks) * 100
+    : 0;
+  const categorySummaries = budgetWorkflowData.categories.map((category, index) => {
+    const scopedCategoryId = makeScopedCategoryId(budget.key, category.id);
+    const { completedTasks, totalTasks } = getCategoryTaskCounts(scopedCategoryId, category);
+    const progress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
+    const isComplete = totalTasks > 0 && completedTasks === totalTasks;
+
+    return { category, index, completedTasks, totalTasks, progress, isComplete };
+  });
+  const filteredCategorySummaries = categorySummaries.filter(({ isComplete }) => {
+    if (roadmapFilter === 'completed') return isComplete;
+    if (roadmapFilter === 'incomplete') return !isComplete;
+    return true;
+  });
+  const roadmapFilterLabel = roadmapFilter === 'completed'
+    ? 'Completed only'
+    : roadmapFilter === 'incomplete'
+      ? 'Incomplete only'
+      : undefined;
 
   const handleCategoryClick = (categoryId: string) => {
     const category = budgetWorkflowData.categories.find((c) => c.id === categoryId);
@@ -50,6 +120,31 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
     navigate(`/budget/${budget.key}/category/${category.id}`);
   };
 
+  const renderRoadmapFilterMenu = () => (
+    <div className="absolute right-0 top-full z-50 mt-2 w-48 rounded-xl border border-slate-200 bg-white p-2 shadow-xl">
+      {[
+        { value: 'all' as const, label: 'All phases' },
+        { value: 'completed' as const, label: 'Completed only' },
+        { value: 'incomplete' as const, label: 'Incomplete only' },
+      ].map((option) => (
+        <button
+          key={option.value}
+          type="button"
+          onClick={() => {
+            setRoadmapFilter(option.value);
+            setIsFilterOpen(false);
+          }}
+          className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition-colors hover:bg-primary/5 ${
+            roadmapFilter === option.value ? 'font-semibold text-primary' : 'text-slate-700'
+          }`}
+        >
+          <span>{option.label}</span>
+          {roadmapFilter === option.value ? <Check className="h-4 w-4" /> : null}
+        </button>
+      ))}
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 overflow-x-hidden">
       {/* Header */}
@@ -64,32 +159,56 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
           </div>
         </div>
         <div className="mx-auto max-w-7xl px-6 py-6">
-          <div className="flex items-start justify-between gap-6">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
             <div>
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-3">
-              <h1 className="font-serif text-4xl font-bold text-primary">
-                Project Roadmap
-              </h1>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-3">
+                <Link
+                  to="/"
+                  className="inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-primary/20 bg-primary/5 text-primary shadow-sm transition-colors hover:bg-primary/10"
+                  aria-label="Home"
+                  title="Home"
+                >
+                  <Home className="h-4 w-4" />
+                </Link>
+                <h1 className="font-serif text-4xl font-bold text-primary">
+                  Project Roadmap
+                </h1>
 
-              <div className="inline-flex items-center gap-2 rounded-full border-2 border-primary bg-primary/8 px-4 py-2 shadow-[0_0_0_1px_rgba(153,27,27,0.06),0_10px_24px_-14px_rgba(153,27,27,0.4)]">
-                <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-primary/70">
-                  Budget:
-                </span>
-                <span className="text-base font-bold text-primary">{budget.label}</span>
+                <div className="inline-flex items-center gap-2 rounded-full border-2 border-primary bg-primary/8 px-4 py-2 shadow-[0_0_0_1px_rgba(153,27,27,0.06),0_10px_24px_-14px_rgba(153,27,27,0.4)]">
+                  <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-primary/70">
+                    Budget:
+                  </span>
+                  <span className="text-base font-bold text-primary">{budget.label}</span>
+                </div>
+              </div>
+
+              <p className="mt-3 text-base text-slate-500">
+                {budget.description}
+              </p>
+            </div>
+
+            <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center lg:w-auto lg:min-w-[34rem] lg:justify-end">
+              <WorkflowSearch
+                workflowData={budgetWorkflowData}
+                budgetKey={budget.key}
+                className="lg:max-w-md"
+              />
+              <div className="relative">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsFilterOpen((open) => !open)}
+                  className={`inline-flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-primary/20 bg-primary/5 p-0 text-primary shadow-sm transition-colors hover:bg-primary/10 ${
+                    roadmapFilterLabel ? 'ring-2 ring-primary/10' : ''
+                  }`}
+                  aria-label="Filter project phases"
+                  title="Filter project phases"
+                >
+                  <Filter className="h-4 w-4" />
+                </Button>
+                {isFilterOpen ? renderRoadmapFilterMenu() : null}
               </div>
             </div>
-
-            <p className="mt-3 text-base text-slate-500">
-              {budget.description}
-            </p>
-            </div>
-
-            <Link
-              to="/"
-              className="mt-1 inline-flex flex-shrink-0 items-center rounded-md border border-primary px-3 py-1.5 text-base text-primary transition-colors hover:bg-primary/5"
-            >
-              ← Back
-            </Link>
           </div>
         </div>
       </header>
@@ -101,22 +220,72 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
             Project Phases
           </h2>
           <p className="mx-auto max-w-2xl text-slate-600">
-            Select a phase to review its subcategories, track progress, and manage tasks.
+            Select a phase to review its subcategories, track progress and manage tasks.
           </p>
         </div>
+
+        <div className="mb-4 rounded-lg border border-primary/20 bg-gradient-to-br from-white to-primary/5 px-4 py-2 shadow-sm">
+          <div className="mb-1.5 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h3 className="text-sm font-bold text-primary">
+                Overall Progress
+              </h3>
+              <p className="text-xs text-slate-600">
+                {overallTaskCounts.completedTasks} of {overallTaskCounts.totalTasks} tasks completed
+              </p>
+            </div>
+            <div className="flex flex-col gap-2 sm:items-end">
+              <div className="text-xl font-bold text-primary">
+                {Math.round(overallProgress)}%
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5 print:hidden sm:justify-end">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => saveWorkflowAsPdf(exportOptions)}
+                  className="h-8 rounded-md border-2 border-primary bg-white px-2.5 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary/10"
+                  title="Save full project roadmap as PDF"
+                >
+                  <span>Save as PDF</span>
+                  <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
+                </Button>
+              </div>
+            </div>
+          </div>
+          <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-200">
+            <div
+              className="h-full bg-gradient-to-r from-primary to-primary-dark transition-all duration-500"
+              style={{ width: `${overallProgress}%` }}
+            />
+          </div>
+        </div>
+
+        {roadmapFilterLabel ? (
+          <div className="mb-4 flex justify-center">
+            <div className="inline-flex items-center gap-2 rounded-md border border-primary/30 bg-white px-3 py-1.5 text-xs font-semibold text-primary shadow-sm">
+              <span>Filter: {roadmapFilterLabel}</span>
+              <span className="text-primary/80">
+                {filteredCategorySummaries.length}/{categorySummaries.length}
+              </span>
+              <button
+                type="button"
+                onClick={() => setRoadmapFilter('all')}
+                className="inline-flex h-5 w-5 items-center justify-center rounded-md transition-colors hover:bg-primary/5"
+                aria-label="Clear roadmap filter"
+                title="Clear roadmap filter"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          </div>
+        ) : null}
 
         {/* Horizontal Flowchart */}
         <div className="bg-gradient-to-br from-slate-50 to-white rounded-xl border-2 border-slate-200 p-4 shadow-lg overflow-hidden">
           <div className="overflow-x-auto -mx-4 px-0 scroll-smooth">
+            {filteredCategorySummaries.length > 0 ? (
             <FlowChart>
-            {budgetWorkflowData.categories.map((category, index) => {
-              const scopedCategoryId = makeScopedCategoryId(budget.key, category.id);
-              const { completedTasks, totalTasks } = getCategoryTaskCounts(scopedCategoryId, category);
-              const progress = getCategoryProgress(
-                scopedCategoryId,
-                category.subcategories
-              );
-
+            {filteredCategorySummaries.map(({ category, index, completedTasks, totalTasks, progress }, filteredIndex) => {
               return (
                 <div key={category.id} className="flex items-center">
                   <FlowNode onClick={() => handleCategoryClick(category.id)}>
@@ -158,13 +327,18 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
                     </Card>
                   </FlowNode>
 
-                  {index < budgetWorkflowData.categories.length - 1 && (
+                  {filteredIndex < filteredCategorySummaries.length - 1 && (
                     <FlowLine />
                   )}
                 </div>
               );
             })}
             </FlowChart>
+            ) : (
+              <div className="px-6 py-12 text-center text-sm text-slate-500">
+                No {roadmapFilterLabel?.toLowerCase()} phases match this filter.
+              </div>
+            )}
           </div>
         </div>
       </main>

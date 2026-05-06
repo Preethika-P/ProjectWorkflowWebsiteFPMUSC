@@ -89,7 +89,7 @@
 *   **Sub-category: Permit Tracking** (utility)
     *   Track permit status
     *   Track permit fees
-    *   Defferred approval, permit fees
+    *   Deferred approval, permit fees
 *   **Sub-category: Prepare CPC & FCPC documents** (utility)
     *   Greater than or less than 500K CPC topline
     *   Greater than or less than 5M FCPC topline and resolution
@@ -202,7 +202,7 @@
 *   **Sub-category: Permit Tracking** (utility)
     *   Track permit status
     *   Track permit fees
-    *   Defferred approval, permit fees
+    *   Deferred approval, permit fees
 *   **Sub-category: Prepare CPC & FCPC documents** (utility)
     *   Greater than or less than 500K CPC topline
     *   Greater than or less than 5M FCPC topline and resolution
@@ -290,7 +290,7 @@
 *   **Sub-category: Permit Tracking** (utility)
     *   Track permit status
     *   Track permit fees
-    *   Defferred approval, permit fees
+    *   Deferred approval, permit fees
 *   **Sub-category: Prepare CPC & FCPC documents** (utility)
     *   Greater than or less than 500K CPC topline
     *   Greater than or less than 5M FCPC topline and resolution
@@ -378,7 +378,7 @@
 *   **Sub-category: Permit Tracking** (utility)
     *   Track permit status
     *   Track permit fees
-    *   Defferred approval, permit fees
+    *   Deferred approval, permit fees
 *   **Sub-category: Prepare CPC & FCPC documents** (utility)
     *   Greater than or less than 500K CPC topline
     *   Greater than or less than 5M FCPC topline and resolution
@@ -432,7 +432,7 @@
 *   **Sub-category: Permit Tracking** (utility)
     *   Track permit status
     *   Track permit fees
-    *   Defferred approval, permit fees
+    *   Deferred approval, permit fees
 *   **Sub-category: Prepare CPC & FCPC documents** (utility)
     *   Greater than or less than 500K CPC topline
     *   Greater than or less than 5M FCPC topline and resolution
@@ -446,7 +446,7 @@
 *   **Sub-category: Permit Tracking** (utility)
     *   Track permit status
     *   Track permit fees
-    *   Defferred approval, permit fees
+    *   Deferred approval, permit fees
 *   **Sub-category: Prepare CPC & FCPC documents** (utility)
     *   Greater than or less than 500K CPC topline
     *   Greater than or less than 5M FCPC topline and resolution
