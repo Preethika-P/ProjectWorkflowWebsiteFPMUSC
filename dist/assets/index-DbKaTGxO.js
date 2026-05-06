@@ -222,13 +222,13 @@ Error generating stack: `+s.message+`
             font-size: 11px;
           }
           .section-block {
-            break-inside: avoid;
             margin: 0 0 22px;
           }
           h2 {
             background: #fef2f2;
             border: 1px solid #fecaca;
             border-left: 5px solid #991b1b;
+            break-after: avoid;
             color: #7f1d1d;
             font-size: 18px;
             margin: 0 0 12px;
@@ -236,6 +236,7 @@ Error generating stack: `+s.message+`
           }
           h3 {
             color: #334155;
+            break-after: avoid;
             font-size: 14px;
             margin: 12px 0 8px;
             padding-bottom: 5px;
