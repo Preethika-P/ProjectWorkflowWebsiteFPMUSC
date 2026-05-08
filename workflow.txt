@@ -92,7 +92,7 @@
     *   Deferred approval, permit fees
 *   **Sub-category: Prepare CPC & FCPC documents** (utility)
     *   Greater than or less than 500K CPC topline
-    *   Greater than or less than 5M FCPC topline and resolution
+    *   Greater than or less than 10M FCPC topline and resolution
     *   Prepare 1-pager for resolution preconstruction
     *   Prepare 1-pager for resolution full funding
 
@@ -205,7 +205,7 @@
     *   Deferred approval, permit fees
 *   **Sub-category: Prepare CPC & FCPC documents** (utility)
     *   Greater than or less than 500K CPC topline
-    *   Greater than or less than 5M FCPC topline and resolution
+    *   Greater than or less than 10M FCPC topline and resolution
     *   Prepare 1-pager for resolution preconstruction
     *   Prepare 1-pager for resolution full funding
 
@@ -293,7 +293,7 @@
     *   Deferred approval, permit fees
 *   **Sub-category: Prepare CPC & FCPC documents** (utility)
     *   Greater than or less than 500K CPC topline
-    *   Greater than or less than 5M FCPC topline and resolution
+    *   Greater than or less than 10M FCPC topline and resolution
     *   Prepare 1-pager for resolution preconstruction
     *   Prepare 1-pager for resolution full funding
 
@@ -381,7 +381,7 @@
     *   Deferred approval, permit fees
 *   **Sub-category: Prepare CPC & FCPC documents** (utility)
     *   Greater than or less than 500K CPC topline
-    *   Greater than or less than 5M FCPC topline and resolution
+    *   Greater than or less than 10M FCPC topline and resolution
     *   Prepare 1-pager for resolution preconstruction
     *   Prepare 1-pager for resolution full funding
 *   **Sub-category: Testing**
@@ -435,7 +435,7 @@
     *   Deferred approval, permit fees
 *   **Sub-category: Prepare CPC & FCPC documents** (utility)
     *   Greater than or less than 500K CPC topline
-    *   Greater than or less than 5M FCPC topline and resolution
+    *   Greater than or less than 10M FCPC topline and resolution
     *   Prepare 1-pager for resolution preconstruction
     *   Prepare 1-pager for resolution full funding
 
@@ -449,6 +449,6 @@
     *   Deferred approval, permit fees
 *   **Sub-category: Prepare CPC & FCPC documents** (utility)
     *   Greater than or less than 500K CPC topline
-    *   Greater than or less than 5M FCPC topline and resolution
+    *   Greater than or less than 10M FCPC topline and resolution
     *   Prepare 1-pager for resolution preconstruction
     *   Prepare 1-pager for resolution full funding

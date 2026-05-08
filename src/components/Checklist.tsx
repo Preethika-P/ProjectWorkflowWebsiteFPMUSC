@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useState } from 'react';
+import { useMemo, useEffect, useState, type ReactNode } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -16,20 +16,34 @@ import { useClickOutside } from '@/lib/useClickOutside';
 import { CheckCircle2, Check, Filter, X } from 'lucide-react';
 import type { Subcategory } from '@/types';
 
+export type TaskFilter = 'all' | 'completed' | 'incomplete';
+
 interface ChecklistProps {
   categoryId: string;
   subcategory: Subcategory;
+  taskFilter?: TaskFilter;
+  onTaskFilterChange?: (filter: TaskFilter) => void;
   onAllTasksComplete?: (options?: { force?: boolean }) => void;
+  progressAction?: ReactNode;
 }
 
 const taskActionButtonClass =
   'rounded-md border-primary/30 bg-white px-4 text-xs font-semibold text-primary shadow-sm hover:border-primary/40 hover:bg-primary/5';
 
-export function Checklist({ categoryId, subcategory, onAllTasksComplete }: ChecklistProps) {
+export function Checklist({
+  categoryId,
+  subcategory,
+  taskFilter: controlledTaskFilter,
+  onTaskFilterChange,
+  onAllTasksComplete,
+  progressAction,
+}: ChecklistProps) {
   const { toggleTask, setTaskComplete, markAllTasksComplete, setNote, notes, progress } = useAppStore();
-  const [taskFilter, setTaskFilter] = useState<'all' | 'completed' | 'incomplete'>('all');
+  const [internalTaskFilter, setInternalTaskFilter] = useState<TaskFilter>('all');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const filterRef = useClickOutside<HTMLDivElement>(() => setIsFilterOpen(false), isFilterOpen);
+  const taskFilter = controlledTaskFilter ?? internalTaskFilter;
+  const setTaskFilter = onTaskFilterChange ?? setInternalTaskFilter;
   
   // Initialize tasks in store if not present
   useEffect(() => {
@@ -78,9 +92,9 @@ export function Checklist({ categoryId, subcategory, onAllTasksComplete }: Check
     return subcategory.tasks;
   }, [categoryId, progress, subcategory.id, subcategory.tasks, taskFilter]);
   const filterLabel = taskFilter === 'completed'
-    ? 'Completed only'
+    ? 'Completed Only'
     : taskFilter === 'incomplete'
-      ? 'Incomplete only'
+      ? 'Incomplete Only'
       : undefined;
 
   const handleMarkAll = () => {
@@ -111,7 +125,7 @@ export function Checklist({ categoryId, subcategory, onAllTasksComplete }: Check
       {/* Progress Card */}
       <Card className="border-2 border-primary/20 bg-gradient-to-br from-white to-primary/5 shadow-lg">
         <CardContent className="p-6">
-          <div className="flex items-center justify-between mb-4">
+          <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex items-center gap-3">
               {progressPercent === 100 ? (
                 <CheckCircle2 className="h-8 w-8 text-primary" />
@@ -129,6 +143,9 @@ export function Checklist({ categoryId, subcategory, onAllTasksComplete }: Check
                 </p>
               </div>
             </div>
+            {progressAction ? (
+              <div className="flex justify-end print:hidden">{progressAction}</div>
+            ) : null}
           </div>
           <Progress value={progressPercent} className="h-3 mb-2" />
           <div className="flex items-center justify-between mt-4">
@@ -197,9 +214,9 @@ export function Checklist({ categoryId, subcategory, onAllTasksComplete }: Check
                   {isFilterOpen ? (
                     <div className="absolute right-0 top-full z-40 mt-2 w-48 rounded-xl border border-slate-200 bg-white p-2 shadow-xl">
                       {[
-                        { value: 'all' as const, label: 'All tasks' },
-                        { value: 'completed' as const, label: 'Completed only' },
-                        { value: 'incomplete' as const, label: 'Incomplete only' },
+                        { value: 'all' as const, label: 'All Tasks' },
+                        { value: 'completed' as const, label: 'Completed Only' },
+                        { value: 'incomplete' as const, label: 'Incomplete Only' },
                       ].map((option) => (
                         <button
                           key={option.value}

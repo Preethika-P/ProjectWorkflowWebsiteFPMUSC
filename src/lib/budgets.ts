@@ -12,15 +12,15 @@ interface BudgetConfig {
 const BUDGET_CONFIGS: Record<BudgetKey, BudgetConfig> = {
   'under-5m': {
     key: 'under-5m',
-    label: 'Upto $5 Million',
-    shortLabel: 'Upto $5M',
-    description: 'This roadmap applies to projects with budgets up to $5 million.',
+    label: 'Upto $10 Million',
+    shortLabel: 'Upto $10M',
+    description: 'This roadmap applies to projects with budgets up to $10 million.',
   },
   'over-5m': {
     key: 'over-5m',
-    label: '$5M and Above',
-    shortLabel: '$5M and Above',
-    description: 'This roadmap applies to projects with budgets of $5 million and above.',
+    label: '$10M and Above',
+    shortLabel: '$10M and Above',
+    description: 'This roadmap applies to projects with budgets of $10 million and above.',
   },
 };
 

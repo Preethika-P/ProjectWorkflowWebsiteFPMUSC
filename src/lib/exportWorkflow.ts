@@ -24,6 +24,19 @@ interface ExportCategoryOptions extends ExportBaseOptions {
   categoryNumber: number;
 }
 
+interface ExportSubcategoryOptions extends ExportCategoryOptions {
+  subcategory: Subcategory;
+  itemName: string;
+  progressSubcategoryId: string;
+  groupName?: string;
+}
+
+export interface PdfApprovalDetails {
+  projectName: string;
+  fullName: string;
+  directorApprovalName: string;
+}
+
 interface ExportItem {
   sectionNumber: number;
   sectionName: string;
@@ -238,7 +251,12 @@ function makeFileName(title: string) {
     .replace(/^-+|-+$/g, '');
 }
 
-function buildPrintDocument(title: string, budgetLabel: string, sections: PrintableSection[]) {
+function buildPrintDocument(
+  title: string,
+  budgetLabel: string,
+  sections: PrintableSection[],
+  approvalDetails: PdfApprovalDetails
+) {
   const generatedAt = new Date().toLocaleString();
 
   const sectionMarkup = sections
@@ -299,16 +317,19 @@ function buildPrintDocument(title: string, budgetLabel: string, sections: Printa
             border-bottom: 3px solid #991b1b;
             margin-bottom: 22px;
             padding-bottom: 14px;
+            text-align: center;
           }
           h1 {
             color: #991b1b;
             font-family: Georgia, 'Times New Roman', serif;
             font-size: 26px;
             margin: 0 0 8px;
+            text-align: center;
           }
           .meta {
             color: #64748b;
             display: flex;
+            justify-content: center;
             gap: 18px;
             flex-wrap: wrap;
             font-size: 11px;
@@ -389,8 +410,11 @@ function buildPrintDocument(title: string, budgetLabel: string, sections: Printa
         <header class="document-header">
           <h1>${escapeHtml(title)}</h1>
           <div class="meta">
-            <span><strong>Budget:</strong> ${escapeHtml(budgetLabel)}</span>
+            <span><strong>Project Name:</strong> ${escapeHtml(approvalDetails.projectName)}</span>
+            <span><strong>Prepared By:</strong> ${escapeHtml(approvalDetails.fullName)}</span>
+            <span><strong>Director to Approve:</strong> ${escapeHtml(approvalDetails.directorApprovalName)}</span>
             <span><strong>Generated:</strong> ${escapeHtml(generatedAt)}</span>
+            <span><strong>Budget:</strong> ${escapeHtml(budgetLabel)}</span>
           </div>
         </header>
         ${sectionMarkup}
@@ -445,7 +469,12 @@ function buildPrintableItemMarkup(item: PrintableItem) {
   `;
 }
 
-function openPrintDocument(title: string, budgetLabel: string, sections: PrintableSection[]) {
+function openPrintDocument(
+  title: string,
+  budgetLabel: string,
+  sections: PrintableSection[],
+  approvalDetails: PdfApprovalDetails
+) {
   const printWindow = window.open('', '_blank');
   if (!printWindow) {
     window.alert('Please allow pop-ups to save this export as a PDF.');
@@ -453,7 +482,7 @@ function openPrintDocument(title: string, budgetLabel: string, sections: Printab
   }
 
   printWindow.document.open();
-  printWindow.document.write(buildPrintDocument(title, budgetLabel, sections));
+  printWindow.document.write(buildPrintDocument(title, budgetLabel, sections, approvalDetails));
   printWindow.document.close();
 }
 
@@ -522,12 +551,49 @@ function downloadExcel(title: string, budgetLabel: string, sections: PrintableSe
   URL.revokeObjectURL(url);
 }
 
-export function saveCategoryAsPdf(options: ExportCategoryOptions) {
+export function saveCategoryAsPdf(options: ExportCategoryOptions, approvalDetails: PdfApprovalDetails) {
   const section = buildPrintableSection(options);
   openPrintDocument(
     `${options.categoryNumber}. ${options.category.name} Full Detail Export`,
     options.budgetLabel,
-    [section]
+    [section],
+    approvalDetails
+  );
+}
+
+export function saveSubcategoryAsPdf(
+  options: ExportSubcategoryOptions,
+  approvalDetails: PdfApprovalDetails
+) {
+  const scopedCategoryId = makeScopedCategoryId(options.budgetKey, options.category.id);
+  const printableItem = toPrintableItem(
+    options.subcategory,
+    options.subcategory.isUtility ? 'Utility' : 'Subsection',
+    options.itemName,
+    scopedCategoryId,
+    options.progressSubcategoryId,
+    options.progress,
+    options.notes
+  );
+  const section: PrintableSection = {
+    sectionNumber: options.categoryNumber,
+    sectionName: options.category.name,
+    groups: options.subcategory.isUtility
+      ? []
+      : [
+          {
+            groupName: options.groupName || 'Subsection',
+            items: [printableItem],
+          },
+        ],
+    utilities: options.subcategory.isUtility ? [printableItem] : [],
+  };
+
+  openPrintDocument(
+    `${options.categoryNumber}. ${options.category.name} - ${options.itemName} Full Detail Export`,
+    options.budgetLabel,
+    [section],
+    approvalDetails
   );
 }
 
@@ -540,9 +606,14 @@ export function saveCategoryToExcel(options: ExportCategoryOptions) {
   );
 }
 
-export function saveWorkflowAsPdf(options: ExportBaseOptions) {
+export function saveWorkflowAsPdf(options: ExportBaseOptions, approvalDetails: PdfApprovalDetails) {
   const sections = buildPrintableWorkflow(options);
-  openPrintDocument('Project Roadmap Full Detail Export', options.budgetLabel, sections);
+  openPrintDocument(
+    'Project Roadmap Full Detail Export',
+    options.budgetLabel,
+    sections,
+    approvalDetails
+  );
 }
 
 export function saveWorkflowToExcel(options: ExportBaseOptions) {

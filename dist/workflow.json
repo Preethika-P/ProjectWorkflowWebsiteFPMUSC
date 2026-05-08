@@ -1,5 +1,5 @@
 {
-  "budgetRange": "Budget Range: Under $5 Million",
+  "budgetRange": "Budget Range: Under $10 Million",
   "categories": [
     {
       "id": "project-initiation",
@@ -419,7 +419,7 @@
             },
             {
               "id": "greater-than-or-less-than-5m-fcpc-topline-and-resolution",
-              "name": "Greater than or less than 5M FCPC topline and resolution"
+              "name": "Greater than or less than 10M FCPC topline and resolution"
             },
             {
               "id": "prepare-1-pager-for-resolution-preconstruction",
@@ -1018,7 +1018,7 @@
             },
             {
               "id": "greater-than-or-less-than-5m-fcpc-topline-and-resolution",
-              "name": "Greater than or less than 5M FCPC topline and resolution"
+              "name": "Greater than or less than 10M FCPC topline and resolution"
             },
             {
               "id": "prepare-1-pager-for-resolution-preconstruction",
@@ -1447,7 +1447,7 @@
             },
             {
               "id": "greater-than-or-less-than-5m-fcpc-topline-and-resolution",
-              "name": "Greater than or less than 5M FCPC topline and resolution"
+              "name": "Greater than or less than 10M FCPC topline and resolution"
             },
             {
               "id": "prepare-1-pager-for-resolution-preconstruction",
@@ -1477,6 +1477,18 @@
     {
       "id": "construction",
       "name": "Construction",
+      "documents": [
+        {
+          "id": "construction-kick-off-meeting-agenda",
+          "name": "Construction Kick-Off Meeting Agenda",
+          "url": "/documents/construction-kick-off-meeting-agenda.doc"
+        },
+        {
+          "id": "construction-oac-meeting-agenda",
+          "name": "Construction OAC Meeting Agenda",
+          "url": "/documents/construction-oac-meeting-agenda.doc"
+        }
+      ],
       "subcategories": [
         {
           "id": "construction-ko",
@@ -1485,8 +1497,7 @@
             {
               "id": "construction-kick-off-meeting-agenda",
               "name": "Construction Kick-Off Meeting Agenda",
-              "url": "/documents/construction-kick-off-meeting-agenda.doc",
-              "description": "Open the agenda document for the construction kick-off meeting."
+              "url": "/documents/construction-kick-off-meeting-agenda.doc"
             }
           ],
           "tasks": [
@@ -1581,8 +1592,7 @@
             {
               "id": "construction-oac-meeting-agenda",
               "name": "Construction OAC Meeting Agenda",
-              "url": "/documents/construction-oac-meeting-agenda.doc",
-              "description": "Open the agenda document for the OAC meeting."
+              "url": "/documents/construction-oac-meeting-agenda.doc"
             }
           ],
           "tasks": [
@@ -1864,7 +1874,7 @@
             },
             {
               "id": "greater-than-or-less-than-5m-fcpc-topline-and-resolution",
-              "name": "Greater than or less than 5M FCPC topline and resolution"
+              "name": "Greater than or less than 10M FCPC topline and resolution"
             },
             {
               "id": "prepare-1-pager-for-resolution-preconstruction",
@@ -1973,6 +1983,13 @@
     {
       "id": "closeout",
       "name": "Closeout",
+      "documents": [
+        {
+          "id": "closeout-checklist-with-refs-updated",
+          "name": "Closeout Checklist",
+          "url": "/documents/closeout-checklist-with-refs-updated.xlsx"
+        }
+      ],
       "subcategories": [
         {
           "id": "closeout",
@@ -2135,7 +2152,7 @@
             },
             {
               "id": "greater-than-or-less-than-5m-fcpc-topline-and-resolution",
-              "name": "Greater than or less than 5M FCPC topline and resolution"
+              "name": "Greater than or less than 10M FCPC topline and resolution"
             },
             {
               "id": "prepare-1-pager-for-resolution-preconstruction",
@@ -2202,7 +2219,7 @@
             },
             {
               "id": "greater-than-or-less-than-5m-fcpc-topline-and-resolution",
-              "name": "Greater than or less than 5M FCPC topline and resolution"
+              "name": "Greater than or less than 10M FCPC topline and resolution"
             },
             {
               "id": "prepare-1-pager-for-resolution-preconstruction",

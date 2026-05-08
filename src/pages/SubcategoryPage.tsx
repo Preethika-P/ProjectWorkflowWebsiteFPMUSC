@@ -1,16 +1,20 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { Checklist } from '@/components/Checklist';
+import { Checklist, type TaskFilter } from '@/components/Checklist';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { PdfExportDialog } from '@/components/PdfExportDialog';
 import { ReferenceDocumentsPanel } from '@/components/ReferenceDocumentsPanel';
 import { WorkflowSearch } from '@/components/WorkflowSearch';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, ExternalLink, Filter } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 import { useToast } from '@/components/ui/use-toast';
 import type { WorkflowData } from '@/types';
 import { getBudgetConfig, getWorkflowDataForBudget, makeScopedCategoryId } from '@/lib/budgets';
+import { saveSubcategoryAsPdf } from '@/lib/exportWorkflow';
 import { shouldIgnoreArrowNavigation } from '@/lib/keyboard';
+import { cn } from '@/lib/utils';
+import { useClickOutside } from '@/lib/useClickOutside';
 import {
   getDisplayGroups,
   getGroupDisplayName,
@@ -38,7 +42,14 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
   }>();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { setLastVisited, getSubcategoryProgress } = useAppStore();
+  const [taskFilter, setTaskFilter] = useState<TaskFilter>('all');
+  const [isTaskFilterOpen, setIsTaskFilterOpen] = useState(false);
+  const [isPdfDialogOpen, setIsPdfDialogOpen] = useState(false);
+  const taskFilterRef = useClickOutside<HTMLDivElement>(
+    () => setIsTaskFilterOpen(false),
+    isTaskFilterOpen
+  );
+  const { setLastVisited, getSubcategoryProgress, progress, notes } = useAppStore();
   const { toast } = useToast();
   const completionToastShownRef = useRef<Record<string, boolean>>({});
   const budget = getBudgetConfig(budgetKey);
@@ -107,6 +118,14 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
     currentNavIndex >= 0 && currentNavIndex < taskPageNavItems.length - 1
       ? taskPageNavItems[currentNavIndex + 1]
       : undefined;
+  const taskFilterLabel = taskFilter === 'completed'
+    ? 'Completed Only'
+    : taskFilter === 'incomplete'
+      ? 'Incomplete Only'
+      : undefined;
+  const categoryNumber = category
+    ? budgetWorkflowData.categories.findIndex((item) => item.id === category.id) + 1
+    : 0;
   const completionToastKey = `${scopedCategoryId}::${progressSubcategoryId}`;
   const showCompletionToastOnce = (options?: { force?: boolean }) => {
     if (!options?.force && completionToastShownRef.current[completionToastKey] === true) return;
@@ -201,6 +220,46 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
     );
   }
 
+  const renderTaskFilterMenu = () => (
+    <div className="absolute right-0 top-full z-50 mt-2 w-48 -translate-x-4 rounded-xl border border-slate-200 bg-white p-2 shadow-xl sm:-translate-x-2">
+      {[
+        { value: 'all' as const, label: 'All Tasks' },
+        { value: 'completed' as const, label: 'Completed Only' },
+        { value: 'incomplete' as const, label: 'Incomplete Only' },
+      ].map((option) => (
+        <button
+          key={option.value}
+          type="button"
+          onClick={() => {
+            setTaskFilter(option.value);
+            setIsTaskFilterOpen(false);
+          }}
+          className={cn(
+            'flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition-colors hover:bg-primary/5',
+            taskFilter === option.value ? 'font-semibold text-primary' : 'text-slate-700'
+          )}
+        >
+          <span>{option.label}</span>
+          {taskFilter === option.value ? <Check className="h-4 w-4" /> : null}
+        </button>
+      ))}
+    </div>
+  );
+
+  const exportOptions = {
+    workflowData: budgetWorkflowData,
+    budgetKey: budget.key,
+    budgetLabel: budget.label,
+    category,
+    categoryNumber,
+    subcategory,
+    itemName: subcategoryDisplayName,
+    progressSubcategoryId,
+    groupName: parentGroup ? getGroupDisplayName(category.id, parentGroup) : undefined,
+    progress,
+    notes,
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
       {/* Header */}
@@ -222,12 +281,30 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
                 { label: subcategoryDisplayName },
               ]}
             />
-            <WorkflowSearch
-              workflowData={budgetWorkflowData}
-              budgetKey={budget.key}
-              currentCategoryId={category.id}
-              className="max-w-none lg:w-[28rem]"
-            />
+            <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center lg:w-auto lg:min-w-[34rem] lg:justify-end">
+              <WorkflowSearch
+                workflowData={budgetWorkflowData}
+                budgetKey={budget.key}
+                currentCategoryId={category.id}
+                className="max-w-none lg:max-w-md"
+              />
+              <div ref={taskFilterRef} className="relative">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsTaskFilterOpen((open) => !open)}
+                  className={cn(
+                    'inline-flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-primary/20 bg-primary/5 p-0 text-primary shadow-sm transition-colors hover:bg-primary/10',
+                    taskFilterLabel && 'ring-2 ring-primary/10'
+                  )}
+                  aria-label="Filter tasks"
+                  title="Filter tasks"
+                >
+                  <Filter className="h-4 w-4" />
+                </Button>
+                {isTaskFilterOpen ? renderTaskFilterMenu() : null}
+              </div>
+            </div>
           </div>
           <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
             <div>
@@ -289,7 +366,21 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
           <Checklist
             categoryId={scopedCategoryId}
             subcategory={{ ...subcategory, id: progressSubcategoryId, name: subcategoryDisplayName }}
+            taskFilter={taskFilter}
+            onTaskFilterChange={setTaskFilter}
             onAllTasksComplete={showCompletionToastOnce}
+            progressAction={
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setIsPdfDialogOpen(true)}
+                className="h-9 whitespace-nowrap rounded-md border-2 border-primary bg-white px-3 py-1.5 text-xs font-semibold text-primary transition-colors hover:bg-primary/10"
+                title={`Save ${subcategoryDisplayName} as PDF`}
+              >
+                <span>Save as PDF</span>
+                <ExternalLink className="ml-1.5 h-3.5 w-3.5" />
+              </Button>
+            }
           />
           {subcategory.documents && subcategory.documents.length > 0 ? (
             <aside className="print:hidden">
@@ -298,6 +389,15 @@ export function SubcategoryPage({ workflowData }: SubcategoryPageProps) {
           ) : null}
         </div>
       </main>
+      {isPdfDialogOpen ? (
+        <PdfExportDialog
+          onCancel={() => setIsPdfDialogOpen(false)}
+          onSubmit={(details) => {
+            saveSubcategoryAsPdf(exportOptions, details);
+            setIsPdfDialogOpen(false);
+          }}
+        />
+      ) : null}
     </div>
   );
 }

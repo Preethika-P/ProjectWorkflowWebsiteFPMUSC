@@ -3,22 +3,103 @@ import { useNavigate, Link, useParams } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
+import { DocumentIndexDialog, type DocumentIndexItem } from '@/components/DocumentIndexDialog';
 import { FlowChart, FlowNode, FlowLine } from '@/components/FlowChart';
+import { PdfExportDialog } from '@/components/PdfExportDialog';
 import { WorkflowSearch } from '@/components/WorkflowSearch';
 import { useAppStore } from '@/store/useAppStore';
-import type { WorkflowData } from '@/types';
+import type { Category, ReferenceDocument, WorkflowData } from '@/types';
 import { getBudgetConfig, getWorkflowDataForBudget, makeScopedCategoryId } from '@/lib/budgets';
 import { saveWorkflowAsPdf } from '@/lib/exportWorkflow';
-import { getDisplayGroups, getProgressSubcategoryId } from '@/lib/workflowDisplay';
+import {
+  getDisplayGroups,
+  getGroupDisplayName,
+  getGroupedSubcategoryDisplayName,
+  getProgressSubcategoryId,
+} from '@/lib/workflowDisplay';
 import { useClickOutside } from '@/lib/useClickOutside';
-import { Check, ExternalLink, Filter, Home, X } from 'lucide-react';
+import { Check, ExternalLink, FileText, Filter, Home, X } from 'lucide-react';
 
 interface WorkflowPageProps {
   workflowData: WorkflowData;
 }
 
-type RoadmapFilter = 'all' | 'completed' | 'incomplete';
+type RoadmapFilter =
+  | 'all'
+  | 'completed'
+  | 'incomplete'
+  | 'documents'
+  | 'no-documents'
+  | 'notes'
+  | 'no-notes';
 type OverallAction = 'markAll' | 'reset';
+
+function getDocumentFileType(url: string) {
+  const extension = url.split('.').pop()?.toUpperCase();
+  return extension || 'DOC';
+}
+
+function addDocumentIndexItem(
+  index: Map<string, DocumentIndexItem>,
+  document: ReferenceDocument,
+  location: string
+) {
+  const key = `${document.name}::${document.url}`;
+  const existing = index.get(key);
+
+  if (existing) {
+    if (!existing.locations.includes(location)) {
+      existing.locations.push(location);
+    }
+    return;
+  }
+
+  index.set(key, {
+    id: key,
+    name: document.name,
+    url: document.url,
+    description: document.description,
+    fileType: getDocumentFileType(document.url),
+    locations: [location],
+  });
+}
+
+function buildDocumentIndex(workflowData: WorkflowData): DocumentIndexItem[] {
+  const index = new Map<string, DocumentIndexItem>();
+
+  workflowData.categories.forEach((category: Category, categoryIndex) => {
+    const sectionLabel = `${categoryIndex + 1}. ${category.name}`;
+
+    category.documents?.forEach((document) => {
+      addDocumentIndexItem(index, document, sectionLabel);
+    });
+
+    const groupedIndices = new Set<number>();
+    getDisplayGroups(category).forEach((group) => {
+      const groupLabel = `${group.badgeLabel || group.subgroup}. ${getGroupDisplayName(category.id, group)}`;
+      group.subcategoryIndices.forEach((subcategoryIndex) => {
+        groupedIndices.add(subcategoryIndex);
+        const subcategory = category.subcategories[subcategoryIndex];
+        if (!subcategory || subcategory.isUtility) return;
+
+        const subcategoryLabel = getGroupedSubcategoryDisplayName(category.id, group, subcategory);
+        subcategory.documents?.forEach((document) => {
+          addDocumentIndexItem(index, document, `${sectionLabel} > ${groupLabel} > ${subcategoryLabel}`);
+        });
+      });
+    });
+
+    category.subcategories.forEach((subcategory, subcategoryIndex) => {
+      if (groupedIndices.has(subcategoryIndex) || subcategory.isUtility) return;
+
+      subcategory.documents?.forEach((document) => {
+        addDocumentIndexItem(index, document, `${sectionLabel} > ${subcategory.name}`);
+      });
+    });
+  });
+
+  return Array.from(index.values()).sort((a, b) => a.name.localeCompare(b.name));
+}
 
 export function WorkflowPage({ workflowData }: WorkflowPageProps) {
   const navigate = useNavigate();
@@ -26,6 +107,8 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
   const [roadmapFilter, setRoadmapFilter] = useState<RoadmapFilter>('all');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [pendingOverallAction, setPendingOverallAction] = useState<OverallAction | undefined>();
+  const [isDocumentIndexOpen, setIsDocumentIndexOpen] = useState(false);
+  const [isPdfDialogOpen, setIsPdfDialogOpen] = useState(false);
   const roadmapFilterRef = useClickOutside<HTMLDivElement>(
     () => setIsFilterOpen(false),
     isFilterOpen
@@ -33,6 +116,7 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
   const { progress: storedProgress, notes, setTaskComplete } = useAppStore();
   const budget = getBudgetConfig(budgetKey);
   const budgetWorkflowData = getWorkflowDataForBudget(workflowData, budget.key);
+  const documentIndex = buildDocumentIndex(budgetWorkflowData);
   const exportOptions = {
     workflowData: budgetWorkflowData,
     budgetKey: budget.key,
@@ -96,19 +180,60 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
     const { completedTasks, totalTasks } = getCategoryTaskCounts(scopedCategoryId, category);
     const progress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
     const isComplete = totalTasks > 0 && completedTasks === totalTasks;
+    const hasReferenceDocuments = Boolean(category.documents?.length) ||
+      category.subcategories.some((subcategory) => Boolean(subcategory.documents?.length));
+    const hasNotes = category.subcategories.some((subcategory, subcategoryIndex) => {
+      const parentGroup = getDisplayGroups(category).find((group) =>
+        group.subcategoryIndices.includes(subcategoryIndex)
+      );
+      const progressSubcategoryId =
+        parentGroup && !subcategory.isUtility
+          ? getProgressSubcategoryId(category.id, parentGroup, subcategory)
+          : subcategory.id;
 
-    return { category, index, completedTasks, totalTasks, progress, isComplete };
+      return Boolean(notes[scopedCategoryId]?.[progressSubcategoryId]?.trim());
+    });
+
+    return {
+      category,
+      index,
+      completedTasks,
+      totalTasks,
+      progress,
+      isComplete,
+      hasReferenceDocuments,
+      hasNotes,
+    };
   });
-  const filteredCategorySummaries = categorySummaries.filter(({ isComplete }) => {
+  const filteredCategorySummaries = categorySummaries.filter(({
+    isComplete,
+    hasReferenceDocuments,
+    hasNotes,
+  }) => {
     if (roadmapFilter === 'completed') return isComplete;
     if (roadmapFilter === 'incomplete') return !isComplete;
+    if (roadmapFilter === 'documents') return hasReferenceDocuments;
+    if (roadmapFilter === 'no-documents') return !hasReferenceDocuments;
+    if (roadmapFilter === 'notes') return hasNotes;
+    if (roadmapFilter === 'no-notes') return !hasNotes;
     return true;
   });
   const roadmapFilterLabel = roadmapFilter === 'completed'
-    ? 'Completed only'
+    ? 'Completed Only'
     : roadmapFilter === 'incomplete'
-      ? 'Incomplete only'
-      : undefined;
+      ? 'Incomplete Only'
+      : roadmapFilter === 'documents'
+        ? 'With Reference Documents'
+        : roadmapFilter === 'no-documents'
+          ? 'Without Reference Documents'
+          : roadmapFilter === 'notes'
+            ? 'With Notes'
+            : roadmapFilter === 'no-notes'
+              ? 'Without Notes'
+              : undefined;
+  const noRoadmapMatchesText = roadmapFilterLabel
+    ? `No phases match the ${roadmapFilterLabel.toLowerCase()} filter.`
+    : 'No phases match this filter.';
 
   const setAllWorkflowTasksComplete = (complete: boolean) => {
     budgetWorkflowData.categories.forEach((category) => {
@@ -157,11 +282,15 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
   };
 
   const renderRoadmapFilterMenu = () => (
-    <div className="absolute right-0 top-full z-50 mt-2 w-48 rounded-xl border border-slate-200 bg-white p-2 shadow-xl">
+    <div className="absolute right-0 top-full z-50 mt-2 w-64 -translate-x-4 rounded-xl border border-slate-200 bg-white p-2 shadow-xl sm:-translate-x-2">
       {[
-        { value: 'all' as const, label: 'All phases' },
-        { value: 'completed' as const, label: 'Completed only' },
-        { value: 'incomplete' as const, label: 'Incomplete only' },
+        { value: 'all' as const, label: 'All Phases' },
+        { value: 'completed' as const, label: 'Completed Only' },
+        { value: 'incomplete' as const, label: 'Incomplete Only' },
+        { value: 'documents' as const, label: 'With Reference Documents' },
+        { value: 'no-documents' as const, label: 'Without Reference Documents' },
+        { value: 'notes' as const, label: 'With Notes' },
+        { value: 'no-notes' as const, label: 'Without Notes' },
       ].map((option) => (
         <button
           key={option.value}
@@ -260,6 +389,19 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
           </p>
         </div>
 
+        <div className="mb-4 flex justify-end print:hidden">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setIsDocumentIndexOpen(true)}
+            className="h-9 rounded-md border-2 border-primary bg-white px-3 py-1.5 text-sm font-semibold text-primary shadow-sm transition-colors hover:bg-primary/10"
+            title="Show all reference documents"
+          >
+            <FileText className="mr-2 h-4 w-4" />
+            Reference Documents List
+          </Button>
+        </div>
+
         <div className="mb-4 rounded-lg border border-primary/20 bg-gradient-to-br from-white to-primary/5 px-4 py-3 shadow-sm">
           <div className="mb-1.5 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -305,7 +447,7 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => saveWorkflowAsPdf(exportOptions)}
+                onClick={() => setIsPdfDialogOpen(true)}
                 className="h-8 rounded-md border-2 border-primary bg-white px-2.5 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary/10"
                 title="Save full project roadmap as PDF"
               >
@@ -392,7 +534,7 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
             </FlowChart>
             ) : (
               <div className="px-6 py-12 text-center text-sm text-slate-500">
-                No {roadmapFilterLabel?.toLowerCase()} phases match this filter.
+                {noRoadmapMatchesText}
               </div>
             )}
           </div>
@@ -411,6 +553,21 @@ export function WorkflowPage({ workflowData }: WorkflowPageProps) {
           onConfirm={() => {
             setAllWorkflowTasksComplete(pendingOverallAction === 'markAll');
             setPendingOverallAction(undefined);
+          }}
+        />
+      ) : null}
+      {isDocumentIndexOpen ? (
+        <DocumentIndexDialog
+          documents={documentIndex}
+          onClose={() => setIsDocumentIndexOpen(false)}
+        />
+      ) : null}
+      {isPdfDialogOpen ? (
+        <PdfExportDialog
+          onCancel={() => setIsPdfDialogOpen(false)}
+          onSubmit={(details) => {
+            saveWorkflowAsPdf(exportOptions, details);
+            setIsPdfDialogOpen(false);
           }}
         />
       ) : null}

@@ -10,7 +10,14 @@ import { useClickOutside } from '@/lib/useClickOutside';
 import { Check, Filter, Wrench, X } from 'lucide-react';
 import type { Category } from '@/types';
 
-type TaskFilter = 'all' | 'completed' | 'incomplete';
+type UtilityFilter =
+  | 'all'
+  | 'completed'
+  | 'incomplete'
+  | 'documents'
+  | 'no-documents'
+  | 'notes'
+  | 'no-notes';
 
 const utilityButtonClass =
   'h-8 rounded-full border-primary/30 bg-white px-2 text-[10px] font-semibold text-primary shadow-sm hover:border-primary/40 hover:bg-primary/5';
@@ -18,7 +25,7 @@ const utilityButtonClass =
 interface UtilitiesPanelProps {
   category: Category;
   scopedCategoryId: string;
-  sectionFilter?: TaskFilter;
+  sectionFilter?: UtilityFilter;
   onClearSectionFilter?: () => void;
   sticky?: boolean;
 }
@@ -30,10 +37,10 @@ export function UtilitiesPanel({
   onClearSectionFilter,
   sticky = true,
 }: UtilitiesPanelProps) {
-  const { toggleTask, progress, setTaskComplete } = useAppStore();
-  const [overallFilter, setOverallFilter] = useState<TaskFilter>('all');
+  const { toggleTask, progress, setTaskComplete, notes } = useAppStore();
+  const [overallFilter, setOverallFilter] = useState<UtilityFilter>('all');
   const [isOverallFilterOpen, setIsOverallFilterOpen] = useState(false);
-  const [utilityFilters, setUtilityFilters] = useState<Record<string, TaskFilter>>({});
+  const [utilityFilters, setUtilityFilters] = useState<Record<string, UtilityFilter>>({});
   const [openUtilityFilterId, setOpenUtilityFilterId] = useState<string | undefined>();
   const [pendingOverallAction, setPendingOverallAction] = useState<'markAll' | 'reset' | undefined>();
   const overallFilterRef = useClickOutside<HTMLDivElement>(
@@ -62,15 +69,19 @@ export function UtilitiesPanel({
     });
   };
 
-  const getFilterLabel = (filter: TaskFilter) => {
-    if (filter === 'completed') return 'Completed only';
-    if (filter === 'incomplete') return 'Incomplete only';
+  const getFilterLabel = (filter: UtilityFilter) => {
+    if (filter === 'completed') return 'Completed Only';
+    if (filter === 'incomplete') return 'Incomplete Only';
+    if (filter === 'documents') return 'With Reference Documents';
+    if (filter === 'no-documents') return 'Without Reference Documents';
+    if (filter === 'notes') return 'With Notes';
+    if (filter === 'no-notes') return 'Without Notes';
     return undefined;
   };
 
   const getFilteredTasks = (
     subcategory: Category['subcategories'][0],
-    filter: TaskFilter
+    filter: UtilityFilter
   ) => {
     const subcategoryProgress = progress[scopedCategoryId]?.[subcategory.id] || {};
 
@@ -85,7 +96,21 @@ export function UtilitiesPanel({
     return subcategory.tasks;
   };
 
+  const utilityMatchesFilter = (
+    subcategory: Category['subcategories'][0],
+    filter: UtilityFilter
+  ) => {
+    if (filter === 'documents') return Boolean(subcategory.documents?.length);
+    if (filter === 'no-documents') return !subcategory.documents?.length;
+    if (filter === 'notes') return Boolean(notes[scopedCategoryId]?.[subcategory.id]?.trim());
+    if (filter === 'no-notes') return !notes[scopedCategoryId]?.[subcategory.id]?.trim();
+    if (filter === 'all') return true;
+
+    return getFilteredTasks(subcategory, filter).length > 0;
+  };
+
   const overallFilteredCount = utilitySubcategories.reduce((count, subcategory) => {
+    if (!utilityMatchesFilter(subcategory, overallFilter)) return count;
     return count + getFilteredTasks(subcategory, overallFilter).length;
   }, 0);
 
@@ -99,7 +124,7 @@ export function UtilitiesPanel({
       overallFilter !== 'all' ? overallFilter : sectionFilter
     );
 
-    return activeFilter === 'all' || getFilteredTasks(subcategory, activeFilter).length > 0;
+    return utilityMatchesFilter(subcategory, activeFilter);
   });
   const activePanelFilterLabel = getFilterLabel(overallFilter !== 'all' ? overallFilter : sectionFilter);
 
@@ -108,16 +133,20 @@ export function UtilitiesPanel({
   }
 
   const renderFilterMenu = (
-    activeFilter: TaskFilter,
-    onSelect: (filter: TaskFilter) => void,
+    activeFilter: UtilityFilter,
+    onSelect: (filter: UtilityFilter) => void,
     alignClass = 'right-0',
-    allLabel = 'All utilities'
+    allLabel = 'All Utilities'
   ) => (
-    <div className={cn('absolute top-full z-40 mt-2 w-48 rounded-xl border border-slate-200 bg-white p-2 shadow-xl', alignClass)}>
+    <div className={cn('absolute top-full z-40 mt-2 w-64 rounded-xl border border-slate-200 bg-white p-2 shadow-xl', alignClass)}>
       {[
         { value: 'all' as const, label: allLabel },
-        { value: 'completed' as const, label: 'Completed only' },
-        { value: 'incomplete' as const, label: 'Incomplete only' },
+        { value: 'completed' as const, label: 'Completed Only' },
+        { value: 'incomplete' as const, label: 'Incomplete Only' },
+        { value: 'documents' as const, label: 'With Reference Documents' },
+        { value: 'no-documents' as const, label: 'Without Reference Documents' },
+        { value: 'notes' as const, label: 'With Notes' },
+        { value: 'no-notes' as const, label: 'Without Notes' },
       ].map((option) => (
         <button
           key={option.value}
@@ -189,13 +218,13 @@ export function UtilitiesPanel({
                   setOverallFilter(filter);
                   setUtilityFilters({});
                   setIsOverallFilterOpen(false);
-                }, 'right-0', 'All utilities')
+                }, 'right-0', 'All Utilities')
               : null}
           </div>
         </div>
         {overallFilterLabel ? (
           <div className="mb-4 inline-flex items-center gap-2 rounded-md border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs font-semibold text-primary">
-            <span>All utilities filter: {overallFilterLabel}</span>
+            <span>All Utilities filter: {overallFilterLabel}</span>
             <span className="text-primary/80">
               {overallFilteredCount}/{totalUtilityTasks}
             </span>
@@ -221,7 +250,7 @@ export function UtilitiesPanel({
             const activeFilterLabel = getFilterLabel(activeFilter);
             const filteredTasks = getFilteredTasks(subcategory, activeFilter);
             const hasUtilityOverride = utilityFilters[subcategory.id] !== undefined;
-            const displayedFilterLabel = activeFilterLabel || (hasUtilityOverride && activeFilter === 'all' ? 'All utilities' : undefined);
+            const displayedFilterLabel = activeFilterLabel || (hasUtilityOverride && activeFilter === 'all' ? 'All Utilities' : undefined);
             const isUsingSectionFilter = !hasUtilityOverride && overallFilter === 'all' && sectionFilter !== 'all';
 
             return (

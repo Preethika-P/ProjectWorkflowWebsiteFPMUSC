@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
+import { PdfExportDialog } from '@/components/PdfExportDialog';
 import { ReferenceDocumentsPanel } from '@/components/ReferenceDocumentsPanel';
 import { UtilitiesPanel } from '@/components/UtilitiesPanel';
 import { FlowChart, FlowNode, FlowLine } from '@/components/FlowChart';
@@ -38,7 +39,14 @@ interface CategoryPageProps {
   workflowData: WorkflowData;
 }
 
-type SectionFilter = 'all' | 'completed' | 'incomplete';
+export type SectionFilter =
+  | 'all'
+  | 'completed'
+  | 'incomplete'
+  | 'documents'
+  | 'no-documents'
+  | 'notes'
+  | 'no-notes';
 
 const sectionActionButtonClass =
   'h-8 rounded-full border-primary/30 bg-white px-3 text-[10px] font-semibold text-primary shadow-sm hover:border-primary/40 hover:bg-primary/5';
@@ -49,6 +57,7 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
   const navigate = useNavigate();
   const [sectionFilter, setSectionFilter] = useState<SectionFilter>('all');
   const [isSectionFilterOpen, setIsSectionFilterOpen] = useState(false);
+  const [isPdfDialogOpen, setIsPdfDialogOpen] = useState(false);
   const sectionFilterRef = useClickOutside<HTMLDivElement>(
     () => setIsSectionFilterOpen(false),
     isSectionFilterOpen
@@ -141,9 +150,25 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
   };
 
   const getFilterLabel = (filter: SectionFilter) => {
-    if (filter === 'completed') return 'Completed only';
-    if (filter === 'incomplete') return 'Incomplete only';
+    if (filter === 'completed') return 'Completed Only';
+    if (filter === 'incomplete') return 'Incomplete Only';
+    if (filter === 'documents') return 'With Reference Documents';
+    if (filter === 'no-documents') return 'Without Reference Documents';
+    if (filter === 'notes') return 'With Notes';
+    if (filter === 'no-notes') return 'Without Notes';
     return undefined;
+  };
+
+  const hasReferenceDocuments = (subcategory: typeof category.subcategories[0]) => {
+    return Boolean(subcategory.documents?.length);
+  };
+
+  const hasNotes = (
+    subcategory: typeof category.subcategories[0],
+    group?: DisplayGroup
+  ) => {
+    const progressSubcategoryId = getProgressSubcategoryId(category.id, group, subcategory);
+    return Boolean(notes[scopedCategoryId]?.[progressSubcategoryId]?.trim());
   };
 
   const isSubcategoryComplete = (
@@ -159,6 +184,10 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
   ) => {
     if (sectionFilter === 'completed') return isSubcategoryComplete(subcategory, group);
     if (sectionFilter === 'incomplete') return !isSubcategoryComplete(subcategory, group);
+    if (sectionFilter === 'documents') return hasReferenceDocuments(subcategory);
+    if (sectionFilter === 'no-documents') return !hasReferenceDocuments(subcategory);
+    if (sectionFilter === 'notes') return hasNotes(subcategory, group);
+    if (sectionFilter === 'no-notes') return !hasNotes(subcategory, group);
     return true;
   };
 
@@ -210,6 +239,9 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
   };
 
   const sectionFilterLabel = getFilterLabel(sectionFilter);
+  const noSectionMatchesText = sectionFilterLabel
+    ? `No items match the ${sectionFilterLabel.toLowerCase()} filter.`
+    : 'No items match this filter.';
   const sectionFilterItems = getSectionFilterItems();
   const filteredSectionItems = sectionFilterItems.filter(({ subcategory, group }) =>
     matchesSectionFilter(subcategory, group)
@@ -226,11 +258,15 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
   };
 
   const renderSectionFilterMenu = () => (
-    <div className="absolute left-0 top-full z-40 mt-2 w-48 rounded-xl border border-slate-200 bg-white p-2 shadow-xl">
+    <div className="absolute right-0 top-full z-50 mt-2 w-64 -translate-x-4 rounded-xl border border-slate-200 bg-white p-2 shadow-xl sm:-translate-x-2">
       {[
-        { value: 'all' as const, label: 'All items' },
-        { value: 'completed' as const, label: 'Completed only' },
-        { value: 'incomplete' as const, label: 'Incomplete only' },
+        { value: 'all' as const, label: 'All Items' },
+        { value: 'completed' as const, label: 'Completed Only' },
+        { value: 'incomplete' as const, label: 'Incomplete Only' },
+        { value: 'documents' as const, label: 'With Reference Documents' },
+        { value: 'no-documents' as const, label: 'Without Reference Documents' },
+        { value: 'notes' as const, label: 'With Notes' },
+        { value: 'no-notes' as const, label: 'Without Notes' },
       ].map((option) => (
         <button
           key={option.value}
@@ -312,12 +348,30 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
                 { label: category.name },
               ]}
             />
-            <WorkflowSearch
-              workflowData={budgetWorkflowData}
-              budgetKey={budget.key}
-              currentCategoryId={category.id}
-              className="max-w-none lg:w-[28rem]"
-            />
+            <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center lg:w-auto lg:min-w-[34rem] lg:justify-end">
+              <WorkflowSearch
+                workflowData={budgetWorkflowData}
+                budgetKey={budget.key}
+                currentCategoryId={category.id}
+                className="max-w-none lg:max-w-md"
+              />
+              <div ref={sectionFilterRef} className="relative">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsSectionFilterOpen((open) => !open)}
+                  className={cn(
+                    'inline-flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-primary/20 bg-primary/5 p-0 text-primary shadow-sm transition-colors hover:bg-primary/10',
+                    sectionFilterLabel && 'ring-2 ring-primary/10'
+                  )}
+                  aria-label={`Filter ${category.name}`}
+                  title={`Filter ${category.name}`}
+                >
+                  <Filter className="h-4 w-4" />
+                </Button>
+                {isSectionFilterOpen ? renderSectionFilterMenu() : null}
+              </div>
+            </div>
           </div>
           <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
             <div>
@@ -348,29 +402,10 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
                 >
                   Reset
                 </Button>
-                <div ref={sectionFilterRef} className="relative">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setIsSectionFilterOpen((open) => !open)}
-                    className={cn(
-                      sectionActionButtonClass,
-                      'whitespace-nowrap',
-                      sectionFilterLabel && 'ring-2 ring-primary/10'
-                    )}
-                    aria-label={`Filter ${category.name}`}
-                    title={`Filter ${category.name}`}
-                  >
-                    <Filter className="mr-1 h-3 w-3" />
-                    Filter
-                  </Button>
-                  {isSectionFilterOpen ? renderSectionFilterMenu() : null}
-                </div>
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => saveCategoryAsPdf(exportOptions)}
+                  onClick={() => setIsPdfDialogOpen(true)}
                   className="h-8 whitespace-nowrap rounded-md border-2 border-primary bg-white px-2.5 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary/10"
                   title={`Save ${category.name} as PDF`}
                 >
@@ -584,7 +619,7 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
                 </FlowChart>
                 ) : (
                   <div className="px-6 py-12 text-center text-sm text-slate-500">
-                    No {sectionFilterLabel?.toLowerCase()} items match this filter.
+                    {noSectionMatchesText}
                   </div>
                 )}
               </div>
@@ -750,6 +785,15 @@ export function CategoryPage({ workflowData }: CategoryPageProps) {
           onConfirm={() => {
             setSectionTasksComplete(pendingSectionAction === 'markAll');
             setPendingSectionAction(undefined);
+          }}
+        />
+      ) : null}
+      {isPdfDialogOpen ? (
+        <PdfExportDialog
+          onCancel={() => setIsPdfDialogOpen(false)}
+          onSubmit={(details) => {
+            saveCategoryAsPdf(exportOptions, details);
+            setIsPdfDialogOpen(false);
           }}
         />
       ) : null}

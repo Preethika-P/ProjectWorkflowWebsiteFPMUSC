@@ -257,7 +257,7 @@ export function BudgetSelectionPage({ workflowData }: BudgetSelectionPageProps) 
                   >
                     <img
                       src="/dollarstack.gif"
-                      alt="Budget upto $5M"
+                      alt="Budget upto $10M"
                       className="h-20 w-20 object-contain drop-shadow-xl"
                     />
                   </motion.div>
@@ -272,7 +272,7 @@ export function BudgetSelectionPage({ workflowData }: BudgetSelectionPageProps) 
                       className="relative h-24 w-full rounded-2xl border border-primary/15 bg-primary text-lg font-semibold text-white shadow-[0_16px_36px_-22px_rgba(153,27,27,0.78)] transition-shadow duration-200 hover:shadow-[0_22px_44px_-24px_rgba(153,27,27,0.82)] focus-visible:outline-none"
                       onClick={() => handleSelectBudget('under-5m')}
                     >
-                      Upto $5M
+                      Upto $10M
                     </Button>
                   </motion.div>
                 </motion.div>
@@ -293,7 +293,7 @@ export function BudgetSelectionPage({ workflowData }: BudgetSelectionPageProps) 
                   >
                     <img
                       src="/building.gif"
-                      alt="Budget $5M and above"
+                      alt="Budget $10M and above"
                       className="h-20 w-20 object-contain drop-shadow-xl"
                     />
                   </motion.div>
@@ -309,7 +309,7 @@ export function BudgetSelectionPage({ workflowData }: BudgetSelectionPageProps) 
                       className="relative h-24 w-full rounded-2xl border border-primary/25 bg-white/60 text-lg font-semibold text-primary shadow-[0_16px_36px_-26px_rgba(15,23,42,0.36)] transition-all duration-200 hover:border-primary/35 hover:bg-primary/5 hover:shadow-[0_22px_44px_-28px_rgba(15,23,42,0.40)] focus-visible:outline-none"
                       onClick={() => handleSelectBudget('over-5m')}
                     >
-                      $5M and Above
+                      $10M and Above
                     </Button>
                   </motion.div>
                 </motion.div>
