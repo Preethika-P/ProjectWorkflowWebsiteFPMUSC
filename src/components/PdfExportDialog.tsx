@@ -9,10 +9,13 @@ interface PdfExportDialogProps {
 
 export function PdfExportDialog({ onCancel, onSubmit }: PdfExportDialogProps) {
   const [projectName, setProjectName] = useState('');
+  const [projectBudget, setProjectBudget] = useState('');
   const [fullName, setFullName] = useState('');
   const [directorApprovalName, setDirectorApprovalName] = useState('');
+  const cleanedProjectBudget = projectBudget.trim().replace(/^\$+\s*/, '');
   const canSubmit =
     projectName.trim().length > 0 &&
+    cleanedProjectBudget.length > 0 &&
     fullName.trim().length > 0 &&
     directorApprovalName.trim().length > 0;
 
@@ -26,6 +29,7 @@ export function PdfExportDialog({ onCancel, onSubmit }: PdfExportDialogProps) {
 
           onSubmit({
             projectName: projectName.trim(),
+            projectBudget: cleanedProjectBudget,
             fullName: fullName.trim(),
             directorApprovalName: directorApprovalName.trim(),
           });
@@ -49,6 +53,26 @@ export function PdfExportDialog({ onCancel, onSubmit }: PdfExportDialogProps) {
               autoFocus
               required
             />
+          </div>
+          <div className="space-y-1.5">
+            <label htmlFor="pdf-export-project-budget" className="text-sm font-semibold text-slate-700">
+              Project Budget:
+            </label>
+            <div className="flex h-11 overflow-hidden rounded-md border-2 border-primary/20 bg-white transition-colors focus-within:border-primary">
+              <span className="flex items-center border-r border-primary/10 bg-primary/5 px-3 text-sm font-semibold text-primary">
+                $
+              </span>
+              <input
+                id="pdf-export-project-budget"
+                type="text"
+                inputMode="decimal"
+                value={projectBudget}
+                onChange={(event) => setProjectBudget(event.target.value)}
+                className="min-w-0 flex-1 px-3 text-sm text-slate-900 outline-none placeholder:text-slate-400"
+                placeholder="Enter project budget"
+                required
+              />
+            </div>
           </div>
           <p className="text-sm font-semibold text-slate-700">Enter the full names:</p>
           <div className="space-y-1.5">

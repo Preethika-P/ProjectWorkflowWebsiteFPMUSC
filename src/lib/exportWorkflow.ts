@@ -33,6 +33,7 @@ interface ExportSubcategoryOptions extends ExportCategoryOptions {
 
 export interface PdfApprovalDetails {
   projectName: string;
+  projectBudget: string;
   fullName: string;
   directorApprovalName: string;
 }
@@ -414,7 +415,7 @@ function buildPrintDocument(
             <span><strong>Prepared By:</strong> ${escapeHtml(approvalDetails.fullName)}</span>
             <span><strong>Director to Approve:</strong> ${escapeHtml(approvalDetails.directorApprovalName)}</span>
             <span><strong>Generated:</strong> ${escapeHtml(generatedAt)}</span>
-            <span><strong>Budget:</strong> ${escapeHtml(budgetLabel)}</span>
+            <span><strong>Project Budget:</strong> $${escapeHtml(approvalDetails.projectBudget)}</span>
           </div>
         </header>
         ${sectionMarkup}

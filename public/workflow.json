@@ -83,7 +83,7 @@
             },
             {
               "id": "account-for-board-requirements",
-              "name": "Account for FCPC and CPC"
+              "name": "Account for CPC approval and required in MOU"
             },
             {
               "id": "account-for-bim-requirements",
@@ -210,6 +210,10 @@
               "name": "Validate design timelines"
             },
             {
+              "id": "develop-scorecard-and-select-evaluators",
+              "name": "Develop scorecard and select evaluators"
+            },
+            {
               "id": "validate-permit-timelines",
               "name": "Validate permit timelines"
             },
@@ -271,7 +275,7 @@
             },
             {
               "id": "cpc-or-fcpc-approval",
-              "name": "CPC or FCPC approval"
+              "name": "Include CPC approval"
             }
           ],
           "subgroup": null,

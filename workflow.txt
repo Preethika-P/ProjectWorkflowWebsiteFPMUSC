@@ -19,7 +19,7 @@
     *   Identify unique conditions
     *   Identify known field conditions
     *   Account for OCIP
-    *   Account for FCPC and CPC
+    *   Account for CPC approval and required in MOU
     *   Account for BIM requirements
 *   **Sub-category: Prelim Schedule** (subgroup A)
     *   Prepare template schedule with milestones
@@ -47,6 +47,7 @@
     *   Include score card
 *   **Sub-category: Evaluate Response / Revised Schedule and Budget to Baseline**
     *   Validate design timelines
+    *   Develop scorecard and select evaluators
     *   Validate permit timelines
     *   Validate construction timelines
     *   Validate scope and basic services alignment
@@ -61,7 +62,7 @@
     *   Include schedule
     *   Include sketches
     *   Include budget
-    *   CPC or FCPC approval
+    *   Include CPC approval
 *   **Sub-category: Prepare Consultant Contracts**
     *   Prepare checklist
     *   Define scope inclusions
